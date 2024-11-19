@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -21,7 +21,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { ShippingCalculatorFormSchema } from "@/lib/validations";
-import { type } from "os";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
@@ -47,8 +46,9 @@ const ShippingCalculatorForm = () => {
   ) {
     setIsSubmitting(true);
     try {
-      await console.log(values);
+      console.log(values);
     } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -112,8 +112,8 @@ const ShippingCalculatorForm = () => {
             )}
           />
         </div>
-        <div className="flex flex-row gap-5 w-full">
-          <div className="flex flex-row gap-5 !w-[50%]">
+        <div className="flex w-full flex-row gap-5">
+          <div className="flex !w-[50%] flex-row gap-5">
             <FormField
               control={form.control}
               name="weight"
@@ -267,14 +267,14 @@ const ShippingCalculatorForm = () => {
         <div className="flex flex-row gap-5">
           <Button
             type="submit"
-            className="bg-primary-500 w-fit !text-light-900 rounded-3xl px-10"
+            className="w-fit rounded-3xl bg-primary-500 px-10 !text-light-900"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Estimating" : "Estimate"}
           </Button>
           <Button
             variant="outline"
-            className="border-primary-500 w-fit hover:text-white hover:bg-primary-500 text-primary-500 rounded-3xl px-10"
+            className="w-fit rounded-3xl border-primary-500 px-10 text-primary-500 hover:bg-primary-500 hover:text-white"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Reset" : "Reset"}
