@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-// import Theme from "./Theme";
 import MobileNav from "./MobileNav";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -58,7 +57,6 @@ const Navbar = () => {
               Contact Us
             </Button>
           </Link>
-          {/* <Theme /> */}
           {/* <SignedOut>
             <Link href="/sign-in" className="max-lg:hidden">
               <Avatar>
