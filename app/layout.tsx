@@ -28,7 +28,7 @@ export const metadata: Metadata = {
         url: "/assets/images/social-share.png",
         width: 1200,
         height: 630,
-        alt: "Effortless Shipping from China to Your Doorstep",
+        alt: "Effortless Shipping from China to Your Doorstep.",
       },
     ],
   },
