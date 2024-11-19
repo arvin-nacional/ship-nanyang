@@ -67,7 +67,7 @@ const Footer = () => {
                 height={20}
                 alt="logo"
               />
-              <p>+63 965 9256 451</p>
+              <p>+63 912 3456 789</p>
             </div>
             <div className="mt-3 flex gap-5 ">
               <Image
@@ -76,7 +76,7 @@ const Footer = () => {
                 height={20}
                 alt="logo"
               />
-              <p>arvin@rvinpaul.com</p>
+              <p>inquiries@sdexpress.com</p>
             </div>
             <div className="mt-3 flex gap-5 ">
               <Image
@@ -85,7 +85,7 @@ const Footer = () => {
                 height={20}
                 alt="logo"
               />
-              <p>Camarin, Caloocan City, Philippines</p>
+              <p>Quezon City, Philippines</p>
             </div>
           </div>
         </div>
