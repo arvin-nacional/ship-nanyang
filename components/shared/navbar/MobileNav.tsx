@@ -14,7 +14,7 @@ import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { usePathname } from "next/navigation";
-import { useTheme } from "@/context/ThemeProvider";
+// import { useTheme } from "@/context/ThemeProvider";
 
 const NavContent = () => {
   const pathname = usePathname();
@@ -53,7 +53,7 @@ const NavContent = () => {
 };
 
 const MobileNav = () => {
-  const { mode } = useTheme();
+  // const { mode } = useTheme();
   return (
     <Sheet>
       <SheetTrigger asChild>
