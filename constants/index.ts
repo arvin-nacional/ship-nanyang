@@ -15,22 +15,27 @@ export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/about.svg",
     label: "About",
-    route: "/#about",
+    route: "/about",
   },
+  // {
+  //   imgURL: "/assets/icons/portfolio.svg",
+  //   label: "Portfolio",
+  //   route: "/projects",
+  // },
+  // {
+  //   imgURL: "/assets/icons/blog.svg",
+  //   label: "Blog",
+  //   route: "/blog",
+  // },
   {
-    imgURL: "/assets/icons/portfolio.svg",
-    label: "Portfolio",
-    route: "/projects",
-  },
-  {
-    imgURL: "/assets/icons/blog.svg",
-    label: "Blog",
-    route: "/blog",
+    imgURL: "/assets/icons/services.svg",
+    label: "Solutions",
+    route: "/#solutions",
   },
   {
     imgURL: "/assets/icons/services.svg",
-    label: "Services",
-    route: "/#services",
+    label: "Shipping Calculator",
+    route: "/shipping-calculator",
   },
   {
     imgURL: "/assets/icons/send-2.svg",

@@ -7,10 +7,12 @@ import {
   SheetContent,
   SheetTrigger,
   SheetClose,
+  SheetTitle,
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import Link from "next/link";
 import { sidebarLinks } from "@/constants";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeProvider";
 
@@ -60,30 +62,24 @@ const MobileNav = () => {
           width={36}
           height={36}
           alt="Menu"
-          className="invert-colors sm:hidden"
+          className="sm:hidden"
         />
       </SheetTrigger>
       <SheetContent
         side="left"
         className="background-light900_dark200 flex h-full flex-col justify-between border-none"
       >
+        <VisuallyHidden.Root>
+          <SheetTitle>Menu</SheetTitle>
+        </VisuallyHidden.Root>
         <div>
           <div className="my-5 p-3">
-            {mode === "light" ? (
-              <Image
-                src="/assets/images/primary-logo-dark.svg"
-                width={100}
-                height={40}
-                alt="logo"
-              />
-            ) : (
-              <Image
-                src="/assets/images/primary-logo-light.svg"
-                width={100}
-                height={40}
-                alt="logo"
-              />
-            )}
+            <Image
+              src="/assets/icons/logo-primary.png"
+              width={150}
+              height={40}
+              alt="logo"
+            />
           </div>
           <div>
             <SheetClose asChild>

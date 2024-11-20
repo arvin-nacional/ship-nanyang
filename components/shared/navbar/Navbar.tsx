@@ -52,7 +52,7 @@ const Navbar = () => {
           <Link href="/contact">Locations</Link>
         </div>
         <div className="flex-between gap-5">
-          <Link href="/contact">
+          <Link href="https://m.me/sdexpressinternational">
             <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
               Contact Us
             </Button>
