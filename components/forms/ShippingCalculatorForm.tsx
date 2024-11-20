@@ -67,6 +67,8 @@ const ShippingCalculatorForm = () => {
     e.preventDefault();
     form.reset();
 
+    setIsSubmitting(true);
+
     setCalculationResults({
       chargeableWeight: "",
       basicCharge: "",
@@ -74,6 +76,8 @@ const ShippingCalculatorForm = () => {
       totalFee: "",
       handlingFee: 0,
     });
+
+    setIsSubmitting(false);
   };
 
   return (
