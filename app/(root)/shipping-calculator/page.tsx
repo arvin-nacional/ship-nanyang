@@ -12,10 +12,11 @@ const page = () => {
             Shipping Calculator
           </h6>
           <div className="w-full flex justify-center items-center ">
-            <div className="w-3/4">
+            <div className="w-3/4 max-sm:w-full">
               <ShippingCalculatorForm />
             </div>
           </div>
+
           <div className="mt-20">
             <h6 className="h2-semibold">Standard Shipping Rates</h6>
             <p className="paragraph-regular">
