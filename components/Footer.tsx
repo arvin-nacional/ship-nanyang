@@ -52,9 +52,9 @@ const Footer = () => {
           <p className="h3-bold text-white">Quick Links</p>
           <div className="body-regular mt-2 flex flex-col gap-2 text-slate-300">
             <Link href="/">Home</Link>
-            <Link href="/">About</Link>
-            <Link href="/">Shipping Calculator</Link>
-            <Link href="/">Location</Link>
+            <Link href="/about">About</Link>
+            <Link href="/shipping-calculator">Shipping Calculator</Link>
+            <Link href="/locations">Location</Link>
           </div>
         </div>
         <div className="text-dark400_light800 pb-12">

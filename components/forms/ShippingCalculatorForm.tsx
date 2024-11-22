@@ -60,7 +60,7 @@ const ShippingCalculatorForm = () => {
       totalFee: result.totalFee,
       insurance: result.insuranceFee,
     });
-    window.scrollBy({ top: 200, behavior: "smooth" });
+    window.scrollBy({ top: 300, behavior: "smooth" });
   };
 
   const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {

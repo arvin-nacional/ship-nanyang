@@ -57,7 +57,7 @@ const Navbar = () => {
           <Link href="/shipping-calculator" className="base-regular">
             Shipping Calculator
           </Link>
-          <Link href="/contact" className="base-regular">
+          <Link href="/locations" className="base-regular">
             Locations
           </Link>
         </div>

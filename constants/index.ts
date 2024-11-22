@@ -40,7 +40,7 @@ export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/send-2.svg",
     label: "Contact",
-    route: "/contact",
+    route: "/https://m.me/sdexpressinternational",
   },
 ];
 
