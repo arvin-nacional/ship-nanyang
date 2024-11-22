@@ -8,5 +8,5 @@ export const ShippingCalculatorFormSchema = z.object({
   length: z.string().min(1, { message: "Please enter a length" }),
   width: z.string().min(1, { message: "Please enter a width" }),
   height: z.string().min(1, { message: "Please enter a height" }),
-  unit: z.string().min(1, { message: "Please select a unit" }),
+  insurance: z.boolean().default(false),
 });

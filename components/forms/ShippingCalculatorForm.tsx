@@ -24,15 +24,18 @@ import { ShippingCalculatorFormSchema } from "@/lib/validations";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { calculateShippingFee } from "@/lib/utils";
+import { Checkbox } from "../ui/checkbox";
 
 const ShippingCalculatorForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [destination, setDestination] = useState("");
+  const [type, setType] = useState("");
   const [calculationResults, setCalculationResults] = useState({
     chargeableWeight: "",
     basicCharge: "",
-    surcharge: "",
+    // surcharge: "",
     totalFee: "",
-    handlingFee: 0,
+    insurance: "",
   });
 
   const form = useForm<z.infer<typeof ShippingCalculatorFormSchema>>({
@@ -45,7 +48,7 @@ const ShippingCalculatorForm = () => {
       type: "",
       destination: "",
       value: "",
-      unit: "",
+      insurance: false,
     },
   });
 
@@ -56,25 +59,26 @@ const ShippingCalculatorForm = () => {
     setCalculationResults({
       chargeableWeight: result.chargeableWeight,
       basicCharge: result.basicCharge,
-      surcharge: result.surcharge,
+      // surcharge: result.surcharge,
       totalFee: result.totalFee,
-      handlingFee: result.handlingFee,
+      insurance: result.insuranceFee,
     });
-    window.scrollBy({ top: 500, behavior: "smooth" });
+    window.scrollBy({ top: 200, behavior: "smooth" });
   };
 
   const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    form.reset();
+
+    window.location.reload();
 
     setIsSubmitting(true);
 
     setCalculationResults({
       chargeableWeight: "",
       basicCharge: "",
-      surcharge: "",
+      // surcharge: "",
       totalFee: "",
-      handlingFee: 0,
+      insurance: "",
     });
 
     setIsSubmitting(false);
@@ -102,12 +106,14 @@ const ShippingCalculatorForm = () => {
                   >
                     <FormControl>
                       <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                        <SelectValue />
+                        <SelectValue placeholder="Select Destination" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="cursor-pointer bg-light-900">
-                      <SelectItem value="male">Metro Manila</SelectItem>
-                      <SelectItem value="female">Provincial Address</SelectItem>
+                      <SelectItem value="Metro Manila">Metro Manila</SelectItem>
+                      <SelectItem value="Provincial">
+                        Provincial Address
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription className="body-regular mt-2.5 text-light-500">
@@ -123,7 +129,7 @@ const ShippingCalculatorForm = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Value<span className="text-primary-500">*</span>
+                    Value (PHP)<span className="text-primary-500">*</span>
                   </FormLabel>
                   <FormControl className="mt-3.5">
                     <Input
@@ -147,7 +153,7 @@ const ShippingCalculatorForm = () => {
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col">
                     <FormLabel className="paragraph-semibold text-dark400_light800">
-                      Weight<span className="text-primary-500">*</span>
+                      Weight (kg)<span className="text-primary-500">*</span>
                     </FormLabel>
                     <FormControl className="mt-3.5">
                       <Input
@@ -156,14 +162,14 @@ const ShippingCalculatorForm = () => {
                       />
                     </FormControl>
                     <FormDescription className="body-regular mt-2.5 text-light-500">
-                      Write the Actual Weight.
+                      Write the Actual Weight in Kg.
                     </FormDescription>
                     <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
               />
-              <div className="!w-[50%]">
-                <FormField
+              {/* <div className="!w-[50%]"> */}
+              {/* <FormField
                   control={form.control}
                   name="unit"
                   render={({ field }) => (
@@ -191,8 +197,8 @@ const ShippingCalculatorForm = () => {
                       <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
-                />
-              </div>
+                /> */}
+              {/* </div> */}
             </div>
             <div className="w-[50%]">
               <FormField
@@ -201,7 +207,7 @@ const ShippingCalculatorForm = () => {
                 render={({ field }) => (
                   <FormItem className="flex w-full flex-col ">
                     <FormLabel className="paragraph-semibold text-dark400_light800">
-                      Item Type <span className="text-primary-500">*</span>
+                      Package Type <span className="text-primary-500">*</span>
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
@@ -209,16 +215,19 @@ const ShippingCalculatorForm = () => {
                     >
                       <FormControl>
                         <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                          <SelectValue />
+                          <SelectValue placeholder="Select Package Type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="cursor-pointer bg-light-900">
-                        <SelectItem value="male">Electronic</SelectItem>
-                        <SelectItem value="female">Non-Electronic</SelectItem>
+                        <SelectItem value="general">General Goods</SelectItem>
+                        <SelectItem value="sensitive">
+                          Sensitive Goods
+                        </SelectItem>
+                        <SelectItem value="special">Special Goods</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="body-regular mt-2.5 text-light-500">
-                      Select your destination.
+                      Select your package type.
                     </FormDescription>
                     <FormMessage className="text-red-500" />
                   </FormItem>
@@ -233,7 +242,7 @@ const ShippingCalculatorForm = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Length <span className="text-primary-500">*</span>
+                    Length (cm)<span className="text-primary-500">*</span>
                   </FormLabel>
                   <FormControl className="mt-3.5">
                     <Input
@@ -254,7 +263,7 @@ const ShippingCalculatorForm = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Width<span className="text-primary-500">*</span>
+                    Width (cm)<span className="text-primary-500">*</span>
                   </FormLabel>
                   <FormControl className="mt-3.5">
                     <Input
@@ -275,7 +284,7 @@ const ShippingCalculatorForm = () => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Height<span className="text-primary-500">*</span>
+                    Height (cm)<span className="text-primary-500">*</span>
                   </FormLabel>
                   <FormControl className="mt-3.5">
                     <Input
@@ -291,6 +300,27 @@ const ShippingCalculatorForm = () => {
               )}
             />
           </div>
+          <FormField
+            control={form.control}
+            name="insurance"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md ">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Insurance (Optional)</FormLabel>
+                  <FormDescription>
+                    The insurance covers damages or loss during transit and adds
+                    5% of the package's declared value to the total cost.
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
           <div className="flex flex-row gap-5">
             <Button
               type="submit"
@@ -313,22 +343,31 @@ const ShippingCalculatorForm = () => {
 
       {/* scroll here */}
       <div className="w-full  mx-auto mt-10">
-        <div className="flex flex-row justify-between p-2 border-b-2 border-primary-500">
+        {/* <div className="flex flex-row justify-between p-2 border-b-2 border-primary-500">
           <p className="base-semibold">Chargable Weight</p>{" "}
           <p>{calculationResults.chargeableWeight}</p>
-        </div>
+        </div> */}
         <div className="flex flex-row justify-between p-2 border-b-2 border-primary-500">
           <p className="base-semibold">Basic Charge</p>{" "}
           <p>{calculationResults.basicCharge}</p>
         </div>
         <div className="flex flex-row justify-between p-2 border-b-2 border-primary-500 mb-2">
-          <p className="base-semibold">Surcharge</p>{" "}
-          <p>{calculationResults.surcharge}</p>
+          <p className="base-semibold">Insurance</p>{" "}
+          <p>{calculationResults.insurance}</p>
         </div>
         <div className="flex flex-row justify-between p-2 text-white bg-primary-500 rounded-lg">
           <p className="base-semibold">Total Estimated Cost</p>{" "}
           <p>{calculationResults.totalFee}</p>
         </div>
+      </div>
+
+      <div>
+        <p className="paragraph-regular mt-5">
+          Prices are quoted per kilogram. The weight calculation is based on the
+          greater of actual weight or volumetric weight (length x width x
+          height/6000). Any additional add-on wooden crate or repackaging will
+          be subjected to charges.
+        </p>
       </div>
     </>
   );

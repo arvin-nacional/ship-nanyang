@@ -45,11 +45,21 @@ const Navbar = () => {
           />
         </Link>
         <div className="flex gap-5 text-white max-md:hidden">
-          <Link href="/">Home</Link>
-          <Link href="/about">About Us</Link>
-          <Link href="/#solutions">Solutions</Link>
-          <Link href="/shipping-calculator">Shipping Calculator</Link>
-          <Link href="/contact">Locations</Link>
+          <Link href="/" className="base-regular">
+            Home
+          </Link>
+          <Link href="/about" className="base-regular">
+            About Us
+          </Link>
+          <Link href="/#solutions" className="base-regular">
+            Solutions
+          </Link>
+          <Link href="/shipping-calculator" className="base-regular">
+            Shipping Calculator
+          </Link>
+          <Link href="/contact" className="base-regular">
+            Locations
+          </Link>
         </div>
         <div className="flex-between gap-5">
           <Link href="https://m.me/sdexpressinternational">

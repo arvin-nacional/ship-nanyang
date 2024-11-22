@@ -8,9 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 interface Props {
   totalFee: string;
   basicCharge: string;
-  surcharge: string;
-  handlingFee: number;
+  // surcharge: string;
+  // handlingFee: number;
   chargeableWeight: string;
+  insuranceFee: string;
 }
 
 // Function to calculate the shipping fee
@@ -22,7 +23,7 @@ export const calculateShippingFee = ({
   length,
   width,
   height,
-  unit,
+  insurance,
 }: {
   destination: string;
   value: string;
@@ -31,14 +32,8 @@ export const calculateShippingFee = ({
   length: string;
   width: string;
   height: string;
-  unit: string;
+  insurance: boolean;
 }): Props => {
-  const baseRateMetroManila = 320; // $ per lb
-  const baseRateProvince = 350; // $ per lb
-  const handlingFee = 250; // $ per shipment
-  const electronicSurcharge = 200; // $ for electronic items
-  const highValueThreshold = 20000; // Threshold for high-value surcharge
-
   // Parse inputs
   const parsedWeight = parseFloat(weight);
   const parsedValue = parseFloat(value);
@@ -46,37 +41,60 @@ export const calculateShippingFee = ({
   const parsedWidth = parseFloat(width);
   const parsedHeight = parseFloat(height);
 
+  const baseRateMetroManila = 0; // $ per lb
+  const baseRateProvince = 80; // $ per lb
+  // const handlingFee = 250; // $ per shipment
+  // const electronicSurcharge = 200; // $ for electronic items
+  const highValueThreshold = 20000; // Threshold for high-value surcharge
+
   // Convert dimensions to cubic weight
-  const cubicWeight =
-    unit === "kg"
-      ? (parsedLength * parsedWidth * parsedHeight) / 5000 // cubic weight in kg
-      : (parsedLength * parsedWidth * parsedHeight) / 166; // cubic weight in lbs
+  const cubicWeight = (parsedLength * parsedWidth * parsedHeight) / 6000;
 
   // Determine chargeable weight (greater of actual weight or cubic weight)
   const chargeableWeight = Math.max(parsedWeight, cubicWeight);
+
+  // Determine the package type
+  let packageTypeRate = 0;
+  switch (type) {
+    case "general":
+      packageTypeRate = 320;
+      break;
+    case "sensitive":
+      packageTypeRate = 450;
+      break;
+    case "special":
+      packageTypeRate = 520;
+      break;
+    default:
+      throw new Error("Invalid package type");
+  }
 
   // Determine base rate based on destination
   const baseRate =
     destination === "Metro Manila" ? baseRateMetroManila : baseRateProvince;
 
   // Calculate base shipping fee
-  const shippingFee = chargeableWeight * baseRate;
+  const shippingFee = chargeableWeight * (baseRate + packageTypeRate);
+
+  // add insurance fee if insurance is selected
+  const insuranceFee = insurance ? parsedValue * 0.05 : 0;
 
   // Add surcharge for electronic items
-  let surcharge = type === "electronic" ? electronicSurcharge : 0;
+  // let surcharge = type === "electronic" ? electronicSurcharge : 0;
 
   // Add insurance for high-value items (5% of value if $500 or more)
-  if (parsedValue >= highValueThreshold) {
-    surcharge += parsedValue * 0.05;
-  }
+  // if (parsedValue >= highValueThreshold) {
+  //   surcharge += parsedValue * 0.05;
+  // }
 
   // Create result object
   const result = {
-    totalFee: `${parseFloat((shippingFee + surcharge + handlingFee).toFixed(2))} PHP`,
-    basicCharge: `${parseFloat(shippingFee.toFixed(2)) + handlingFee} PHP`,
-    surcharge: parseFloat(surcharge.toFixed(2)).toString(),
-    handlingFee: parseFloat(handlingFee.toFixed(2)),
-    chargeableWeight: `${chargeableWeight} ${unit}`,
+    totalFee: `${parseFloat(shippingFee.toFixed(2)) + parseFloat(insuranceFee.toFixed(2))} PHP`,
+    basicCharge: `${parseFloat(shippingFee.toFixed(2)) + parseFloat(insuranceFee.toFixed(2))} PHP`,
+    // surcharge: parseFloat(surcharge.toFixed(2)).toString(),
+    // handlingFee: parseFloat(handlingFee.toFixed(2)),
+    insuranceFee: `${parseFloat(insuranceFee.toFixed(2))} PHP`,
+    chargeableWeight: `${chargeableWeight} Kg`,
   };
 
   return result;
