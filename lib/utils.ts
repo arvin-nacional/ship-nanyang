@@ -45,7 +45,7 @@ export const calculateShippingFee = ({
   const baseRateProvince = 80; // $ per lb
   // const handlingFee = 250; // $ per shipment
   // const electronicSurcharge = 200; // $ for electronic items
-  const highValueThreshold = 20000; // Threshold for high-value surcharge
+  // const highValueThreshold = 20000; // Threshold for high-value surcharge
 
   // Convert dimensions to cubic weight
   const cubicWeight = (parsedLength * parsedWidth * parsedHeight) / 6000;

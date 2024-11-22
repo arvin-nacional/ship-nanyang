@@ -28,8 +28,6 @@ import { Checkbox } from "../ui/checkbox";
 
 const ShippingCalculatorForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [destination, setDestination] = useState("");
-  const [type, setType] = useState("");
   const [calculationResults, setCalculationResults] = useState({
     chargeableWeight: "",
     basicCharge: "",
@@ -59,7 +57,6 @@ const ShippingCalculatorForm = () => {
     setCalculationResults({
       chargeableWeight: result.chargeableWeight,
       basicCharge: result.basicCharge,
-      // surcharge: result.surcharge,
       totalFee: result.totalFee,
       insurance: result.insuranceFee,
     });
@@ -76,7 +73,6 @@ const ShippingCalculatorForm = () => {
     setCalculationResults({
       chargeableWeight: "",
       basicCharge: "",
-      // surcharge: "",
       totalFee: "",
       insurance: "",
     });
@@ -315,7 +311,7 @@ const ShippingCalculatorForm = () => {
                   <FormLabel>Insurance (Optional)</FormLabel>
                   <FormDescription>
                     The insurance covers damages or loss during transit and adds
-                    5% of the package's declared value to the total cost.
+                    5% of the package&apos;'s declared value to the total cost.
                   </FormDescription>
                 </div>
               </FormItem>
@@ -366,7 +362,7 @@ const ShippingCalculatorForm = () => {
           Prices are quoted per kilogram. The weight calculation is based on the
           greater of actual weight or volumetric weight (length x width x
           height/6000). Any additional add-on wooden crate or repackaging will
-          be subjected to charges.
+          be subjected to charges.
         </p>
       </div>
     </>
