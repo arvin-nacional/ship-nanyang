@@ -311,7 +311,7 @@ const ShippingCalculatorForm = () => {
                   <FormLabel>Insurance (Optional)</FormLabel>
                   <FormDescription>
                     The insurance covers damages or loss during transit and adds
-                    5% of the package&apos;'s declared value to the total cost.
+                    5% of the package&apos;s declared value to the total cost.
                   </FormDescription>
                 </div>
               </FormItem>
