@@ -16,7 +16,7 @@ const ProcessCard = ({ id, title, content, icon }: Props) => {
 
         <Image src={icon} alt="process-1" height={110} width={110} />
       </div>
-      <h6 className="h2-bold w-[220px] text-center">{title}</h6>
+      <p className="h2-bold w-[220px] text-center">{title}</p>
       <p className="paragraph-regular text-center text-dark-400">{content}</p>
     </div>
   );
