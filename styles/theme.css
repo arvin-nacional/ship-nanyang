@@ -118,7 +118,7 @@
   }
 
   .h2-title {
-    @apply text-[40px] font-extrabold leading-[80px] tracking-tighter;
+    @apply text-[40px] font-extrabold leading-[60px] tracking-tighter;
   }
 
   .h1-bold {

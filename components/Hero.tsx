@@ -15,8 +15,9 @@ const Hero = () => {
         className="z-0"
       />
       <div className="relative z-10 w-[1200px] max-w-full justify-between py-20 pb-6 max-md:mt-1 max-sm:py-2">
-        <h1 className="h1-semihero mb-10 text-light-900 drop-shadow-lg">
-          Effortless Shipping <br /> from China to Your Doorstep
+        <h1 className="h1-semihero mb-10 text-light-900 drop-shadow-lg max-sm:h2-title">
+          Empowering Local Businesses <br /> with Reliable Shipping Solutions
+          for Seamless Operations.
         </h1>
         <h2 className="h3-semibold w-1/2 text-light-900 max-sm:w-full">
           Order with ease and let us handle the journey. Fast, reliable, and
