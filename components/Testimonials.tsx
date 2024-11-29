@@ -69,7 +69,7 @@ const Testimonials = () => {
         >
           <div className="flex-between mb-12 flex items-end">
             <div>
-              <h6 className="h1-bold ">Testimonials</h6>
+              <p className="h1-bold ">Testimonials</p>
             </div>
             <div className="flex items-end justify-end">
               <div className="mt-12 flex flex-row justify-end gap-5 max-sm:pt-10">
