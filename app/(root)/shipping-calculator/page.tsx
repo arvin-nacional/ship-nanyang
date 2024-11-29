@@ -17,7 +17,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className="mt-20">
+          {/* <div className="mt-20">
             <h6 className="h2-semibold">Standard Shipping Rates</h6>
             <p className="paragraph-regular">
               We offer reliable and affordable shipping from China to the
@@ -25,7 +25,7 @@ const page = () => {
               your items arrive safely and on time. Flights operate from Monday
               to Friday.
             </p>
-          </div>
+          </div> */}
         </div>
       </section>
       <Testimonials />
