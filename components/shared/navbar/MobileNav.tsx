@@ -107,7 +107,10 @@ const MobileNav = () => {
         </div>
 
         <div className="flex gap-5 p-6">
-          <a href="https://www.facebook.com/rvinpaul" target="_blank">
+          <a
+            href="https://www.facebook.com/sdexpressinternational"
+            target="_blank"
+          >
             <Image
               src="/assets/icons/facebook.svg"
               width={20}
@@ -116,7 +119,10 @@ const MobileNav = () => {
               className="invert-colors"
             />
           </a>
-          <a href="https://www.instagram.com/rvinpaul" target="_blank">
+          <a
+            href="https://www.facebook.com/sdexpressinternational"
+            target="_blank"
+          >
             <Image
               src="/assets/icons/instagram.svg"
               width={20}
@@ -125,7 +131,10 @@ const MobileNav = () => {
               className="invert-colors"
             />
           </a>
-          <a href="https://www.linkedin.com/rvinpaul" target="_blank">
+          <a
+            href="https://www.facebook.com/sdexpressinternational"
+            target="_blank"
+          >
             <Image
               src="/assets/icons/linkedin.svg"
               width={20}

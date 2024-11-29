@@ -19,7 +19,10 @@ const Footer = () => {
             home.
           </p>
           <div className="flex gap-5">
-            <a href="https://www.facebook.com/rvinpaul" target="_blank">
+            <a
+              href="https://www.facebook.com/sdexpressinternational"
+              target="_blank"
+            >
               <Image
                 src="/assets/icons/facebook.svg"
                 width={20}
@@ -28,7 +31,10 @@ const Footer = () => {
                 // className="invert-colors"
               />
             </a>
-            <a href="https://www.instagram.com/rvinpaul" target="_blank">
+            <a
+              href="https://www.facebook.com/sdexpressinternational"
+              target="_blank"
+            >
               <Image
                 src="/assets/icons/instagram.svg"
                 width={20}
@@ -37,7 +43,10 @@ const Footer = () => {
                 // className="invert-colors"
               />
             </a>
-            <a href="https://www.linkedin.com/rvinpaul" target="_blank">
+            <a
+              href="https://www.facebook.com/sdexpressinternational"
+              target="_blank"
+            >
               <Image
                 src="/assets/icons/linkedin.svg"
                 width={20}
@@ -57,7 +66,7 @@ const Footer = () => {
             <Link href="/locations">Location</Link>
           </div>
         </div>
-        <div className="text-dark400_light800 pb-12">
+        <div className="text-dark400_light800 pb-12 ">
           <p className="h3-bold text-white">Contact</p>
           <div className="body-regular text-slate-300">
             <div className=" mt-3 flex gap-5 ">
@@ -67,7 +76,7 @@ const Footer = () => {
                 height={20}
                 alt="logo"
               />
-              <p>+63 912 3456 789</p>
+              <p>+63 966 401 6784</p>
             </div>
             <div className="mt-3 flex gap-5 ">
               <Image
@@ -78,14 +87,20 @@ const Footer = () => {
               />
               <p>inquiries@sdexpress.com</p>
             </div>
-            <div className="mt-3 flex gap-5 ">
+            <div className="mt-3 flex gap-5 items-start">
               <Image
                 src="/assets/icons/pin.png"
+                sizes="20"
+                alt="locatin pin"
                 width={20}
                 height={20}
-                alt="logo"
+                objectFit="cover"
               />
-              <p>Quezon City, Philippines</p>
+              <p className="text-wrap">
+                26th and 27th Floors The Podium, <br />
+                Lower, Ortigas Center, Mandaluyong, <br />
+                1605 Metro Manila, Philippines
+              </p>
             </div>
           </div>
         </div>
