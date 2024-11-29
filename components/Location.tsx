@@ -13,7 +13,7 @@ const Location = () => {
             <h2 className="h2-bold mb-2 text-dark-500">Ortigas, Manila</h2>
             <p className="paragraph-regular mt-5 mb-10 text-dark-400 ml-5">
               26th and 27th Floors The Podium, Lower, Ortigas Center,
-              Mandaluyong, 1605 Metro Manila, Philippines
+              Mandaluyong, 1605 Metro Manila, Philippines
             </p>
             <h2 className="h2-bold mb-2 text-dark-500">Davao City</h2>
             <p className="paragraph-regular mt-5 text-dark-400 ml-5">
