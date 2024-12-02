@@ -10,7 +10,7 @@ const Solutions = () => {
         className="flex items-center justify-center bg-gray-100 px-16 pt-32 pb-20 max-md:px-5 max-sm:py-16 sm:px-14"
         id="solutions"
       >
-        <div className=" flex w-[1200px] max-w-full flex-row gap-10 px-2 pb-6 align-top max-md:mt-10 max-sm:flex-col-reverse">
+        <div className=" flex w-[1200px] max-w-full flex-row gap-10 px-2 pb-6 align-top max-md:mt-10 max-sm:flex-col-reverse max-lg:flex-col">
           <Image
             alt="about-image"
             src="/assets/images/about-2.png"
