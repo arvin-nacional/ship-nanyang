@@ -6,6 +6,7 @@ import MobileNav from "./MobileNav";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 // import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -62,22 +63,19 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-between gap-5">
-          <Link href="https://m.me/sdexpressinternational">
-            <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
-              Contact Us
-            </Button>
-          </Link>
-          {/* <SignedOut>
-            <Link href="/sign-in" className="max-lg:hidden">
-              <Avatar>
-                <AvatarImage
-                  src="/assets/images/default_user.svg"
-                  alt="Avatar"
-                />
-                <AvatarFallback>R</AvatarFallback>
-              </Avatar>
+          <SignedOut>
+            <Link href="/signin" className="max-lg:hidden">
+              <Button className="rounded-3xl border border-light-850  px-10 text-light-800">
+                Track Your Package
+              </Button>
             </Link>
           </SignedOut>
+          <Link href="/signup">
+            <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
+              Register Now
+            </Button>
+          </Link>
+
           <SignedIn>
             <UserButton
               appearance={{
@@ -89,7 +87,7 @@ const Navbar = () => {
                 },
               }}
             />
-          </SignedIn> */}
+          </SignedIn>
 
           {/* <Sidebar /> */}
 
