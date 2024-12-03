@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { useClerk } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button";
@@ -57,7 +57,7 @@ const items = [
 ];
 
 const AppSidebar = () => {
-  const { user } = useUser();
+  //   const { user } = useUser();
   const { signOut } = useClerk();
   const { toggleSidebar, state } = useSidebar();
 
@@ -106,7 +106,7 @@ const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item, index) => {
+              {items.map((item) => {
                 const isActive = pathname.startsWith(item.url);
                 return (
                   <SidebarMenuItem
