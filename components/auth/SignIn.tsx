@@ -1,7 +1,20 @@
-import { SignIn } from "@clerk/nextjs";
+"use client";
+
+import { SignIn, useUser } from "@clerk/nextjs";
 import React from "react";
 
 const SignInComponent = () => {
+  const { user } = useUser();
+
+  const getRedirectUrl = () => {
+    const userType = user?.publicMetadata?.userType as string;
+
+    if (userType === "admin") {
+      return "/admin/dashboard";
+    }
+
+    return "/user/dashboard";
+  };
   return (
     <div>
       <SignIn
@@ -19,6 +32,9 @@ const SignInComponent = () => {
           },
         }}
         signUpUrl="/signup"
+        forceRedirectUrl={getRedirectUrl()}
+        routing="hash"
+        afterSignOutUrl={"/"}
       />
     </div>
   );
