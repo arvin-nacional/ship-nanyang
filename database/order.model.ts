@@ -10,6 +10,8 @@ export interface IOrder extends Document {
   isDelivered: boolean;
   deliveredAt: Date;
   paymentLink: string;
+  estimatedAmount: number;
+  finalAmount?: number;
 }
 
 const OrderSchema = new Schema({
@@ -22,6 +24,8 @@ const OrderSchema = new Schema({
   isDelivered: { type: Boolean, default: false },
   deliveredAt: { type: Date },
   paymentLink: { type: String },
+  estimatedAmount: { type: Number, required: true },
+  finalAmount: { type: Number },
 });
 
 const Order = models.Order || model("Order", OrderSchema);
