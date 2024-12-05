@@ -50,8 +50,8 @@ const items = [
     icon: Search,
   },
   {
-    title: "Settings",
-    url: "#",
+    title: "Profile",
+    url: "/user/profile",
     icon: Settings,
   },
 ];
