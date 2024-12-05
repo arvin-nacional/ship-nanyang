@@ -6,7 +6,7 @@ import MobileNav from "./MobileNav";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 // import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
