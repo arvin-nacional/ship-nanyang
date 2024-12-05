@@ -63,16 +63,16 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-between gap-5">
-          <SignedOut>
+          {/* <SignedOut>
             <Link href="/signin" className="max-lg:hidden">
               <Button className="rounded-3xl border border-light-850  px-10 text-light-800">
                 Track Your Package
               </Button>
             </Link>
-          </SignedOut>
-          <Link href="/signup">
+          </SignedOut> */}
+          <Link href="https://m.me/sdexpressinternational">
             <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
-              Register Now
+              Contact Us
             </Button>
           </Link>
 
