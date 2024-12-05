@@ -1,6 +1,8 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import { createUser } from "@/lib/actions/user.action";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET;
@@ -54,7 +56,19 @@ export async function POST(req: Request) {
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
   console.log("Webhook payload:", body);
 
-  const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+  if (eventType === "user.created") {
+    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
-  return new Response("Webhook received", { status: 200 });
+    // Create user in database
+    const mongoUser = await createUser({
+      clerkId: id,
+      name: `${first_name} ${last_name ? last_name : ""}`,
+      email: email_addresses[0].email_address,
+      picture: image_url,
+    });
+
+    return NextResponse.json({ success: true, user: mongoUser });
+  }
+
+  return NextResponse.json({ success: true });
 }
