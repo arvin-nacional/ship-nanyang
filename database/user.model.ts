@@ -8,7 +8,6 @@ export interface IUser extends Document {
   role: string;
   picture: string;
   joinedAt: Date;
-  orders: Schema.Types.ObjectId[];
   address: string;
 }
 
@@ -21,7 +20,6 @@ const UserSchema = new Schema({
   role: { type: String, default: "user" },
   address: { type: String },
   joinedAt: { type: Date, default: Date.now },
-  orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
 });
 
 const User = models.User || model("User", UserSchema);
