@@ -12,6 +12,7 @@ interface MongooseCache {
 }
 
 declare global {
+  /* eslint-disable no-var */
   var mongoose: MongooseCache;
 }
 
