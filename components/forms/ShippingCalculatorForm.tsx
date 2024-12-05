@@ -85,7 +85,7 @@ const ShippingCalculatorForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleShippingCalculator)}
-          className="flex w-full flex-col gap-10"
+          className="flex w-full flex-col gap-5"
         >
           <div className="flex flex-row gap-5">
             <FormField
@@ -301,7 +301,7 @@ const ShippingCalculatorForm = () => {
             name="insurance"
             render={({ field }) => (
               <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md ">
-                <FormControl>
+                <FormControl className="border border-primary-500">
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}

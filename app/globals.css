@@ -310,11 +310,11 @@ code {
   }
 }
 
-@layer base {
+/* @layer base {
   .border-border {
     border: none;
   }
   * {
     @apply border-border;
   }
-}
+} */

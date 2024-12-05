@@ -1,16 +1,23 @@
 import AppSidebar from "@/components/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import RightSidebar from "@/components/RightSidebar";
+import Topbar from "@/components/shared/navbar/Topbar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="flex justify-center items-center size-full">
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+    <div>
+      <SidebarProvider className="w-full ">
+        <AppSidebar />
+        <main className="size-full">
+          <Topbar />
+          <div className="flex flex-row ">
+            {children}
+            <RightSidebar />
+          </div>
+        </main>
+      </SidebarProvider>
+    </div>
   );
 };
 

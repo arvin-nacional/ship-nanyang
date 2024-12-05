@@ -9,6 +9,7 @@ export interface IUser extends Document {
   picture: string;
   joinedAt: Date;
   address: string;
+  contactNumber: string;
 }
 
 const UserSchema = new Schema({
@@ -20,6 +21,7 @@ const UserSchema = new Schema({
   role: { type: String, default: "user" },
   address: { type: String },
   joinedAt: { type: Date, default: Date.now },
+  contactNumber: { type: String },
 });
 
 const User = models.User || model("User", UserSchema);
