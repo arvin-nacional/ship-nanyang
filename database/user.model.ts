@@ -4,7 +4,8 @@ export interface IUser extends Document {
   clerkId: string;
   email: string;
   password?: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   role: string;
   picture: string;
   joinedAt: Date;
@@ -14,7 +15,8 @@ export interface IUser extends Document {
 
 const UserSchema = new Schema({
   clerkId: { type: String, required: true },
-  name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String },
   picture: { type: String, required: true },

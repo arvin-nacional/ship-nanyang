@@ -1,6 +1,7 @@
 export interface CreateUserParams {
   clerkId: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   picture: string;
 }
