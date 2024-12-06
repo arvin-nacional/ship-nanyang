@@ -1,9 +1,25 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { useClerk } from "@clerk/nextjs";
+import { Edit } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const page = () => {
+  const { user } = useClerk();
   return (
     <div className="p-12 w-full" style={{ height: "100vh" }}>
-      <p className="h3-semibold mb-5">Profile Info</p>
+      <div className="flex justify-between">
+        <p className="h3-semibold mb-5">Profile Info</p>
+        <Link href={`create/${user?.id}`}>
+          <Button className="px-6 rounded-3xl border border-green-800 text-green-800 hover:text-light-800 hover:bg-green-800">
+            <Edit />
+            Edit Profile
+          </Button>
+        </Link>
+      </div>
+
       <div className="flex gap-5 w-full">
         <div className="flex flex-col gap-2 w-full">
           <span className="paragraph-regular">First Name</span>

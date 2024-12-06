@@ -2,7 +2,7 @@
 
 import User from "@/database/user.model";
 import dbConnect from "../mongoose";
-import { CreateUserParams } from "./shared.types";
+import { CreateUserParams, GetUserByClerkIdParams } from "./shared.types";
 
 export async function createUser(userData: CreateUserParams) {
   try {
@@ -13,5 +13,22 @@ export async function createUser(userData: CreateUserParams) {
   } catch (error) {
     console.log(error);
     throw new Error("Error creating user");
+  }
+}
+
+export async function getUserByClerkId(params: GetUserByClerkIdParams) {
+  try {
+    dbConnect();
+
+    const { clerkId } = params;
+
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return { user };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching user");
   }
 }

@@ -5,3 +5,7 @@ export interface CreateUserParams {
   email: string;
   picture: string;
 }
+
+export interface GetUserByClerkIdParams {
+  clerkId: string;
+}
