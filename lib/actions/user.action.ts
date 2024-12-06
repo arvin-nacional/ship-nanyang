@@ -2,7 +2,12 @@
 
 import User from "@/database/user.model";
 import dbConnect from "../mongoose";
-import { CreateUserParams, GetUserByClerkIdParams } from "./shared.types";
+import {
+  CreateUserParams,
+  GetUserByClerkIdParams,
+  UpdateUserParams,
+} from "./shared.types";
+import { revalidatePath } from "next/cache";
 
 export async function createUser(userData: CreateUserParams) {
   try {
@@ -30,5 +35,51 @@ export async function getUserByClerkId(params: GetUserByClerkIdParams) {
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching user");
+  }
+}
+
+export async function updateUser(params: UpdateUserParams) {
+  try {
+    dbConnect();
+
+    const {
+      userId,
+      firstName,
+      lastName,
+      contactNumber,
+      email,
+      addressLine1,
+      addressLine2,
+      city,
+      province,
+      postalCode,
+      privacyPolicyAccepted,
+      path,
+    } = params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.contactNumber = contactNumber;
+    user.email = email;
+    user.addressLine1 = addressLine1;
+    user.addressLine2 = addressLine2;
+    user.city = city;
+    user.province = province;
+    user.postalCode = postalCode;
+    user.privacyPolicyAccepted = privacyPolicyAccepted;
+    user.verified = true;
+
+    await user.save();
+    revalidatePath(path);
+    return user;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error updating user");
   }
 }

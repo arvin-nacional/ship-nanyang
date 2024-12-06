@@ -12,12 +12,16 @@ const page = () => {
     <div className="p-12 w-full" style={{ height: "100vh" }}>
       <div className="flex justify-between">
         <p className="h3-semibold mb-5">Profile Info</p>
-        <Link href={`create/${user?.id}`}>
-          <Button className="px-6 rounded-3xl border border-green-800 text-green-800 hover:text-light-800 hover:bg-green-800">
-            <Edit />
-            Edit Profile
-          </Button>
-        </Link>
+        {user && (
+          <Link href={`create/${user?.id}`}>
+            <Button className="px-6 rounded-3xl border border-green-800 text-green-800 hover:text-light-800 hover:bg-green-800">
+              <Edit />
+              Edit Profile
+            </Button>
+          </Link>
+        )}
+
+        {!user && <></>}
       </div>
 
       <div className="flex gap-5 w-full">

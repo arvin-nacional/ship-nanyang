@@ -12,7 +12,7 @@ export const ShippingCalculatorFormSchema = z.object({
 });
 
 export const ProfileSchema = z.object({
-  clerkId: z.string().min(1, { message: "Please enter a clerk ID" }),
+  // clerkId: z.string().min(1, { message: "Please enter a clerk ID" }),
 
   lastName: z.string().min(1, { message: "Please enter a last name" }),
 
@@ -26,5 +26,6 @@ export const ProfileSchema = z.object({
   city: z.string().min(1, { message: "Please enter a city" }),
   province: z.string().min(1, { message: "Please enter a province" }),
   postalCode: z.string().min(1, { message: "Please enter a postal code" }),
-  country: z.string().min(1, { message: "Please enter a country" }),
+  // country: z.string().min(1, { message: "Please enter a country" }),
+  privacyPolicyAccepted: z.boolean(),
 });

@@ -9,7 +9,6 @@ import React from "react";
 
 const Topbar = () => {
   const { user } = useClerk();
-  console.log(user);
   return (
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">

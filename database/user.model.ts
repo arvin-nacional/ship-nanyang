@@ -9,8 +9,15 @@ export interface IUser extends Document {
   role: string;
   picture: string;
   joinedAt: Date;
-  address: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
   contactNumber: string;
+  privacyPolicyAccepted: boolean;
+  verified: boolean;
 }
 
 const UserSchema = new Schema({
@@ -21,9 +28,16 @@ const UserSchema = new Schema({
   password: { type: String },
   picture: { type: String, required: true },
   role: { type: String, default: "user" },
-  address: { type: String },
+  addressLine1: { type: String },
+  addressLine2: { type: String },
+  city: { type: String },
+  province: { type: String },
+  postalCode: { type: String },
+  country: { type: String },
   joinedAt: { type: Date, default: Date.now },
   contactNumber: { type: String },
+  verified: { type: Boolean, default: false },
+  privacyPolicyAccepted: { type: Boolean, default: false },
 });
 
 const User = models.User || model("User", UserSchema);

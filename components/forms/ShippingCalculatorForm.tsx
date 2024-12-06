@@ -54,6 +54,7 @@ const ShippingCalculatorForm = () => {
     data: z.infer<typeof ShippingCalculatorFormSchema>
   ) => {
     const result = calculateShippingFee(data);
+    console.log(data);
     setCalculationResults({
       chargeableWeight: result.chargeableWeight,
       basicCharge: result.basicCharge,
