@@ -12,48 +12,49 @@ import {
 const Testimonials = () => {
   const testimonialData = [
     {
-      testimonialThumb: "/assets/images/testimonial-image2.svg",
-      title: "Seamless and Reliable Service!",
-      testimonialText:
-        "I’ve been using this service for months, and it has completely changed how I shop online. The shipping process is smooth, and my packages always arrive on time. Highly recommended for anyone buying from China!",
-      avatarName: "John Doe",
-      avatarDesignation: "Principal Solution Architect",
-      ratings: "5",
-    },
-    {
-      testimonialThumb: "/assets/images/testimonial-image2.svg",
-      title: "Affordable and Hassle-Free!",
-      testimonialText:
-        "I love how easy it is to order products from China now. Their rates are affordable, and the team handles everything, from shipping to delivery, so I don’t have to worry about anything.",
-      avatarName: "John Doe",
-      avatarDesignation: "Principal Solution Architect",
-      ratings: "5",
-    },
-    {
-      testimonialThumb: "/assets/images/testimonial-image2.svg",
-      title: "Superb Customer Support!",
-      testimonialText:
-        "Their team is so helpful and responsive. They kept me updated every step of the way, and my items were delivered straight to my door in perfect condition.",
-      avatarName: "John Doe",
-      avatarDesignation: "Principal Solution Architect",
-      ratings: "5",
-    },
-    {
-      testimonialThumb: "/assets/images/testimonial-image2.svg",
+      testimonialThumb: "/assets/images/testimonial-4.svg",
       title: "A Game-Changer for My Business!",
       testimonialText:
-        "As a small business owner, I rely on this service to source products from China. The consolidation option saves me a ton on shipping, and the delivery is always fast and reliable.",
-      avatarName: "John Doe",
-      avatarDesignation: "Principal Solution Architect",
+        "SD Express has made importing products seamless for my business. Their efficient shipping and excellent support allow me to focus on scaling, knowing my deliveries are in good hands.",
+      avatarName: "Clara S.",
+      avatarDesignation: "Online Store Owner",
       ratings: "5",
     },
     {
-      testimonialThumb: "/assets/images/testimonial-image2.svg",
+      testimonialThumb: "/assets/images/testimonial-1.svg",
+      title: "From Stressful to Effortless!",
+      testimonialText:
+        "Before SD Express, logistics were a headache. Now, I can easily ship from China and receive my products on time, every time. Their service has truly transformed how I run my business!",
+      avatarName: "Mark A.",
+      avatarDesignation: "Wholesale Distributor",
+      ratings: "5",
+    },
+    {
+      testimonialThumb: "/assets/images/testimonial-2.svg",
+      title: "My Secret to Success!",
+      testimonialText:
+        "I’ve been using SD Express for months, and they never disappoint! Their reliable delivery service has helped me keep my customers happy and my inventory stocked effortlessly.",
+      avatarName: "Jenny L.",
+      avatarDesignation: "Importer",
+      ratings: "5",
+    },
+    {
+      testimonialThumb: "/assets/images/testimonial-3.svg",
       title: "Safe and Secure Shipping!",
       testimonialText:
         "I was hesitant at first to order from overseas, but this service exceeded my expectations. My items were well-packed and arrived without a scratch. I’ll definitely use them again!",
-      avatarName: "John Doe",
-      avatarDesignation: "Principal Solution Architect",
+      avatarName: "Kevin T.",
+      avatarDesignation: "Online Store Owner",
+      ratings: "5",
+    },
+
+    {
+      testimonialThumb: "/assets/images/testimonial-5.svg",
+      title: "Helping My Business Thrive!",
+      testimonialText:
+        "Thanks to SD Express, I’ve expanded my product line and improved customer satisfaction. They handle the shipping while I focus on growing my brand. Highly recommend!",
+      avatarName: "Katherine P.",
+      avatarDesignation: "Beauty Products Seller",
       ratings: "5",
     },
   ];

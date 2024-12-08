@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import PartnerLogos from "@/components/PartnerLogos";
 import ShipmentProcess from "@/components/ShipmentProcess";
 import Solutions from "@/components/Solutions";
-// import Testimonials from "@/components/Testimonials";
+import Testimonials from "@/components/Testimonials";
 import React from "react";
 
 const Page = () => {
@@ -15,7 +15,7 @@ const Page = () => {
       <About />
       <Solutions />
       <ShipmentProcess />
-      {/* <Testimonials /> */}
+      <Testimonials />
       <CTA />
     </section>
   );
