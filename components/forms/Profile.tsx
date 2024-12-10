@@ -64,23 +64,25 @@ const Profile = ({ type, profileDetails }: Props) => {
   async function onSubmit(data: z.infer<typeof ProfileSchema>) {
     startTransition(async () => {
       try {
+        await updateUser({
+          clerkId: id,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          contactNumber: data.contactNumber,
+          email: data.email,
+          addressLine1: data.addressLine1,
+          addressLine2: data.addressLine2,
+          city: data.city,
+          province: data.province,
+          postalCode: data.postalCode,
+          privacyPolicyAccepted: data.privacyPolicyAccepted,
+          path: pathname,
+        });
         if (type === "Edit") {
-          await updateUser({
-            clerkId: id,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            contactNumber: data.contactNumber,
-            email: data.email,
-            addressLine1: data.addressLine1,
-            addressLine2: data.addressLine2,
-            city: data.city,
-            province: data.province,
-            postalCode: data.postalCode,
-            privacyPolicyAccepted: data.privacyPolicyAccepted,
-            path: pathname,
-          });
+          router.push(`/user/profile/${id}`);
+        } else if (type === "Create") {
+          router.push("/user/dashboard");
         }
-        router.push("/user/dashboard");
       } catch (error) {
         console.log(error);
       } finally {
@@ -286,28 +288,31 @@ const Profile = ({ type, profileDetails }: Props) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="privacyPolicyAccepted"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md ">
-              <FormControl className="border border-primary-500">
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Privacy Policy</FormLabel>
-                <FormDescription>
-                  By checking this box, you agree to our Privacy Policy, which
-                  outlines how we collect, use, and protect your personal
-                  information.
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        />
+
+        {type === "Create" && (
+          <FormField
+            control={form.control}
+            name="privacyPolicyAccepted"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md ">
+                <FormControl className="border border-primary-500">
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Privacy Policy</FormLabel>
+                  <FormDescription>
+                    By checking this box, you agree to our Privacy Policy, which
+                    outlines how we collect, use, and protect your personal
+                    information.
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
+        )}
 
         <Button
           type="submit"

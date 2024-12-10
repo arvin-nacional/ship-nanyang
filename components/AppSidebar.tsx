@@ -22,42 +22,43 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useClerk } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
-const items = [
-  {
-    title: "Home",
-    url: "/user/dashboard",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Profile",
-    url: "/user/profile",
-    icon: Settings,
-  },
-];
-
 const AppSidebar = () => {
-  //   const { user } = useUser();
+  const { user } = useUser();
+
+  const items = [
+    {
+      title: "Home",
+      url: "/user/dashboard",
+      icon: Home,
+    },
+    {
+      title: "Inbox",
+      url: "#",
+      icon: Inbox,
+    },
+    {
+      title: "Calendar",
+      url: "#",
+      icon: Calendar,
+    },
+    {
+      title: "Search",
+      url: "#",
+      icon: Search,
+    },
+    {
+      title: "Profile",
+      url: `/user/profile/${user?.id}`,
+      icon: Settings,
+    },
+  ];
+
   const { signOut } = useClerk();
   const { toggleSidebar, state } = useSidebar();
 
@@ -117,10 +118,17 @@ const AppSidebar = () => {
                     )}
                   >
                     <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon />
-                        <span className="ml-2">{item.title}</span>
-                      </a>
+                      {user ? (
+                        <a href={item.url}>
+                          <item.icon />
+                          <span className="ml-2">{item.title}</span>
+                        </a>
+                      ) : (
+                        <div className="flex items-center">
+                          <item.icon />
+                          <span className="ml-2">{item.title}</span>
+                        </div>
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
