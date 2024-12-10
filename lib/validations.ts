@@ -29,3 +29,13 @@ export const ProfileSchema = z.object({
   // country: z.string().min(1, { message: "Please enter a country" }),
   privacyPolicyAccepted: z.boolean(),
 });
+
+export const CreateOrderSchema = z.object({
+  vendor: z.string().min(1, { message: "Please select a vendor" }),
+  trackingNumber: z
+    .string()
+    .min(1, { message: "Please enter a tracking number" }),
+  itemValue: z.string().min(1, { message: "Please enter an item value" }),
+  itemDescription: z.string(),
+  address: z.string().min(1, { message: "Please select an address" }),
+});

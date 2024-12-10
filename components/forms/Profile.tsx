@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,14 +19,12 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { updateUser } from "@/lib/actions/user.action";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import useSWR from "swr";
-import router from "next/router";
 
 // import { CreateUserProfile } from "@/types";
 
 interface Props {
   type?: string;
-  profileDetails: string;
+  profileDetails?: string;
 }
 
 const Profile = ({ type, profileDetails }: Props) => {
@@ -111,9 +109,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -132,9 +130,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -154,9 +152,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   disabled
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -175,9 +173,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -196,9 +194,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the first line of your address.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -217,9 +215,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the second line for your address.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -238,9 +236,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the city for your address.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -260,9 +258,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   placeholder="Metro Manila or other Provinces"
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the province for your address.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
@@ -281,9 +279,9 @@ const Profile = ({ type, profileDetails }: Props) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the postal code for your address.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}

@@ -12,6 +12,7 @@ export interface IOrder extends Document {
   paymentLink: string;
   estimatedAmount: number;
   finalAmount?: number;
+  packages: Schema.Types.ObjectId[];
 }
 
 const OrderSchema = new Schema({
@@ -26,7 +27,9 @@ const OrderSchema = new Schema({
   paymentLink: { type: String },
   estimatedAmount: { type: Number, required: true },
   finalAmount: { type: Number },
+  packages: [{ type: Schema.Types.ObjectId, ref: "Package" }],
 });
 
 const Order = models.Order || model("Order", OrderSchema);
+
 export default Order;
