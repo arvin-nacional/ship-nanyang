@@ -11,7 +11,7 @@ export interface GetUserByClerkIdParams {
 }
 
 export interface UpdateUserParams {
-  userId: string;
+  clerkId: string;
   firstName: string;
   lastName: string;
   contactNumber: string;

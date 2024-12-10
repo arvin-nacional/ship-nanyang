@@ -31,7 +31,13 @@ export async function getUserByClerkId(params: GetUserByClerkIdParams) {
     if (!user) {
       throw new Error("User not found");
     }
-    return { user };
+
+    const userWithFormattedDate = {
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+    };
+    return { user: userWithFormattedDate };
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching user");
@@ -43,7 +49,7 @@ export async function updateUser(params: UpdateUserParams) {
     dbConnect();
 
     const {
-      userId,
+      clerkId,
       firstName,
       lastName,
       contactNumber,
@@ -57,7 +63,7 @@ export async function updateUser(params: UpdateUserParams) {
       path,
     } = params;
 
-    const user = await User.findById(userId);
+    const user = await User.findOne({ clerkId });
 
     if (!user) {
       throw new Error("User not found");
@@ -76,8 +82,14 @@ export async function updateUser(params: UpdateUserParams) {
     user.verified = true;
 
     await user.save();
+
+    const userWithFormattedDate = {
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+    };
     revalidatePath(path);
-    return user;
+    return { user: userWithFormattedDate };
   } catch (error) {
     console.log(error);
     throw new Error("Error updating user");

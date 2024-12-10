@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +18,10 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { updateUser } from "@/lib/actions/user.action";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import useSWR from "swr";
+import router from "next/router";
+
 // import { CreateUserProfile } from "@/types";
 
 interface Props {
@@ -28,11 +31,16 @@ interface Props {
 
 const Profile = ({ type, profileDetails }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [isPending, startTransition] = useTransition();
+  const params = useParams();
+  // const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+  //   fetch(...args).then((res) => res.json());
+  const id = params.id as string;
+  // const { data, isLoading, error } = useSWR(`/api/user/create/${id}`, fetcher);
   const pathname = usePathname();
   const router = useRouter();
 
-  const parsedProfileDetails = JSON.parse(profileDetails);
+  const parsedProfileDetails = JSON.parse(profileDetails || "");
 
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
@@ -48,38 +56,37 @@ const Profile = ({ type, profileDetails }: Props) => {
       postalCode: parsedProfileDetails?.postalCode || "",
       // country: parsedProfileDetails?.country || "",
       privacyPolicyAccepted:
-        parsedProfileDetails?.privacyPolicyAccepted || false,
+        parsedProfileDetails.privacyPolicyAccepted || false,
       // clerkId: parsedProfileDetails?.clerkId,
     },
   });
 
   async function onSubmit(data: z.infer<typeof ProfileSchema>) {
-    setIsSubmitting(true);
-
-    try {
-      if (type === "Edit") {
-        await updateUser({
-          userId: parsedProfileDetails?._id || "",
-          firstName: data.firstName,
-          lastName: data.lastName,
-          contactNumber: data.contactNumber,
-          email: data.email,
-          addressLine1: data.addressLine1,
-          addressLine2: data.addressLine2,
-          city: data.city,
-          province: data.province,
-          postalCode: data.postalCode,
-          privacyPolicyAccepted: data.privacyPolicyAccepted,
-          path: pathname,
-        });
+    startTransition(async () => {
+      try {
+        if (type === "Edit") {
+          await updateUser({
+            clerkId: id,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            contactNumber: data.contactNumber,
+            email: data.email,
+            addressLine1: data.addressLine1,
+            addressLine2: data.addressLine2,
+            city: data.city,
+            province: data.province,
+            postalCode: data.postalCode,
+            privacyPolicyAccepted: data.privacyPolicyAccepted,
+            path: pathname,
+          });
+        }
+        router.push("/user/dashboard");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
       }
-
-      router.push("/user/dashboard");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   }
 
   return (
@@ -305,9 +312,9 @@ const Profile = ({ type, profileDetails }: Props) => {
         <Button
           type="submit"
           className="primary-gradient w-fit !text-light-900"
-          disabled={!form.watch("privacyPolicyAccepted") || isSubmitting}
+          disabled={!form.watch("privacyPolicyAccepted") || isPending}
         >
-          {isSubmitting ? (
+          {isPending ? (
             <>{type === "Edit" ? "Saving..." : "Submitting"}</>
           ) : (
             <>{type === "Edit" ? "Save" : "Submit"}</>
