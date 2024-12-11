@@ -18,6 +18,15 @@ export interface createAddressParams {
   name: string;
 }
 
+export interface createPackageParams {
+  clerkId: string;
+  trackingNumber: string;
+  address: string;
+  description: string;
+  value: string;
+  vendor: string;
+}
+
 export interface GetUserByClerkIdParams {
   clerkId: string;
 }

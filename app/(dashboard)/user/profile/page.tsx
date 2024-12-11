@@ -12,12 +12,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { auth } from "@clerk/nextjs/server";
 
-type tParams = Promise<{ id: string }>;
+const Page = async () => {
+  const { userId } = await auth();
 
-const Page = async ({ params }: { params: tParams }) => {
-  const { id } = await params;
-  const result = await getUserByClerkId({ clerkId: id });
+  const result = userId ? await getUserByClerkId({ clerkId: userId }) : null;
 
   return (
     <div className="p-12 w-full" style={{ height: "100vh" }}>
@@ -25,17 +25,13 @@ const Page = async ({ params }: { params: tParams }) => {
         <Breadcrumb className="mb-5">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/user/profile/${id}`}>
-                Profile
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/user/profile">Profile</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/user/address/${id}`}>
-                My Address
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/user/address/">My Address</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator />
+            {/* <BreadcrumbSeparator /> */}
             {/* <BreadcrumbItem>
               <BreadcrumbPage>Add</BreadcrumbPage>
             </BreadcrumbItem> */}
@@ -43,7 +39,7 @@ const Page = async ({ params }: { params: tParams }) => {
         </Breadcrumb>
 
         {result && (
-          <Link href={`/user/edit/${result?.user?.clerkId}`}>
+          <Link href={`/user/edit/${userId}`}>
             <Button className="px-6 rounded-3xl border border-green-800 text-green-800 hover:text-light-800 hover:bg-green-800">
               <Edit />
               Edit Profile

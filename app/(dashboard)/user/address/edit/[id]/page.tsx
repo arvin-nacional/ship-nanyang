@@ -10,14 +10,10 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getAddressById } from "@/lib/actions/address.action";
-import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 type tParams = Promise<{ id: string }>;
 const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
-
   const result = await getAddressById(id);
-  console.log(result);
 
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
@@ -28,13 +24,11 @@ const page = async ({ params }: { params: tParams }) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/user/address/${id}`}>
-              My Address
-            </BreadcrumbLink>
+            <BreadcrumbLink href="/user/address/">My Address</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Add</BreadcrumbPage>
+            <BreadcrumbPage>Edit</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

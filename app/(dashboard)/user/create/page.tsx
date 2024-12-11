@@ -1,13 +1,15 @@
 import Profile from "@/components/forms/Profile";
 import { getUserByClerkId } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
-type tParams = Promise<{ id: string }>;
+const Page = async () => {
+  const { userId } = await auth();
 
-const Page = async ({ params }: { params: tParams }) => {
-  const { id } = await params;
-  const result = await getUserByClerkId({ clerkId: id });
-  console.log(result.user);
+  if (!userId) {
+    throw new Error("User ID is null");
+  }
+  const result = await getUserByClerkId({ clerkId: userId });
 
   return (
     <div className="w-full py-12 min-h-[90vh]">

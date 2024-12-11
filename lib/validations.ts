@@ -48,7 +48,7 @@ export const CreateOrderSchema = z.object({
   trackingNumber: z
     .string()
     .min(1, { message: "Please enter a tracking number" }),
-  itemValue: z.string().min(1, { message: "Please enter an item value" }),
-  itemDescription: z.string(),
+  value: z.string().min(1, { message: "Please enter an item value" }),
+  description: z.string(),
   address: z.string().min(1, { message: "Please select an address" }),
 });

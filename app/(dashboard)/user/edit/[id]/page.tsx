@@ -1,4 +1,12 @@
 import Profile from "@/components/forms/Profile";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { getUserByClerkId } from "@/lib/actions/user.action";
 import React from "react";
 
@@ -9,9 +17,24 @@ const Page = async ({ params }: { params: tParams }) => {
   const result = await getUserByClerkId({ clerkId: id });
 
   return (
-    <div className="w-full py-12 min-h-[90vh]">
+    <div className="w-full p-12 min-h-[90vh]">
       <div className="w-full flex justify-center items-center ">
-        <div className="w-3/4 max-sm:w-full">
+        <div className="w-full max-sm:w-full">
+          <Breadcrumb className="mb-5">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/user/profile">Profile</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Edit Profile</BreadcrumbPage>
+              </BreadcrumbItem>
+              {/* <BreadcrumbSeparator /> */}
+              {/* <BreadcrumbItem>
+              <BreadcrumbPage>Add</BreadcrumbPage>
+            </BreadcrumbItem> */}
+            </BreadcrumbList>
+          </Breadcrumb>
           <Profile type="Edit" profileDetails={JSON.stringify(result.user)} />
         </div>
       </div>

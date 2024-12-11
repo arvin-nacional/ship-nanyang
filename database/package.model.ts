@@ -3,21 +3,23 @@ import { Schema, models, model, Document } from "mongoose";
 export interface IPackage extends Document {
   createdAt: Date;
   updatedAt: Date;
-  order: Schema.Types.ObjectId;
   estimatedAmount: number;
   finalAmount?: number;
-  trackingNumber: string[];
+  trackingNumber: string;
   address: Schema.Types.ObjectId;
   vendor: string;
+  value: string;
+  description: string;
 }
 
 const PackageSchema = new Schema({
-  order: { type: Schema.Types.ObjectId, ref: "Order", required: true },
+  description: { type: String, required: true },
+  value: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   estimatedAmount: { type: Number },
   finalAmount: { type: Number },
-  trackingNumber: { type: [String], default: [] },
+  trackingNumber: { type: String, required: true },
   vendor: { type: String, required: true },
   address: { type: Schema.Types.ObjectId, ref: "Address", required: true },
 });

@@ -54,7 +54,7 @@ const AppSidebar = () => {
     },
     {
       title: "Profile",
-      url: `/user/profile/${user?.id}`,
+      url: `/user/profile`,
       icon: Settings,
     },
   ];

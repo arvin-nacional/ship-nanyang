@@ -1,5 +1,5 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { use, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,34 +24,66 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { createPackage } from "@/lib/actions/package.action";
+import { useUser } from "@clerk/nextjs";
 
 interface Props {
   type?: string;
   orderDetails?: string;
+  address?: string;
 }
 
-const Order = ({ type, orderDetails }: Props) => {
+const Order = ({ type, orderDetails, address }: Props) => {
   const [isPending, startTransition] = useTransition();
-
+  const pathname = usePathname();
+  const router = useRouter();
+  const { user } = useUser();
   const form = useForm<z.infer<typeof CreateOrderSchema>>({
     resolver: zodResolver(CreateOrderSchema),
     defaultValues: {
       vendor: "",
       trackingNumber: "",
-      itemValue: "",
-      itemDescription: "",
+      value: "",
+      description: "",
+      address: "",
     },
   });
+
+  const parsedAddress = JSON.parse(address || "{}");
 
   // todo
   // create a new package
   // create new order
   // edit an existing package
-  // create address also modify profile address
+
+  async function onSubmit(data: z.infer<typeof CreateOrderSchema>) {
+    startTransition(async () => {
+      try {
+        if (user) {
+          await createPackage({
+            clerkId: user.id,
+            vendor: data.vendor,
+            trackingNumber: data.trackingNumber,
+            value: data.value,
+            description: data.description,
+            address: data.address,
+          });
+        } else {
+          console.error("User is not authenticated");
+        }
+        router.push("/user/dashboard");
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
 
   return (
     <Form {...form}>
-      <form className="flex w-full flex-col gap-5">
+      <form
+        className="flex w-full flex-col gap-5"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="vendor"
@@ -76,7 +108,7 @@ const Order = ({ type, orderDetails }: Props) => {
         />
         <FormField
           control={form.control}
-          name="itemValue"
+          name="value"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
               <FormLabel className="paragraph-semibold text-dark400_light800">
@@ -98,7 +130,7 @@ const Order = ({ type, orderDetails }: Props) => {
         />
         <FormField
           control={form.control}
-          name="itemDescription"
+          name="description"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
               <FormLabel className="paragraph-semibold text-dark400_light800">
@@ -159,11 +191,19 @@ const Order = ({ type, orderDetails }: Props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-light-900">
-                    <SelectItem value="defaultAddress">
+                    {parsedAddress?.addresses.map((item: any) => (
+                      <SelectItem key={item._id} value={item._id}>
+                        {item.name} - {item.contactNumber} - {item.addressLine1}
+                        , {item.addressLine2}, {item.city}, {item.province},{" "}
+                        {item.postalCode}
+                      </SelectItem>
+                    ))}
+
+                    {/* <SelectItem value="defaultAddress">
                       Profile Address
                     </SelectItem>
                     <SelectItem value="m@google.com">m@google.com</SelectItem>
-                    <SelectItem value="m@support.com">m@support.com</SelectItem>
+                    <SelectItem value="m@support.com">m@support.com</SelectItem> */}
                   </SelectContent>
                 </Select>
               </FormControl>

@@ -77,7 +77,7 @@ const Profile = ({ type, profileDetails }: Props) => {
           path: pathname,
         });
         if (type === "Edit") {
-          router.push(`/user/profile/${id}`);
+          router.push("/user/profile");
         } else if (type === "Create") {
           router.push("/user/dashboard");
         }
@@ -93,197 +93,209 @@ const Profile = ({ type, profileDetails }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex w-full flex-col gap-5"
       >
-        <FormField
-          control={form.control}
-          name="firstName"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                First Name <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+        <div className="flex flex-row gap-5">
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  First Name <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="lastName"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Last Name <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Last Name <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Email Address <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                  disabled
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="flex flex-row gap-5">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Email Address <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                    disabled
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="contactNumber"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Contact Number <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contactNumber"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Contact Number <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="addressLine1"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Address Line 1 <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-row gap-5">
+          <FormField
+            control={form.control}
+            name="addressLine1"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Address Line 1 <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the first line of your address.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="addressLine2"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Address Line 2 <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="addressLine2"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Address Line 2 <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the second line for your address.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="city"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                City <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-row gap-5">
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  City <span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the city for your address.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="province"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Province<span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                  placeholder="Metro Manila or other Provinces"
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="province"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Province<span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                    placeholder="Metro Manila or other Provinces"
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the province for your address.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="postalCode"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Postal Code<span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Input
-                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex flex-row gap-5">
+          <FormField
+            control={form.control}
+            name="postalCode"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Postal Code<span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Input
+                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                    {...field}
+                  />
+                </FormControl>
+                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Enter the postal code for your address.
               </FormDescription> */}
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
+          <div className="w-full"></div>
+        </div>
 
         {type === "Create" && (
           <FormField

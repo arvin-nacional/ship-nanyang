@@ -69,7 +69,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             path: pathname,
           });
 
-          router.push(`/user/address/${user?.id}`);
+          router.push("/user/address");
         } else {
           await updateAddress(addressId ?? "", {
             addressLine1: data.addressLine1,
@@ -81,7 +81,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             name: data.name,
           });
 
-          router.push(`/user/address/${user?.id}`);
+          router.push("/user/address");
         }
       } catch (error) {
         console.log(error);
@@ -93,7 +93,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
     startTransition(async () => {
       try {
         await deleteAddress(addressId ?? "");
-        router.push(`/user/address/${user?.id}`);
+        router.push("/user/address");
       } catch (error) {
         console.log(error);
       }
