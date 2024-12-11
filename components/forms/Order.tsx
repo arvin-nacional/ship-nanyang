@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,8 +15,6 @@ import {
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { updateUser } from "@/lib/actions/user.action";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { CreateOrderSchema } from "@/lib/validations";
 import {

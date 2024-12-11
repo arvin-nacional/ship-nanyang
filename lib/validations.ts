@@ -28,6 +28,19 @@ export const ProfileSchema = z.object({
   postalCode: z.string().min(1, { message: "Please enter a postal code" }),
   // country: z.string().min(1, { message: "Please enter a country" }),
   privacyPolicyAccepted: z.boolean(),
+  addressId: z.string().optional(),
+});
+
+export const AddressSchema = z.object({
+  addressLine1: z.string().min(1, { message: "Please enter an address" }),
+  addressLine2: z.string().min(1, { message: "Please enter an address" }),
+  city: z.string().min(1, { message: "Please enter a city" }),
+  province: z.string().min(1, { message: "Please enter a province" }),
+  postalCode: z.string().min(1, { message: "Please enter a postal code" }),
+  contactNumber: z
+    .string()
+    .min(1, { message: "Please enter a contact number" }),
+  name: z.string().min(1, { message: "Please enter a name" }),
 });
 
 export const CreateOrderSchema = z.object({

@@ -3,7 +3,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createUser } from "@/lib/actions/user.action";
+import { createUser, deleteUser } from "@/lib/actions/user.action";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -71,6 +71,15 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true, user: mongoUser });
+  }
+
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
+
+    // Delete user in database
+    const deletedUser = await deleteUser({ clerkId: id! });
+
+    return NextResponse.json({ success: true, user: deletedUser });
   }
 
   return new Response("Webhook received", { status: 200 });

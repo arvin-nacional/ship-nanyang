@@ -8,6 +8,8 @@ export interface IAddress extends Document {
   province: string;
   postalCode: string;
   country: string;
+  contactNumber: string;
+  name: string;
 }
 
 const AddressSchema = new Schema({
@@ -17,7 +19,8 @@ const AddressSchema = new Schema({
   city: { type: String, required: true },
   province: { type: String, required: true },
   postalCode: { type: String, required: true },
-  country: { type: String, required: true },
+  contactNumber: { type: String, required: true },
+  name: { type: String, required: true },
 });
 
 const Address = models.Address || model("Address", AddressSchema);

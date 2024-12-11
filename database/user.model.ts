@@ -9,13 +9,7 @@ export interface IUser extends Document {
   role: string;
   picture: string;
   joinedAt: Date;
-  addressLine1: string;
-  addressLine2: string;
-  city: string;
-  province: string;
-  postalCode: string;
-  country: string;
-  contactNumber: string;
+  address: Schema.Types.ObjectId;
   privacyPolicyAccepted: boolean;
   verified: boolean;
 }
@@ -28,14 +22,8 @@ const UserSchema = new Schema({
   password: { type: String },
   picture: { type: String, required: true },
   role: { type: String, default: "user" },
-  addressLine1: { type: String },
-  addressLine2: { type: String },
-  city: { type: String },
-  province: { type: String },
-  postalCode: { type: String },
-  country: { type: String },
+  address: { type: Schema.Types.ObjectId, ref: "Address" },
   joinedAt: { type: Date, default: Date.now },
-  contactNumber: { type: String },
   verified: { type: Boolean, default: false },
   privacyPolicyAccepted: { type: Boolean, default: false },
 });

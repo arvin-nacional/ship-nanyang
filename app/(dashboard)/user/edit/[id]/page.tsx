@@ -7,7 +7,6 @@ type tParams = Promise<{ id: string }>;
 const Page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
   const result = await getUserByClerkId({ clerkId: id });
-  console.log(result.user);
 
   return (
     <div className="w-full py-12 min-h-[90vh]">

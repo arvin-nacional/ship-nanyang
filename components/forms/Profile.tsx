@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +28,6 @@ interface Props {
 }
 
 const Profile = ({ type, profileDetails }: Props) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPending, startTransition] = useTransition();
   const params = useParams();
   // const fetcher = (...args: [RequestInfo, RequestInit?]) =>
@@ -45,13 +44,13 @@ const Profile = ({ type, profileDetails }: Props) => {
     defaultValues: {
       lastName: parsedProfileDetails?.lastName || "",
       firstName: parsedProfileDetails?.firstName || "",
-      contactNumber: parsedProfileDetails?.contactNumber || "",
+      contactNumber: parsedProfileDetails?.address?.contactNumber || "",
       email: parsedProfileDetails?.email || "",
-      addressLine1: parsedProfileDetails?.addressLine1 || "",
-      addressLine2: parsedProfileDetails?.addressLine2 || "",
-      city: parsedProfileDetails?.city || "",
-      province: parsedProfileDetails?.province || "",
-      postalCode: parsedProfileDetails?.postalCode || "",
+      addressLine1: parsedProfileDetails?.address?.addressLine1 || "",
+      addressLine2: parsedProfileDetails?.address?.addressLine2 || "",
+      city: parsedProfileDetails?.address?.city || "",
+      province: parsedProfileDetails?.address?.province || "",
+      postalCode: parsedProfileDetails?.address?.postalCode || "",
       // country: parsedProfileDetails?.country || "",
       privacyPolicyAccepted:
         parsedProfileDetails.privacyPolicyAccepted || false,
@@ -74,6 +73,7 @@ const Profile = ({ type, profileDetails }: Props) => {
           province: data.province,
           postalCode: data.postalCode,
           privacyPolicyAccepted: data.privacyPolicyAccepted,
+          addressId: parsedProfileDetails?.address?._id,
           path: pathname,
         });
         if (type === "Edit") {
@@ -83,8 +83,6 @@ const Profile = ({ type, profileDetails }: Props) => {
         }
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsSubmitting(false);
       }
     });
   }

@@ -6,7 +6,23 @@ export interface CreateUserParams {
   picture: string;
 }
 
+export interface createAddressParams {
+  clerkId: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  contactNumber: string;
+  path: string;
+  name: string;
+}
+
 export interface GetUserByClerkIdParams {
+  clerkId: string;
+}
+
+export interface DeleteUserParams {
   clerkId: string;
 }
 
@@ -23,4 +39,5 @@ export interface UpdateUserParams {
   postalCode: string;
   privacyPolicyAccepted: boolean;
   path: string;
+  addressId?: string;
 }
