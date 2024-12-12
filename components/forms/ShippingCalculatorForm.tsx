@@ -113,9 +113,9 @@ const ShippingCalculatorForm = () => {
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
+                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                     Select your destination.
-                  </FormDescription>
+                  </FormDescription> */}
                   <FormMessage className="text-red-500" />
                 </FormItem>
               )}
@@ -132,11 +132,12 @@ const ShippingCalculatorForm = () => {
                     <Input
                       className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                       {...field}
+                      placeholder="Write the value of the package in Peso."
                     />
                   </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
+                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                     Write the value of the package in Peso.
-                  </FormDescription>
+                  </FormDescription> */}
                   <FormMessage className="text-red-500" />
                 </FormItem>
               )}
@@ -156,11 +157,12 @@ const ShippingCalculatorForm = () => {
                       <Input
                         className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                         {...field}
+                        placeholder=" Write the Actual Weight in Kg."
                       />
                     </FormControl>
-                    <FormDescription className="body-regular mt-2.5 text-light-500">
+                    {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                       Write the Actual Weight in Kg.
-                    </FormDescription>
+                    </FormDescription> */}
                     <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
@@ -223,9 +225,9 @@ const ShippingCalculatorForm = () => {
                         <SelectItem value="special">Special Goods</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormDescription className="body-regular mt-2.5 text-light-500">
+                    {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                       Select your package type.
-                    </FormDescription>
+                    </FormDescription> */}
                     <FormMessage className="text-red-500" />
                   </FormItem>
                 )}
@@ -245,11 +247,12 @@ const ShippingCalculatorForm = () => {
                     <Input
                       className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                       {...field}
+                      placeholder="Length in centimeters (cm)."
                     />
                   </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
+                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                     Length in centimeters (cm).
-                  </FormDescription>
+                  </FormDescription> */}
                   <FormMessage className="text-red-500" />
                 </FormItem>
               )}
@@ -266,11 +269,12 @@ const ShippingCalculatorForm = () => {
                     <Input
                       className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                       {...field}
+                      placeholder="Width in centimeters (cm)."
                     />
                   </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
+                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                     Width in centimeters (cm).
-                  </FormDescription>
+                  </FormDescription> */}
                   <FormMessage className="text-red-500" />
                 </FormItem>
               )}
@@ -287,11 +291,12 @@ const ShippingCalculatorForm = () => {
                     <Input
                       className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                       {...field}
+                      placeholder="Height in centimeters (cm)."
                     />
                   </FormControl>
-                  <FormDescription className="body-regular mt-2.5 text-light-500">
+                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                     Height in centimeters (cm).
-                  </FormDescription>
+                  </FormDescription> */}
                   <FormMessage className="text-red-500" />
                 </FormItem>
               )}

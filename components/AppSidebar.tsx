@@ -2,12 +2,11 @@
 
 import React from "react";
 import {
-  Calendar,
   Home,
-  Inbox,
   LogOut,
+  MapPinHouse,
+  Package,
   PanelLeft,
-  Search,
   Settings,
 } from "lucide-react";
 import {
@@ -38,19 +37,19 @@ const AppSidebar = () => {
       icon: Home,
     },
     {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
+      title: "Packages",
+      url: "/user/packages",
+      icon: Package,
     },
+    // {
+    //   title: "Calendar",
+    //   url: "#",
+    //   icon: Calendar,
+    // },
     {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: Search,
+      title: "Address",
+      url: "/user/address",
+      icon: MapPinHouse,
     },
     {
       title: "Profile",

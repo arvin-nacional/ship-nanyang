@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <Topbar />
           <div className="flex flex-row ">
             {children}
-            <RightSidebar />
+            {/* <RightSidebar /> */}
           </div>
         </main>
       </SidebarProvider>

@@ -47,7 +47,7 @@ const Topbar = () => {
           </div>
 
           <Link href="/user/shipping-calculator">
-            <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500">
+            <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500 hover:bg-primary-400 hover:text-light-900">
               Estimate Shipment
             </Button>
           </Link>

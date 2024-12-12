@@ -43,7 +43,7 @@ const page = async () => {
           </BreadcrumbList>
         </Breadcrumb>
         <Link href={`/user/address/add`}>
-          <Button className="px-6 rounded-3xl border border-primary-500 text-primary-500">
+          <Button className="px-6 rounded-3xl border border-primary-500 text-primary-500 hover:bg-primary-400 hover:text-light-900">
             {" "}
             <SquarePlus size={24} /> Add Address
           </Button>
