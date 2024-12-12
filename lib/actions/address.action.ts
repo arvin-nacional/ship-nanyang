@@ -20,6 +20,7 @@ export async function createAddress(addressData: createAddressParams) {
       contactNumber,
       path,
       name,
+      isDefault,
     } = addressData;
     const user = await User.findOne({ clerkId });
 
@@ -36,6 +37,7 @@ export async function createAddress(addressData: createAddressParams) {
       contactNumber,
       userId: user._id,
       name,
+      isDefault,
     });
 
     const formattedAddress = {
@@ -52,6 +54,54 @@ export async function createAddress(addressData: createAddressParams) {
   }
 }
 
+export async function setDefaultAddress(
+  addressId: string,
+  clerkId: string,
+  path: string
+) {
+  try {
+    dbConnect();
+
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error("User not found with the given clerkId");
+    }
+
+    const address = await Address.findById(addressId);
+    if (!address) {
+      throw new Error("Address not found with the given addressId");
+    }
+
+    user.address = addressId;
+    await user.save();
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function isAddressOwnedByUser(addressId: string, clerkId: string) {
+  try {
+    dbConnect();
+
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error("User not found with the given clerkId");
+    }
+
+    const address = await Address.findById(addressId);
+    if (!address) {
+      throw new Error("Address not found with the given addressId");
+    }
+
+    // Compare ObjectId strings
+    return user.address.toString() === address._id.toString();
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error checking address ownership");
+  }
+}
+
 export async function updateAddress(
   addressId: string,
   addressData: Partial<createAddressParams>
@@ -59,16 +109,46 @@ export async function updateAddress(
   try {
     dbConnect();
 
+    const { clerkId, isDefault } = addressData;
+
+    // Find the user associated with the clerkId
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error("User not found with the given clerkId");
+    }
+
+    // If the new address is set as default, update any existing default address
+    if (isDefault === true) {
+      const existingDefaultAddress = await Address.findOne({
+        userId: user._id,
+        isDefault: true,
+      });
+
+      if (existingDefaultAddress) {
+        // Set the previous default address to false
+        existingDefaultAddress.isDefault = false;
+        await existingDefaultAddress.save();
+      }
+    }
+
+    // Update the current address with the provided data
     const updatedAddress = await Address.findByIdAndUpdate(
       addressId,
       addressData,
-      { new: true }
+      { new: true } // Return the updated document
     );
 
     if (!updatedAddress) {
       throw new Error("Address not found");
     }
 
+    // Update the user's default address reference if needed
+    if (isDefault === true) {
+      user.address = addressId;
+      await user.save();
+    }
+
+    // Format the updated address for response
     const formattedAddress = {
       ...updatedAddress.toObject(),
       _id: updatedAddress._id.toString(),
@@ -77,7 +157,7 @@ export async function updateAddress(
 
     return { address: formattedAddress };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error("Error updating address");
   }
 }

@@ -63,6 +63,7 @@ const page = async () => {
               contactNumber={item.contactNumber}
               postalCode={item.postalCode}
               addressId={item._id}
+              isDefault={item.isDefault}
             />
           </div>
         ))}

@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-
+import { Switch } from "@/components/ui/switch";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import {
@@ -25,6 +25,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Trash2 } from "lucide-react";
+import { Label } from "../ui/label";
 
 interface Props {
   type?: string;
@@ -34,6 +35,7 @@ interface Props {
 
 const Address = ({ type, addressDetails, addressId }: Props) => {
   const [isPending, startTransition] = useTransition();
+
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useUser();
@@ -50,6 +52,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
       postalCode: parsedAddressDetails?.postalCode || "",
       contactNumber: parsedAddressDetails?.contactNumber || "",
       name: parsedAddressDetails?.name || "",
+      isDefault: parsedAddressDetails?.isDefault || false,
     },
   });
 
@@ -67,11 +70,13 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             contactNumber: data.contactNumber,
             name: data.name,
             path: pathname,
+            isDefault: data.isDefault,
           });
 
           router.push("/user/address");
         } else {
           await updateAddress(addressId ?? "", {
+            clerkId: user?.id ?? "",
             addressLine1: data.addressLine1,
             addressLine2: data.addressLine2,
             city: data.city,
@@ -79,6 +84,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             postalCode: data.postalCode,
             contactNumber: data.contactNumber,
             name: data.name,
+            isDefault: data.isDefault,
           });
 
           router.push("/user/address");
@@ -107,12 +113,25 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
       ) : (
         <div className="flex justify-between">
           <p className="h2-bold mb-5">Edit Address</p>
+
           <Button className="border border-gray-600" onClick={handleDelete}>
             <Trash2 />
             Delete Address
           </Button>
         </div>
       )}
+
+      {/* <div className="flex items-center space-x-2 mb-5">
+        <Switch
+          id="airplane-mode"
+          checked={isDefaultAddress}
+          disabled={isDefaultAddress}
+          onClick={handleSetDefaultAddress}
+        />
+        <Label htmlFor="airplane-mode">
+          {isDefaultAddress ? "Default Address" : "Set as Default Address"}
+        </Label>
+      </div> */}
 
       <Form {...form}>
         <form
@@ -282,10 +301,38 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             />
             <div className="w-full"></div>
           </div>
+          {parsedAddressDetails?.isDefault === false && (
+            <FormField
+              control={form.control}
+              name="isDefault"
+              render={({ field }) => (
+                <FormItem className="flex w-full flex-col">
+                  {/* <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Postal Code <span className="text-primary-500">*</span>
+                </FormLabel> */}
+                  <FormControl className="mt-3.5">
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <Label htmlFor="airplane-mode">
+                        Set as Default Address
+                      </Label>
+                    </div>
+                  </FormControl>
+                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                Create a title for your post.
+              </FormDescription> */}
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+          )}
 
           <Button
             type="submit"
-            className="w-fit rounded-3xl bg-primary-500 px-10 !text-light-900"
+            className="w-fit rounded-3xl bg-primary-500 px-10 !text-light-900 mt-2"
             disabled={isPending}
           >
             {isPending ? "Saving" : "Save"}

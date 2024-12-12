@@ -10,6 +10,7 @@ export interface IAddress extends Document {
   country: string;
   contactNumber: string;
   name: string;
+  isDefault: boolean;
 }
 
 const AddressSchema = new Schema({
@@ -21,6 +22,7 @@ const AddressSchema = new Schema({
   postalCode: { type: String, required: true },
   contactNumber: { type: String, required: true },
   name: { type: String, required: true },
+  isDefault: { type: Boolean },
 });
 
 const Address = models.Address || model("Address", AddressSchema);

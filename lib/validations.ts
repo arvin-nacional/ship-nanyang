@@ -41,6 +41,7 @@ export const AddressSchema = z.object({
     .string()
     .min(1, { message: "Please enter a contact number" }),
   name: z.string().min(1, { message: "Please enter a name" }),
+  isDefault: z.boolean(),
 });
 
 export const CreateOrderSchema = z.object({

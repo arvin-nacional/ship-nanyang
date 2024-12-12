@@ -16,6 +16,7 @@ export interface createAddressParams {
   contactNumber: string;
   path: string;
   name: string;
+  isDefault: boolean;
 }
 
 export interface createPackageParams {
