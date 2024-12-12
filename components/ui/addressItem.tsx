@@ -42,7 +42,7 @@ const AddressItem = ({
               <div className="flex flex-row gap-2 items-center">
                 {" "}
                 <BookmarkCheck className="text-primary-400" />
-                <p className="small-medium text-primary-400">default Address</p>
+                <p className="small-medium text-primary-400">Default Address</p>
               </div>
             )}
           </div>

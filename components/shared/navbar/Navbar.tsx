@@ -63,18 +63,19 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-between gap-5">
+          <Link href="/signin" className="max-lg:hidden">
+            <Button className="rounded-3xl border-2 border-light-850  px-10 text-light-800">
+              Track Your Package
+            </Button>
+          </Link>
+
           <SignedOut>
-            <Link href="/signin" className="max-lg:hidden">
-              <Button className="rounded-3xl border-2 border-light-850  px-10 text-light-800">
-                Track Your Package
+            <Link href="/signup">
+              <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
+                Register Now
               </Button>
             </Link>
           </SignedOut>
-          <Link href="/signup">
-            <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
-              Register Now
-            </Button>
-          </Link>
 
           <SignedIn>
             <UserButton

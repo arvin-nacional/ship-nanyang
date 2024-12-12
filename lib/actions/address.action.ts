@@ -226,6 +226,7 @@ export async function getAddressByUserId(userId: string) {
       userId: address.userId.toString(),
     }));
 
+    formattedAddresses.sort((_a, b) => (b.isDefault ? 1 : -1));
     return { addresses: formattedAddresses };
   } catch (error) {
     console.log(error);
