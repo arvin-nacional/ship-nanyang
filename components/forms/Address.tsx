@@ -145,13 +145,13 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Contact Person <span className="text-primary-500">*</span>
+                    Recipient Name <span className="text-primary-500">*</span>
                   </FormLabel>
                   <FormControl className="mt-3.5">
                     <Input
                       className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                       {...field}
-                      placeholder="Enter contact person"
+                      placeholder="Enter Recipient Name"
                     />
                   </FormControl>
                   {/* <FormDescription className="body-regular mt-2.5 text-light-500">

@@ -37,7 +37,7 @@ const AppSidebar = () => {
       icon: Home,
     },
     {
-      title: "Packages",
+      title: "Package Items",
       url: "/user/packages",
       icon: Package,
     },
@@ -47,7 +47,7 @@ const AppSidebar = () => {
     //   icon: Calendar,
     // },
     {
-      title: "Address",
+      title: "Receiver Address",
       url: "/user/address",
       icon: MapPinHouse,
     },

@@ -4,15 +4,12 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className=" flex w-full">
-      <div className="w-full p-12">
-        <div className="w-full flex justify-center items-center ">
-          <div className=" w-full max-sm:w-full">
-            <ShippingCalculatorForm />
-          </div>
+    <div className="w-full p-12">
+      <div className="w-full flex justify-center items-center ">
+        <div className=" w-full max-sm:w-full">
+          <ShippingCalculatorForm />
         </div>
       </div>
-      <RightSidebar />
     </div>
   );
 };

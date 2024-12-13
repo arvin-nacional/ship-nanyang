@@ -52,4 +52,6 @@ export const CreateOrderSchema = z.object({
   value: z.string().min(1, { message: "Please enter an item value" }),
   description: z.string(),
   address: z.string().min(1, { message: "Please select an address" }),
+  type: z.string().min(1, { message: "Please select a type" }),
+  orderId: z.string().optional(),
 });

@@ -26,6 +26,8 @@ export interface createPackageParams {
   description: string;
   value: string;
   vendor: string;
+  type: string;
+  orderId: string;
 }
 
 export interface GetUserByClerkIdParams {
