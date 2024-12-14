@@ -34,9 +34,8 @@ interface Props {
   orders?: string;
 }
 
-const Order = ({ type, orderDetails, address, orders }: Props) => {
+const Order = ({ type, address, orders }: Props) => {
   const [isPending, startTransition] = useTransition();
-  const pathname = usePathname();
   const router = useRouter();
   const { user } = useUser();
   const form = useForm<z.infer<typeof CreateOrderSchema>>({
@@ -149,12 +148,13 @@ const Order = ({ type, orderDetails, address, orders }: Props) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-light-900">
+                      // eslint-disable-next-line
+                      @typescript-eslint/no-explicit-any
                       {parsedOrders?.orders.map((item: any) => (
                         <SelectItem key={item._id} value={item._id}>
                           {item.name}
                         </SelectItem>
                       ))}
-
                       {/* <SelectItem value="defaultAddress">
                       Profile Address
                     </SelectItem>
