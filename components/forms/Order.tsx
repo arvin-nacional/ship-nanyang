@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -15,7 +16,7 @@ import {
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CreateOrderSchema } from "@/lib/validations";
 import {
   Select,
@@ -148,8 +149,6 @@ const Order = ({ type, address, orders }: Props) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="bg-light-900">
-                      // eslint-disable-next-line
-                      @typescript-eslint/no-explicit-any
                       {parsedOrders?.orders.map((item: any) => (
                         <SelectItem key={item._id} value={item._id}>
                           {item.name}

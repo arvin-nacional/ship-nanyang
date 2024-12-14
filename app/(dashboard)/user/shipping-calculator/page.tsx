@@ -1,5 +1,4 @@
 import ShippingCalculatorForm from "@/components/forms/ShippingCalculatorForm";
-import RightSidebar from "@/components/RightSidebar";
 import React from "react";
 
 const page = () => {

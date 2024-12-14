@@ -11,8 +11,6 @@ import { getUserByClerkId } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
-type tParams = Promise<{ id: string }>;
-
 const Page = async () => {
   const { userId } = await auth();
   if (!userId) {

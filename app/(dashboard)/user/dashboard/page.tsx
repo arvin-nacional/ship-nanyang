@@ -1,4 +1,3 @@
-import RightSidebar from "@/components/RightSidebar";
 import { isUserVerified } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
