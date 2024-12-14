@@ -8,6 +8,7 @@ interface Props {
   trackingNumber: string;
   packageName: string;
   status: string;
+  description: string;
 }
 
 const PackageListItem = ({
@@ -17,16 +18,21 @@ const PackageListItem = ({
   trackingNumber,
   packageName,
   status,
+  description,
 }: Props) => {
   return (
     <div className="border-b-2 border-red-500 py-2 flex gap-5 flex-wrap justify-between">
       <div className="flex flex-col gap-2">
-        <p className="small-regular">Order Name</p>
+        <p className="small-regular">Package Name</p>
         <p className="body-regular">{packageName}</p>
       </div>
       <div className="flex flex-col gap-2">
         <p className="small-regular">Date</p>
         <p className="body-regular">{date}</p>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="small-regular">Description</p>
+        <p className="body-regular">{description}</p>
       </div>
       <div className="flex flex-col gap-2">
         <p className="small-regular">Status</p>

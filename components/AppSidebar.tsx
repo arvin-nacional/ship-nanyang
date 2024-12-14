@@ -6,6 +6,7 @@ import {
   LogOut,
   MapPinHouse,
   Package,
+  PackagePlus,
   PanelLeft,
   Settings,
 } from "lucide-react";
@@ -32,9 +33,14 @@ const AppSidebar = () => {
 
   const items = [
     {
-      title: "Home",
+      title: "Dashboard",
       url: "/user/dashboard",
       icon: Home,
+    },
+    {
+      title: "Add Package",
+      url: "/user/add-package",
+      icon: PackagePlus,
     },
     {
       title: "Package Items",

@@ -24,3 +24,25 @@ export async function getOrdersByUserId(userId: string) {
     throw new Error("Error fetching orders");
   }
 }
+
+export async function getOrderById(orderId: string) {
+  try {
+    dbConnect();
+
+    const order = await Order.findById(orderId).populate("packages");
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    const formattedOrder = {
+      ...order.toObject(),
+      _id: order._id.toString(),
+    };
+
+    return { order: formattedOrder };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching order");
+  }
+}

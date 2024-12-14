@@ -14,14 +14,16 @@ const page = async () => {
   }
 
   const result = await getPackagesWithAddressDetails(userId);
+  console.log(result);
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
+      <p className="h2-semibold text-primary-500 mb-5">Package Items</p>
       <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
           route="/user/packages"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
-          placeholder="Search Packages"
+          placeholder="Search Items"
           otherClasses="flex-1"
         />
         <Filter
@@ -38,6 +40,7 @@ const page = async () => {
             status={item.status}
             paymentStatus={item.paymentStatus}
             trackingNumber={item.trackingNumber}
+            description={item.description}
           />
         </div>
       ))}
