@@ -217,7 +217,7 @@ export async function getAddressByUserId(userId: string) {
     const addresses = await Address.find({ userId });
 
     if (!addresses.length) {
-      throw new Error("No addresses found for this user");
+      return { addresses: [] };
     }
 
     const formattedAddresses = addresses.map((address) => ({

@@ -18,9 +18,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { updateUser } from "@/lib/actions/user.action";
-import { useParams, usePathname, useRouter } from "next/navigation";
-
-// import { CreateUserProfile } from "@/types";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   type?: string;
@@ -29,11 +27,7 @@ interface Props {
 
 const Profile = ({ type, profileDetails }: Props) => {
   const [isPending, startTransition] = useTransition();
-  const params = useParams();
-  // const fetcher = (...args: [RequestInfo, RequestInit?]) =>
-  //   fetch(...args).then((res) => res.json());
-  const id = params.id as string;
-  // const { data, isLoading, error } = useSWR(`/api/user/create/${id}`, fetcher);
+
   const pathname = usePathname();
   const router = useRouter();
 
@@ -62,7 +56,7 @@ const Profile = ({ type, profileDetails }: Props) => {
     startTransition(async () => {
       try {
         await updateUser({
-          clerkId: id,
+          clerkId: parsedProfileDetails?.clerkId,
           firstName: data.firstName,
           lastName: data.lastName,
           contactNumber: data.contactNumber,

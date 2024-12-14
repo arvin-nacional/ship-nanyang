@@ -13,7 +13,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { auth } from "@clerk/nextjs/server";
-import RightSidebar from "@/components/RightSidebar";
 
 const Page = async () => {
   const { userId } = await auth();
@@ -40,7 +39,7 @@ const Page = async () => {
         </Breadcrumb>
 
         {result && (
-          <Link href={`/user/edit/${userId}`}>
+          <Link href="/user/edit">
             <Button className="px-6 rounded-3xl border border-green-800 text-green-800 hover:text-light-800 hover:bg-green-800">
               <Edit />
               Edit Profile

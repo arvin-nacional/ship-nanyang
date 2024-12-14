@@ -51,7 +51,7 @@ const page = async () => {
       </div>
 
       <div>
-        {address?.addresses.map((item) => (
+        {address?.addresses?.map((item) => (
           <div key={item._id}>
             {" "}
             <AddressItem

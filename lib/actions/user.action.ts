@@ -73,12 +73,50 @@ export async function getUserByClerkId(params: GetUserByClerkIdParams) {
     if (!user) {
       throw new Error("User not found");
     }
+    const userWithFormattedDate = {
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+    };
+    return { user: userWithFormattedDate };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching user");
+  }
+}
+
+export async function getUserByClerkIdFromCreate(
+  params: GetUserByClerkIdParams
+) {
+  try {
+    dbConnect();
+
+    const { clerkId } = params;
+
+    // Retry logic to wait for the user to be created
+    const maxRetries = 5; // Maximum number of retries
+    const retryInterval = 1000; // Interval between retries in milliseconds
+
+    let user = null;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      user = await User.findOne({ clerkId }).populate("address");
+      if (user) {
+        break; // Exit loop if the user exists
+      }
+
+      if (attempt < maxRetries) {
+        await new Promise((resolve) => setTimeout(resolve, retryInterval));
+      } else {
+        throw new Error("User not found after maximum retries");
+      }
+    }
 
     const userWithFormattedDate = {
       ...user.toObject(),
       _id: user._id.toString(), // Convert ObjectId to string
       joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
     };
+
     return { user: userWithFormattedDate };
   } catch (error) {
     console.log(error);
@@ -155,5 +193,23 @@ export async function updateUser(params: UpdateUserParams) {
   } catch (error) {
     console.log(error);
     throw new Error("Error updating user");
+  }
+}
+
+export async function isUserVerified(params: GetUserByClerkIdParams) {
+  try {
+    dbConnect();
+
+    const { clerkId } = params;
+
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return { verified: user.verified };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error checking user verification status");
   }
 }

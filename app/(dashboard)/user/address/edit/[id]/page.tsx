@@ -10,13 +10,10 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getAddressById } from "@/lib/actions/address.action";
-import { auth } from "@clerk/nextjs/server";
 type tParams = Promise<{ id: string }>;
 const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
   const result = await getAddressById(id);
-
-  const { userId } = await auth();
 
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
