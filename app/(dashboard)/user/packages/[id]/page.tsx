@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
 import { getOrderById } from "@/lib/actions/order.action";
+import { formatDate } from "@/lib/utils";
 import { PhilippinePeso } from "lucide-react";
 import React from "react";
 type tParams = Promise<{ id: string }>;
@@ -16,11 +17,13 @@ const page = async ({ params }: { params: tParams }) => {
         <div className="flex flex-wrap gap-10">
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Package Name</p>
-            <p className="h2-semibold text-primary-500">{result.order.name}</p>
+            <p className="h2-semibold text-primary-500">{result?.order.name}</p>
           </div>
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Payment Status</p>
-            <p className="h2-semibold text-primary-500">Unpaid</p>
+            <p className="h2-semibold text-primary-500">
+              {result?.order.paymentStatus}
+            </p>
           </div>
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Invoice</p>
@@ -28,11 +31,15 @@ const page = async ({ params }: { params: tParams }) => {
           </div>
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Recipient</p>
-            <p className="h2-semibold text-primary-500">Arvin Paul Nacional</p>
+            <p className="h2-semibold text-primary-500">
+              {result?.order.address.name}
+            </p>
           </div>
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Delivery Status</p>
-            <p className="h2-semibold text-primary-500">To Ship</p>
+            <p className="h2-semibold text-primary-500">
+              {result.order.status}
+            </p>
           </div>
         </div>
         <div className="flex gap-10 items-center">
@@ -51,7 +58,13 @@ const page = async ({ params }: { params: tParams }) => {
 
       {result?.order.packages.map((item: any) => (
         <div key={item._id}>
-          <PackageItem />
+          <PackageItem
+            vendorName={item.vendor}
+            description={item.description}
+            trackingNumber={item.trackingNumber}
+            date={formatDate(item.createdAt)}
+            status={item.status}
+          />
         </div>
       ))}
     </div>

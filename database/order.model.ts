@@ -5,7 +5,7 @@ export interface IOrder extends Document {
   createdAt: Date;
   updatedAt: Date;
   status: string;
-  isPaid: boolean;
+  paymentStatus: string;
   paidAt: Date;
   isDelivered: boolean;
   deliveredAt: Date;
@@ -13,6 +13,7 @@ export interface IOrder extends Document {
   finalAmount?: number;
   packages: Schema.Types.ObjectId[];
   name: string;
+  address: Schema.Types.ObjectId;
 }
 
 const OrderSchema = new Schema({
@@ -20,7 +21,7 @@ const OrderSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   status: { type: String, required: true },
-  isPaid: { type: Boolean, default: false },
+  paymentStatus: { type: String, default: "Pending" },
   paidAt: { type: Date },
   isDelivered: { type: Boolean, default: false },
   deliveredAt: { type: Date },
@@ -28,6 +29,7 @@ const OrderSchema = new Schema({
   finalAmount: { type: Number },
   packages: [{ type: Schema.Types.ObjectId, ref: "Package" }],
   name: { type: String },
+  address: { type: Schema.Types.ObjectId, ref: "Address" },
 });
 
 const Order = models.Order || model("Order", OrderSchema);

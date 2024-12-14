@@ -9,16 +9,16 @@ export async function getOrdersByUserId(userId: string) {
 
     const orders = await Order.find({ user: userId });
 
-    if (!orders.length) {
+    if (!orders) {
       throw new Error("No orders found for this clerk");
+    } else {
+      const formattedOrders = orders.map((order) => ({
+        ...order.toObject(),
+        _id: order._id.toString(),
+      }));
+
+      return { orders: formattedOrders };
     }
-
-    const formattedOrders = orders.map((order) => ({
-      ...order.toObject(),
-      _id: order._id.toString(),
-    }));
-
-    return { orders: formattedOrders };
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching orders");
@@ -29,7 +29,9 @@ export async function getOrderById(orderId: string) {
   try {
     dbConnect();
 
-    const order = await Order.findById(orderId).populate("packages");
+    const order = await Order.findById(orderId)
+      .populate("packages")
+      .populate("address");
 
     if (!order) {
       throw new Error("Order not found");

@@ -8,6 +8,7 @@ import { createPackageParams } from "./shared.types";
 import Package from "@/database/package.model";
 import Order from "@/database/order.model";
 import Counter from "@/database/counter.model";
+import Address from "@/database/address.model";
 
 async function getNextSequence(name: string): Promise<number> {
   const counter = await Counter.findOneAndUpdate(
@@ -37,7 +38,6 @@ export async function createPackage(params: createPackageParams) {
 
     const newPackage = await Package.create({
       trackingNumber,
-      address,
       description,
       value,
       vendor,
@@ -52,6 +52,7 @@ export async function createPackage(params: createPackageParams) {
         user: user._id,
         status: "Pending",
         packages: [newPackage._id],
+        address: address,
       });
 
       const formatOrder = {
@@ -59,12 +60,12 @@ export async function createPackage(params: createPackageParams) {
         _id: newOrder._id.toString(),
         user: newOrder.user.toString(),
         packages: newOrder.packages.map((p: any) => p.toString()),
+        address: newOrder.address.toString(),
       };
 
       const formatPackage = {
         ...newPackage.toObject(),
         _id: newPackage._id.toString(),
-        address: newPackage.address.toString(),
       };
 
       return { order: formatOrder, package: formatPackage };
@@ -76,7 +77,6 @@ export async function createPackage(params: createPackageParams) {
       const formatPackage = {
         ...newPackage.toObject(),
         _id: newPackage._id.toString(),
-        address: newPackage.address.toString(),
       };
       return { package: formatPackage };
     }
@@ -90,26 +90,25 @@ export async function getPackagesWithAddressDetails(clerkId: string) {
   const user = await User.findOne({ clerkId });
   try {
     // Fetch orders and populate the packages and their addresses
-    const orders = await Order.find({ user }).populate({
-      path: "packages",
-      populate: {
+    const orders = await Order.find({ user })
+      .populate({
+        path: "packages",
+        model: Package,
+      })
+      .populate({
         path: "address",
-        model: "Address", // Adjust the model name as needed
-      },
-    });
+        model: Address,
+      });
 
     // Extract packages from orders and include the order name
     const packages = orders.flatMap((order) =>
       order.packages.map(
-        (pkg: {
-          toObject: () => any;
-          _id: { toString: () => any };
-          address: { toObject: () => any };
-        }) => ({
+        (pkg: { toObject: () => any; _id: { toString: () => any } }) => ({
           ...pkg.toObject(),
           _id: pkg._id.toString(),
-          address: pkg.address.toObject(),
           orderName: order.name, // Include the order name
+          address: order.address.toObject(),
+          packageId: order._id.toString(),
         })
       )
     );

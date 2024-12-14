@@ -15,6 +15,7 @@ const page = async () => {
 
   const result = await getPackagesWithAddressDetails(userId);
   console.log(result);
+
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
       <p className="h2-semibold text-primary-500 mb-5">Package Items</p>
@@ -41,6 +42,7 @@ const page = async () => {
             paymentStatus={item.paymentStatus}
             trackingNumber={item.trackingNumber}
             description={item.description}
+            packageId={item.packageId}
           />
         </div>
       ))}

@@ -6,7 +6,6 @@ export interface IPackage extends Document {
   estimatedAmount: number;
   finalAmount?: number;
   trackingNumber: string;
-  address: Schema.Types.ObjectId;
   vendor: string;
   value: string;
   description: string;
@@ -23,7 +22,6 @@ const PackageSchema = new Schema({
   finalAmount: { type: Number },
   trackingNumber: { type: String, required: true },
   vendor: { type: String, required: true },
-  address: { type: Schema.Types.ObjectId, ref: "Address", required: true },
   paymentStatus: { type: String, default: "Pending" },
   status: { type: String, default: "Pending" },
 });

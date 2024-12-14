@@ -123,17 +123,10 @@ const AppSidebar = () => {
                     )}
                   >
                     <SidebarMenuButton asChild>
-                      {user ? (
-                        <a href={item.url}>
-                          <item.icon />
-                          <span className="ml-2">{item.title}</span>
-                        </a>
-                      ) : (
-                        <div className="flex items-center">
-                          <item.icon />
-                          <span className="ml-2">{item.title}</span>
-                        </div>
-                      )}
+                      <a href={item.url}>
+                        <item.icon />
+                        <span className="ml-2">{item.title}</span>
+                      </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
