@@ -1,4 +1,4 @@
-import { BookmarkCheck, Edit, MapPinHouse, Phone, User } from "lucide-react";
+import { BookmarkCheck, Edit, MapPinHouse, Phone } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 

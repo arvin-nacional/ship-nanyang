@@ -1,11 +1,10 @@
+import qs from "query-string";
+import { UrlQueryParams } from "@/app/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
-import qs from "query-string";
-import { UrlQueryParams } from "@/app/types";
 
 interface Props {
   totalFee: string;
