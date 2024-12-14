@@ -114,10 +114,12 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
         <div className="flex justify-between">
           <p className="h2-bold mb-5">Edit Address</p>
 
-          <Button className="border border-gray-600" onClick={handleDelete}>
-            <Trash2 />
-            Delete Address
-          </Button>
+          {parsedAddressDetails?.isDefault === false && (
+            <Button className="border border-gray-600" onClick={handleDelete}>
+              <Trash2 />
+              Delete Address
+            </Button>
+          )}
         </div>
       )}
 
