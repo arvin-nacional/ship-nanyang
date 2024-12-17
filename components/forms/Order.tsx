@@ -358,7 +358,9 @@ const Order = ({ type, address, orders, addressId, orderId }: Props) => {
           type="submit"
           className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
           disabled={
-            form.watch("type") === "consolidation" && !form.watch("orderId")
+            (form.watch("type") === "consolidation" &&
+              !form.watch("orderId")) ||
+            isPending
           }
         >
           {isPending ? (
