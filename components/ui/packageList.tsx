@@ -11,7 +11,7 @@ const PackageList = ({ packageName, status, packageId }: Props) => {
   return (
     <div className="border-b-2 border-red-500 py-2 flex gap-5 flex-wrap justify-between">
       <div className="flex flex-col gap-2">
-        <p className="small-regular">Package Name</p>
+        <p className="small-regular">Shiping Cart Name</p>
         <Link href={`/user/packages/${packageId}`}>
           {" "}
           <p className="body-regular hover:text-primary-500">{packageName}</p>

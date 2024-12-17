@@ -326,7 +326,7 @@ const ShippingCalculatorForm = () => {
           <div className="flex flex-row gap-5">
             <Button
               type="submit"
-              className="w-fit rounded-3xl bg-primary-500 px-10 !text-light-900"
+              className="w-fit rounded-3xl bg-primary-500 hover:bg-primary-400 px-10 !text-light-900"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Estimating" : "Estimate"}

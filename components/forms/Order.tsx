@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useTransition } from "react";
+import React, { startTransition, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,12 +33,20 @@ interface Props {
   orderDetails?: string;
   address?: string;
   orders?: string;
+  addressId?: string;
+  orderId?: string;
 }
 
-const Order = ({ type, address, orders }: Props) => {
+const Order = ({ type, address, orders, addressId, orderId }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { user } = useUser();
+
+  const parsedAddress = JSON.parse(address || "{}");
+  const parsedOrders = JSON.parse(orders || "{}");
+
+  const parsedAddressId = addressId ? JSON.parse(addressId) : null;
+
   const form = useForm<z.infer<typeof CreateOrderSchema>>({
     resolver: zodResolver(CreateOrderSchema),
     defaultValues: {
@@ -46,14 +54,12 @@ const Order = ({ type, address, orders }: Props) => {
       trackingNumber: "",
       value: "",
       description: "",
-      address: "",
-      type: "",
-      orderId: "",
+      address: parsedAddressId || "",
+      type: type === "consolidation" ? "consolidation" : "",
+      orderId: orderId || "",
     },
   });
 
-  const parsedAddress = JSON.parse(address || "{}");
-  const parsedOrders = JSON.parse(orders || "{}");
   console.log(parsedOrders);
 
   // todo
@@ -64,7 +70,7 @@ const Order = ({ type, address, orders }: Props) => {
   React.useEffect(() => {
     const selectedOrderId = form.watch("orderId");
     if (selectedOrderId) {
-      const selectedOrder = parsedOrders.orders.find(
+      const selectedOrder = parsedOrders?.orders?.find(
         (order: any) => order._id === selectedOrderId
       );
       if (selectedOrder) {
@@ -75,24 +81,46 @@ const Order = ({ type, address, orders }: Props) => {
 
   async function onSubmit(data: z.infer<typeof CreateOrderSchema>) {
     startTransition(async () => {
-      try {
-        if (user) {
-          await createPackage({
-            clerkId: user.id,
-            vendor: data.vendor,
-            trackingNumber: data.trackingNumber,
-            value: data.value,
-            description: data.description,
-            address: data.address,
-            type: data.type,
-            orderId: data.orderId || "",
-          });
-        } else {
-          console.error("User is not authenticated");
+      if (type === "consolidation" && data.orderId) {
+        try {
+          if (user) {
+            await createPackage({
+              clerkId: user.id,
+              vendor: data.vendor,
+              trackingNumber: data.trackingNumber,
+              value: data.value,
+              description: data.description,
+              address: data.address,
+              type: "consolidation",
+              orderId: data.orderId,
+            });
+          } else {
+            console.error("User is not authenticated");
+          }
+          router.push(`/user/packages/${orderId}`);
+        } catch (error) {
+          console.log(error);
         }
-        router.push("/user/dashboard");
-      } catch (error) {
-        console.log(error);
+      } else {
+        try {
+          if (user) {
+            await createPackage({
+              clerkId: user.id,
+              vendor: data.vendor,
+              trackingNumber: data.trackingNumber,
+              value: data.value,
+              description: data.description,
+              address: data.address,
+              type: data.type,
+              orderId: data.orderId || "",
+            });
+          } else {
+            console.error("User is not authenticated");
+          }
+          router.push("/user/dashboard");
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
   }
@@ -104,26 +132,28 @@ const Order = ({ type, address, orders }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="grid grid-cols-2  gap-5 max-sm:grid-cols-1">
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Order Type <span className="text-primary-500">*</span>
-                </FormLabel>
-                <FormControl className="mt-3.5">
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                        <SelectValue placeholder="Select Order Type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-light-900">
-                      {/* {parsedAddress?.addresses.map((item: any) => (
+          {type !== "consolidation" && (
+            <>
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Order Type <span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
+                            <SelectValue placeholder="Select Order Type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-light-900">
+                          {/* {parsedAddress?.addresses.map((item: any) => (
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
@@ -131,60 +161,64 @@ const Order = ({ type, address, orders }: Props) => {
                       </SelectItem>
                     ))} */}
 
-                      <SelectItem value="singleOrder">Single Order</SelectItem>
-                      <SelectItem value="consolidation">
-                        Consolidate to an Existing Order
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Create a title for your post.
-              </FormDescription> */}
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          />
-          {form.watch("type") === "consolidation" && (
-            <FormField
-              control={form.control}
-              name="orderId"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Order Name <span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                          <SelectValue placeholder="Select Order Name" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="bg-light-900">
-                        {parsedOrders?.orders.map((item: any) => (
-                          <SelectItem key={item._id} value={item._id}>
-                            {item.name}
+                          <SelectItem value="singleOrder">
+                            Single Order
                           </SelectItem>
-                        ))}
-                        {/* <SelectItem value="defaultAddress">
-                      Profile Address
-                    </SelectItem>
-                    <SelectItem value="m@google.com">m@google.com</SelectItem>
-                    <SelectItem value="m@support.com">m@support.com</SelectItem> */}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                          <SelectItem value="consolidation">
+                            Consolidate to an Existing Order
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                )}
+              />
+              {form.watch("type") === "consolidation" && (
+                <FormField
+                  control={form.control}
+                  name="orderId"
+                  render={({ field }) => (
+                    <FormItem className="flex w-full flex-col">
+                      <FormLabel className="paragraph-semibold text-dark400_light800">
+                        Order Name <span className="text-primary-500">*</span>
+                      </FormLabel>
+                      <FormControl className="mt-3.5">
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
+                              <SelectValue placeholder="Select Order Name" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="bg-light-900">
+                            {parsedOrders?.orders.map((item: any) => (
+                              <SelectItem key={item._id} value={item._id}>
+                                {item.name}
+                              </SelectItem>
+                            ))}
+                            {/* <SelectItem value="defaultAddress">
+                        Profile Address
+                      </SelectItem>
+                      <SelectItem value="m@google.com">m@google.com</SelectItem>
+                      <SelectItem value="m@support.com">m@support.com</SelectItem> */}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                  Create a title for your post.
+                </FormDescription> */}
+                      <FormMessage className="text-red-500" />
+                    </FormItem>
+                  )}
+                />
               )}
-            />
+            </>
           )}
 
           <FormField
@@ -322,7 +356,7 @@ const Order = ({ type, address, orders }: Props) => {
         </div>
         <Button
           type="submit"
-          className="primary-gradient w-fit !text-light-900"
+          className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
           disabled={
             form.watch("type") === "consolidation" && !form.watch("orderId")
           }

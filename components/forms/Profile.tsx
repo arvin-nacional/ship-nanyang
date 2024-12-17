@@ -318,7 +318,7 @@ const Profile = ({ type, profileDetails }: Props) => {
 
         <Button
           type="submit"
-          className="primary-gradient w-fit !text-light-900"
+          className="bg-primary-500 hover:bg-primary-400 w-fit !text-light-900"
           disabled={!form.watch("privacyPolicyAccepted") || isPending}
         >
           {isPending ? (

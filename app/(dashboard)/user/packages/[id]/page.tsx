@@ -3,22 +3,22 @@ import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
 import { getOrderById } from "@/lib/actions/order.action";
 import { formatDate } from "@/lib/utils";
-import { PhilippinePeso } from "lucide-react";
+import { PackagePlus, PhilippinePeso } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 type tParams = Promise<{ id: string }>;
 const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
 
   const result = await getOrderById(id);
-  console.log(result);
   return (
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between">
       <div className="h-full">
-        <p className="h2-semibold text-dark-300 mb-5">Package Details</p>
+        <p className="h2-semibold text-dark-300 mb-5">Shipping Cart Details</p>
         <div className="flex justify-between  mb-10 items-end">
           <div className="flex flex-wrap gap-10">
             <div className="flex flex-col">
-              <p className="paragraph-regular text-dark-300">Package Name</p>
+              <p className="paragraph-regular text-dark-300">Cart Name</p>
               <p className="h2-semibold text-primary-500">
                 {result?.order.name}
               </p>
@@ -71,6 +71,20 @@ const page = async ({ params }: { params: tParams }) => {
               />
             </div>
           ))}
+          <div className="flex flex-row gap-5 items-center mt-5">
+            <Link href={`/user/packages/${id}/add`}>
+              <Button className="px-6 border border-primary-500 text-primary-500  hover:bg-primary-500 hover:text-light-900">
+                <PackagePlus />
+                Add an Item
+              </Button>
+            </Link>
+            <p className="body-regular text-primary-500">
+              **Maximum consolidation period is <b>3 days</b> from the time of
+              the first package for consolidation is received. At the end of the
+              3-day period, all the items in the shipping cart will
+              automatically be shipped.{" "}
+            </p>
+          </div>
         </div>
       </div>
 

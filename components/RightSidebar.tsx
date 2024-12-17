@@ -10,7 +10,7 @@ const RightSidebar = () => {
       //   style={{ height: "100vh" }}
     >
       <Link href="/user/add-package">
-        <Button className="px-5 border border-primary-500 rounded-3xl w-full bg-primary-500 text-light-800 mb-5">
+        <Button className="px-5 border border-primary-500 hover:bg-primary-400 rounded-3xl w-full bg-primary-500 text-light-800 mb-5">
           <PackagePlus /> Add Package
         </Button>
       </Link>
