@@ -10,7 +10,6 @@ import Order from "@/database/order.model";
 import Counter from "@/database/counter.model";
 import Address from "@/database/address.model";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 async function getNextSequence(name: string): Promise<number> {
   const counter = await Counter.findOneAndUpdate(
