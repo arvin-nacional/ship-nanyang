@@ -30,8 +30,8 @@ export async function getOrderById(orderId: string) {
     dbConnect();
 
     const order = await Order.findById(orderId)
-      .populate("packages")
-      .populate("address");
+      .populate({ path: "packages", model: "Package" })
+      .populate({ path: "address", model: "Address" });
 
     if (!order) {
       throw new Error("Order not found");
