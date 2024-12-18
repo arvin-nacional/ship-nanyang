@@ -26,5 +26,5 @@ const PackageSchema = new Schema({
   status: { type: String, default: "Pending" },
 });
 
-const Package = models.Package || model("Package", PackageSchema);
+const Package = models.Package || model<IPackage>("Package", PackageSchema);
 export default Package;

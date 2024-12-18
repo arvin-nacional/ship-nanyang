@@ -26,7 +26,6 @@ const page = async () => {
   const user = await getUserIdByClerkId({ clerkId: userId });
 
   const result = await getOrdersByUserId(user.userId);
-  console.log(result);
 
   return (
     <div className="flex w-full">
