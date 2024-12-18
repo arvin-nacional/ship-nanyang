@@ -9,6 +9,7 @@ import Package from "@/database/package.model";
 import Order from "@/database/order.model";
 import Counter from "@/database/counter.model";
 import Address from "@/database/address.model";
+import { revalidatePath } from "next/cache";
 
 async function getNextSequence(name: string): Promise<number> {
   const counter = await Counter.findOneAndUpdate(
@@ -117,5 +118,32 @@ export async function getPackagesWithAddressDetails(clerkId: string) {
   } catch (error) {
     console.log(error);
     throw new Error("Error retrieving packages");
+  }
+}
+
+export async function removePackage(packageId: string, pathname: string) {
+  try {
+    dbConnect();
+
+    const pkg = await Package.findById(packageId);
+    if (!pkg) {
+      throw new Error("Package not found");
+    }
+
+    // Remove the package from any orders that reference it
+    await Order.updateMany(
+      { packages: packageId },
+      { $pull: { packages: packageId } }
+    );
+
+    // Delete the package
+    await Package.findByIdAndDelete(packageId);
+
+    revalidatePath(pathname);
+
+    return { message: "Package removed successfully" };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error removing package");
   }
 }

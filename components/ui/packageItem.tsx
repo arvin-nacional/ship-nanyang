@@ -1,4 +1,21 @@
+"use client";
+
 import React from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./alert-dialog";
+
+import { PackageX } from "lucide-react";
+import { removePackage } from "@/lib/actions/package.action";
+import { usePathname } from "next/navigation";
 
 interface Props {
   vendorName: string;
@@ -6,6 +23,7 @@ interface Props {
   trackingNumber: string;
   date: string;
   status: string;
+  packageId: string;
 }
 
 const PackageItem = ({
@@ -14,10 +32,13 @@ const PackageItem = ({
   trackingNumber,
   date,
   status,
+  packageId,
 }: Props) => {
+  const pathname = usePathname();
+  const parsedId = JSON.parse(packageId);
   return (
-    <div className="border-b-2 border-red-500 py-2 flex gap-5 flex-wrap justify-between">
-      <div className="flex flex-col gap-2 w-[150px] ">
+    <div className="border-b-2 border-red-500 py-2 flex  flex-wrap justify-around ">
+      <div className="flex flex-col gap-2 w-[120px] ">
         <p className="small-regular ">Vendor</p>
         <p className="body-regular ">{vendorName}</p>
       </div>
@@ -42,10 +63,39 @@ const PackageItem = ({
         <p className="body-regular ">Amount</p>
       </div>
       <div className="flex gap-5">
-        <div className="flex flex-col gap-2 w-[100px] ">
+        <div className="flex flex-col gap-2 w-[50px] ">
           <p className="small-regular">Status</p>
           <p className="body-regular">{status}</p>
         </div>
+      </div>
+      <div className="w-[20px]">
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <div className="text-dark100_light900 flex cursor-pointer items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400">
+              <PackageX className="text-primary-500" />
+            </div>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="background-light900_dark300 text-dark400_light700">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the
+                package and remove its data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-primary-500 text-light-800"
+                onClick={() => {
+                  removePackage(parsedId, pathname);
+                }}
+              >
+                Remove
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

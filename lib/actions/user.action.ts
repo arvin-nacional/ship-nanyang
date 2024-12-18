@@ -69,7 +69,10 @@ export async function getUserByClerkId(params: GetUserByClerkIdParams) {
 
     const { clerkId } = params;
 
-    const user = await User.findOne({ clerkId }).populate("address");
+    const user = await User.findOne({ clerkId }).populate({
+      path: "address",
+      model: Address,
+    });
     if (!user) {
       throw new Error("User not found");
     }

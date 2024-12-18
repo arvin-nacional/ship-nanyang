@@ -68,6 +68,7 @@ const page = async ({ params }: { params: tParams }) => {
                 trackingNumber={item.trackingNumber}
                 date={formatDate(item.createdAt)}
                 status={item.status}
+                packageId={JSON.stringify(item._id)}
               />
             </div>
           ))}
@@ -75,7 +76,7 @@ const page = async ({ params }: { params: tParams }) => {
             <Link href={`/user/packages/${id}/add`}>
               <Button className="px-6 border border-primary-500 text-primary-500  hover:bg-primary-500 hover:text-light-900">
                 <PackagePlus />
-                Add an Item
+                Add a Package
               </Button>
             </Link>
             <p className="body-regular text-primary-500">
