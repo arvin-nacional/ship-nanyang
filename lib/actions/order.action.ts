@@ -2,6 +2,8 @@
 
 import Order from "@/database/order.model";
 import dbConnect from "../mongoose";
+import Package from "@/database/package.model";
+import Address from "@/database/address.model";
 
 export async function getOrdersByUserId(userId: string) {
   try {
@@ -30,8 +32,8 @@ export async function getOrderById(orderId: string) {
     dbConnect();
 
     const order = await Order.findById(orderId)
-      .populate({ path: "packages", model: "Package" })
-      .populate({ path: "address", model: "Address" });
+      .populate({ path: "packages", model: Package })
+      .populate({ path: "address", model: Address });
 
     if (!order) {
       throw new Error("Order not found");

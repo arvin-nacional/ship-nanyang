@@ -41,7 +41,7 @@ const AppSidebar = () => {
       icon: PackagePlus,
     },
     {
-      title: "All Packages",
+      title: "Packages",
       url: "/user/packages",
       icon: Package,
     },
