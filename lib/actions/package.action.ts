@@ -10,6 +10,7 @@ import Order from "@/database/order.model";
 import Counter from "@/database/counter.model";
 import Address from "@/database/address.model";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 async function getNextSequence(name: string): Promise<number> {
   const counter = await Counter.findOneAndUpdate(
@@ -123,22 +124,25 @@ export async function getPackagesWithAddressDetails(clerkId: string) {
 
 export async function removePackage(packageId: string, pathname: string) {
   try {
-    dbConnect();
-
+    // Find the package by ID
     const pkg = await Package.findById(packageId);
     if (!pkg) {
       throw new Error("Package not found");
     }
 
-    // Remove the package from any orders that reference it
-    await Order.updateMany(
-      { packages: packageId },
-      { $pull: { packages: packageId } }
-    );
+    // Find the order that references this package
+    const order = await Order.findOne({ packages: packageId });
+
+    if (order) {
+      // Remove the package from the order
+      order.packages.pull(packageId);
+      await order.save();
+    }
 
     // Delete the package
     await Package.findByIdAndDelete(packageId);
 
+    // Revalidate the path
     revalidatePath(pathname);
 
     return { message: "Package removed successfully" };

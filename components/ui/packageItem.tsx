@@ -16,6 +16,7 @@ import {
 import { PackageX } from "lucide-react";
 import { removePackage } from "@/lib/actions/package.action";
 import { usePathname } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   vendorName: string;
@@ -36,8 +37,10 @@ const PackageItem = ({
 }: Props) => {
   const pathname = usePathname();
   const parsedId = JSON.parse(packageId);
+
+  const { toast } = useToast();
   return (
-    <div className="border-b-2 border-red-500 py-2 flex  flex-wrap justify-around ">
+    <div className="border-b-2 border-red-500 py-2 flex  flex-wrap justify-between ">
       <div className="flex flex-col gap-2 w-[120px] ">
         <p className="small-regular ">Vendor</p>
         <p className="body-regular ">{vendorName}</p>
@@ -68,7 +71,7 @@ const PackageItem = ({
           <p className="body-regular">{status}</p>
         </div>
       </div>
-      <div className="w-[20px]">
+      <div className="w-[40px]">
         <AlertDialog>
           <AlertDialogTrigger>
             <div className="text-dark100_light900 flex cursor-pointer items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400">
@@ -77,7 +80,7 @@ const PackageItem = ({
           </AlertDialogTrigger>
           <AlertDialogContent className="background-light900_dark300 text-dark400_light700">
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Remove the Package?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete the
                 package and remove its data from our servers.
@@ -89,6 +92,10 @@ const PackageItem = ({
                 className="bg-primary-500 text-light-800"
                 onClick={() => {
                   removePackage(parsedId, pathname);
+                  toast({
+                    title: "Package removed successfully",
+                    description: "The package has been removed from the list",
+                  });
                 }}
               >
                 Remove
