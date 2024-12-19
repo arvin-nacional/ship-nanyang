@@ -85,7 +85,7 @@ const Footer = () => {
                 height={20}
                 alt="logo"
               />
-              <p>inquiries@sdexpress.com</p>
+              <p>inquiries@sdexpress.ph</p>
             </div>
             <div className="mt-3 flex gap-5 items-start">
               <Image
