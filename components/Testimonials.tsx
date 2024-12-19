@@ -22,11 +22,11 @@ const Testimonials = () => {
     },
     {
       testimonialThumb: "/assets/images/testimonial-1.svg",
-      title: "From Stressful to Effortless!",
+
       testimonialText:
-        "Before SD Express, logistics were a headache. Now, I can easily ship from China and receive my products on time, every time. Their service has truly transformed how I run my business!",
-      avatarName: "Mark A.",
-      avatarDesignation: "Wholesale Distributor",
+        "Since we started shipping with SDExpress on 2022, we are very satisfied with their fast and reliable reliable. There are some challenges with some of my products coming in the PH, but they really helped us with all the requirements in the clearing process and logistics.  SDExpress is perfect fit for our fast paced operations.",
+      avatarName: "DARIV",
+      avatarDesignation: "DARIV Concrete Polishing",
       ratings: "5",
     },
     {

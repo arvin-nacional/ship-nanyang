@@ -8,7 +8,7 @@ interface Props {
   rating: string;
   text: string;
   designation: string;
-  title: string;
+  title?: string;
 }
 
 const TestimonialCard = ({
@@ -63,9 +63,12 @@ const TestimonialCard = ({
             {renderStars()}
           </div>
         </div>
-        <div>
-          <p className="h3-semibold text-slate-800">{title}</p>
-        </div>
+        {title && (
+          <div>
+            <p className="h3-semibold text-slate-800">{title}</p>
+          </div>
+        )}
+
         <div className="text-dark300_light700 paragraph-regular flex flex-col items-start justify-start self-stretch py-0 pl-1 pr-0">
           <p className="relative m-0 flex-1 leading-[27px]">
             &quot;{text}&quot;
