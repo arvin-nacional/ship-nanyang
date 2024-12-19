@@ -2,7 +2,7 @@
 
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { WebhookEvent, clerkClient } from "@clerk/nextjs/server";
+import { WebhookEvent } from "@clerk/nextjs/server";
 import { createUser, deleteUser } from "@/lib/actions/user.action";
 import { NextResponse } from "next/server";
 
@@ -61,13 +61,13 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, first_name, last_name, image_url } = evt.data;
 
-    const client = await clerkClient();
+    // const client = await clerkClient();
 
-    await client.users.updateUserMetadata(id, {
-      publicMetadata: {
-        userType: "user",
-      },
-    });
+    // await client.users.updateUserMetadata(id, {
+    //   publicMetadata: {
+    //     userType: "user",
+    //   },
+    // });
 
     // Create user in database
     const mongoUser = await createUser({
