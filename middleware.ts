@@ -7,6 +7,10 @@ const isAdminRoute = createRouteMatcher("/admin/(.*)");
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
 
+  if (sessionClaims) {
+    console.log("Session claims", sessionClaims.userType);
+  }
+
   // Check if it's a user route
   if (isUserRoute(req)) {
     if (!sessionClaims) {
@@ -15,9 +19,7 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(homeUrl);
     }
 
-    const userRole =
-      (sessionClaims.metadata as { userType: "user" | "admin" })?.userType ||
-      "user";
+    const userRole = sessionClaims.userType || "user";
 
     if (userRole !== "user") {
       const adminDashboardUrl = new URL("/admin/dashboard", req.url);
@@ -33,9 +35,7 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(homeUrl);
     }
 
-    const userRole =
-      (sessionClaims.metadata as { userType: "user" | "admin" })?.userType ||
-      "user";
+    const userRole = sessionClaims.userType || "user";
 
     if (userRole !== "admin") {
       const userDashboardUrl = new URL("/user/dashboard", req.url);

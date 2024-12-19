@@ -97,7 +97,7 @@ export async function getUserByClerkIdFromCreate(
     const { clerkId } = params;
 
     // Retry logic to wait for the user to be created
-    const maxRetries = 5; // Maximum number of retries
+    const maxRetries = 20; // Maximum number of retries
     const retryInterval = 1000; // Interval between retries in milliseconds
 
     let user = null;
