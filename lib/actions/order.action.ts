@@ -50,3 +50,25 @@ export async function getOrderById(orderId: string) {
     throw new Error("Error fetching order");
   }
 }
+
+export async function getAllOrders() {
+  try {
+    dbConnect();
+
+    const orders = await Order.find();
+
+    if (!orders) {
+      throw new Error("No orders found");
+    } else {
+      const formattedOrders = orders.map((order) => ({
+        ...order.toObject(),
+        _id: order._id.toString(),
+      }));
+
+      return { orders: formattedOrders };
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching orders");
+  }
+}

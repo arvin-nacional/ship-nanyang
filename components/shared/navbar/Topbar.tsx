@@ -6,13 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Topbar = () => {
-  const { user } = useClerk();
+interface Props {
+  userName: string;
+}
+
+const Topbar = ({ userName }: Props) => {
   return (
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">
         <div className="flex items-center gap-2">
-          {user ? (
+          {userName ? (
             <SignedIn>
               <UserButton
                 appearance={{
@@ -35,9 +38,7 @@ const Topbar = () => {
             />
           )}
           <span className="base-regular">Hi,</span>
-          <span className="base-semibold text-primary-500">
-            {user?.fullName}
-          </span>
+          <span className="base-semibold text-primary-500">{userName}</span>
         </div>
 
         <div className="flex items-center gap-5">

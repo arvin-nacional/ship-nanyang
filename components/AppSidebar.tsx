@@ -9,6 +9,7 @@ import {
   PackagePlus,
   PanelLeft,
   Settings,
+  LucideIcon,
 } from "lucide-react";
 import {
   Sidebar,
@@ -28,46 +29,38 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
-const AppSidebar = () => {
-  const items = [
-    {
-      title: "Dashboard",
-      url: "/user/dashboard",
-      icon: Home,
-    },
-    {
-      title: "Add Package",
-      url: "/user/add-package",
-      icon: PackagePlus,
-    },
-    {
-      title: "Packages",
-      url: "/user/packages",
-      icon: Package,
-    },
-    // {
-    //   title: "Calendar",
-    //   url: "#",
-    //   icon: Calendar,
-    // },
-    {
-      title: "Receiver Address",
-      url: "/user/address",
-      icon: MapPinHouse,
-    },
-    {
-      title: "Profile",
-      url: `/user/profile`,
-      icon: Settings,
-    },
-  ];
+// Define the type for links
+type SidebarLink = {
+  title: string;
+  url: string;
+  icon: LucideIcon;
+};
 
+interface SidebarProps {
+  userType: string;
+}
+
+const AppSidebar = ({ userType }: SidebarProps) => {
   const { signOut } = useClerk();
   const { toggleSidebar, state } = useSidebar();
-
   const pathname = usePathname();
 
-  //   if (!user) return <div>User not found</div>;
+  // Define links for admin, user, and loading state
+  const adminLinks: SidebarLink[] = [
+    { title: "Dashboard", url: "/admin/dashboard", icon: Home },
+    { title: "Shipping Carts", url: "/admin/shipping-carts", icon: Package },
+  ];
+
+  const userLinks: SidebarLink[] = [
+    { title: "Dashboard", url: "/user/dashboard", icon: Home },
+    { title: "Add Package", url: "/user/add-package", icon: PackagePlus },
+    { title: "Packages", url: "/user/packages", icon: Package },
+    { title: "Receiver Address", url: "/user/address", icon: MapPinHouse },
+    { title: "Profile", url: "/user/profile", icon: Settings },
+  ];
+
+  // Determine links to show based on user type
+  const linksToShow = userType === "admin" ? adminLinks : userLinks;
 
   return (
     <Sidebar
@@ -99,8 +92,7 @@ const AppSidebar = () => {
                     alt="sidebar logo"
                   />
                 )}
-
-                <PanelLeft className="size-5 " />
+                <PanelLeft className="size-5" />
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -110,14 +102,14 @@ const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => {
+              {linksToShow.map((item) => {
                 const isActive = pathname.startsWith(item.url);
                 return (
                   <SidebarMenuItem
                     key={item.title}
                     className={cn(
                       "rounded-lg",
-                      isActive && "bg-primary-500 text-light-800 "
+                      isActive && "bg-primary-500 text-light-800"
                     )}
                   >
                     <SidebarMenuButton asChild>
