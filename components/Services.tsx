@@ -1,16 +1,7 @@
 // import { cn } from "@/lib/utils";
 import React from "react";
 import { BentoGrid, BentoGridItem } from "./ui/bento-grid";
-import {
-  IconArrowWaveRightUp,
-  IconBoxAlignRightFilled,
-  IconBoxAlignTopLeft,
-  IconClipboardCopy,
-  IconFileBroken,
-  IconSignature,
-  IconTableColumn,
-} from "@tabler/icons-react";
-import Image from "next/image";
+import { IconClipboardCopy } from "@tabler/icons-react";
 
 export function Services() {
   return (

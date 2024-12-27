@@ -1,8 +1,7 @@
 import AppSidebar from "@/components/AppSidebar";
 import Topbar from "@/components/shared/navbar/Topbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { auth } from "@clerk/nextjs/server";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import React from "react";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
