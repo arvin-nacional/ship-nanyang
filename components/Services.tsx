@@ -1,7 +1,16 @@
 // import { cn } from "@/lib/utils";
 import React from "react";
 import { BentoGrid, BentoGridItem } from "./ui/bento-grid";
-import { IconClipboardCopy } from "@tabler/icons-react";
+import {
+  Container,
+  Plane,
+  SearchCheck,
+  ShoppingBag,
+  ShoppingCart,
+  Tractor,
+  Warehouse,
+  Waves,
+} from "lucide-react";
 
 export function Services() {
   return (
@@ -30,49 +39,49 @@ const items = [
     title: "International Sea Freight",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/international-sea-freight2.png",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <Waves className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "Break Bulk Shipping (LCL)",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/bulk-shipping2.png",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <Container className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "International Express Service",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/express-service.jpg",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <ShoppingCart className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "Warehouse Service",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/warehouse-red.png",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <Warehouse className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "Custom Declaration & Commodity Inspection",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/inventory.png",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <SearchCheck className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "International Air Freight",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/air-freight.jpg",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <Plane className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "Pasabuy Service",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/pasabuy.jpg",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <ShoppingBag className="h-4 w-4 text-primary-500" />,
   },
   {
     title: "Special Goods",
     description: "Explore the birth of groundbreaking ideas and inventions.",
     image: "/assets/images/heavy-equipment.png",
-    icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    icon: <Tractor className="h-4 w-4 text-primary-500" />,
   },
 
   // {
