@@ -5,7 +5,7 @@ const PartnerLogos = () => {
   return (
     <section className="flex items-center justify-center px-16 py-16  max-md:px-5 max-sm:py-16 sm:px-14 bg-light-900">
       <div className=" flex w-[1200px] max-w-full gap-10  align-top  flex-col justify-center items-center">
-        <p className="h2-semibold text-dark-400">Our Courier Partners</p>
+        <p className="h1-bold text-dark-400">Our Courier Partners</p>
         <div className="flex flex-row gap-5 justify-evenly items-center w-full flex-wrap">
           <Image
             src="/assets/images/dhl.png"

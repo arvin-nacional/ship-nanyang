@@ -84,9 +84,8 @@ const page = async ({ params }: { params: tParams }) => {
             </Link>
             <p className="body-regular text-primary-500">
               **Maximum consolidation period is <b>3 days</b> from the time of
-              the first package for consolidation is received. At the end of the
-              3-day period, all the items in the shipping cart will
-              automatically be shipped.{" "}
+              the first package for consolidation is received. All the items in
+              the shipping cart will be shipped after the payment is made.
             </p>
           </div>
         </div>

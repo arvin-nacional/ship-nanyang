@@ -50,7 +50,7 @@ const PackageItem = ({
         <p className="body-regular ">{description}</p>
       </div>
       <div className="flex flex-col gap-2 w-[180px] ">
-        <p className="small-regular">Tracking Number</p>
+        <p className="small-regular">Tracking Number (CN)</p>
         <p className="body-regular ">{trackingNumber}</p>
       </div>
       <div className="flex flex-col gap-2 w-[100px]  ">
