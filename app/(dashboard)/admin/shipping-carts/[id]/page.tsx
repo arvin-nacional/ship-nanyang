@@ -2,7 +2,12 @@
 import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
 import { getOrderById } from "@/lib/actions/order.action";
-import { capitalizeWords, formatDate } from "@/lib/utils";
+import {
+  capitalizeWords,
+  formatDate,
+  getTotalFinalAmount,
+  getTotalPrice,
+} from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { PackagePlus, PhilippinePeso } from "lucide-react";
 import Link from "next/link";
@@ -15,6 +20,15 @@ const page = async ({ params }: { params: tParams }) => {
 
   const userType = (sessionClaims?.userType as string) || "user";
   const result = await getOrderById(id);
+
+  const totalFinalAmount = getTotalFinalAmount(result.order.packages);
+
+  const totalPrice = getTotalPrice(
+    totalFinalAmount,
+    result?.order.insurance,
+    result?.order.miscellaneousFee,
+    result?.order.localDeliveryFee
+  );
 
   return (
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between">
@@ -57,9 +71,7 @@ const page = async ({ params }: { params: tParams }) => {
               <p className="paragraph-regular text-dark-300">Total Price</p>
               <div className="flex gap-2 items-center">
                 <PhilippinePeso size={20} className="text-primary-500" />
-                <p className="h2-semibold text-primary-500">
-                  {result?.order.finalAmount}
-                </p>
+                <p className="h2-semibold text-primary-500">{totalPrice}</p>
               </div>
             </div>
             <Link href={"/admin/shipping-carts/update/" + id}>
@@ -104,33 +116,75 @@ const page = async ({ params }: { params: tParams }) => {
         </div>
       </div>
 
-      <div className="h-full flex flex-col justify-end mt-10">
+      <div className="h-full flex mt-10">
         {/* <p className="h2-semibold text-dark-300 mb-5">Order Details</p> */}
-        <div className="flex flex-wrap gap-10">
-          {/* <div className="flex flex-col">
-            <p className="paragraph-regular text-dark-300">Order ID</p>
-            <p className="h2-semibold text-primary-500">{result?.order._id}</p>
-          </div> */}
+        <div className="flex flex-col gap-3">
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Date Created</p>
-            <p className="h2-semibold text-primary-500">
+            <p className="base-bold text-primary-500">
               {formatDate(result?.order.createdAt)}
             </p>
           </div>
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Contact Number</p>
-            <p className="h2-semibold text-primary-500">
+            <p className="base-bold text-primary-500">
               {result?.order.address.contactNumber}
             </p>
           </div>
           <div className="flex flex-col">
             <p className="paragraph-regular text-dark-300">Delivery Address</p>
-            <p className="h2-semibold text-primary-500">
+            <p className="base-bold text-primary-500">
               {result?.order.address.addressLine1}{" "}
               {result?.order.address.addressLine2} {result?.order.address.city}{" "}
               {result?.order.address.province}{" "}
               {result?.order.address.postalCode}
             </p>
+          </div>
+        </div>
+        <div className="w-full flex justify-end">
+          <div className="w-[400px] flex flex-col ">
+            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+              <p className="body-regular text-primary-500">
+                Total Shipment Price
+              </p>
+              <div className="flex gap-2 items-center w-[80px]">
+                <PhilippinePeso size={16} className="text-dark-400" />
+                <p className="paragraph-regular text-dark-400">
+                  {totalFinalAmount}
+                </p>
+              </div>
+            </div>
+            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center ">
+              <p className="body-regular text-primary-500">Insurance</p>
+              <div className="flex gap-2 items-center w-[80px]">
+                <PhilippinePeso size={16} className="text-dark-400" />
+                <p className="paragraph-regular text-dark-400">
+                  {result?.order.insurance}
+                </p>
+              </div>
+            </div>
+            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+              <p className="body-regular text-primary-500">
+                Miscellaneous fees
+              </p>
+              <div className="flex gap-2 items-center w-[80px]">
+                <PhilippinePeso size={16} className="text-dark-4000" />
+                <p className="paragraph-regular text-dark-400">
+                  {result?.order.miscellaneousFee}
+                </p>
+              </div>
+            </div>
+            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+              <p className="body-regular text-primary-500">
+                Local Delivery Fees
+              </p>
+              <div className="flex gap-2 items-center w-[80px]">
+                <PhilippinePeso size={16} className="text-dark-400" />
+                <p className="paragraph-regular text-dark-400">
+                  {result?.order.localDeliveryFee}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

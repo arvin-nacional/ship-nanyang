@@ -14,6 +14,9 @@ export interface IOrder extends Document {
   packages: Schema.Types.ObjectId[];
   name: string;
   address: Schema.Types.ObjectId;
+  insurance: number;
+  localDeliveryFee: number;
+  miscellaneousFee: number;
 }
 
 const OrderSchema = new Schema({
@@ -30,6 +33,9 @@ const OrderSchema = new Schema({
   packages: [{ type: Schema.Types.ObjectId, ref: "Package" }],
   name: { type: String },
   address: { type: Schema.Types.ObjectId, ref: "Address" },
+  insurance: { type: Number },
+  localDeliveryFee: { type: Number },
+  miscellaneousFee: { type: Number },
 });
 
 const Order = models.Order || model<IOrder>("Order", OrderSchema);

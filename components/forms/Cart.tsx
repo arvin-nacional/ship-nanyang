@@ -44,6 +44,9 @@ const Cart = ({ shippingDetails }: Props) => {
       status: parsedShippingDetails?.status,
       paymentStatus: parsedShippingDetails?.paymentStatus,
       finalAmount: parsedShippingDetails?.finalAmount?.toString() || "",
+      insurance: parsedShippingDetails?.insurance || "",
+      localDeliveryFee: parsedShippingDetails?.localDeliveryFee || "",
+      miscellaneousFee: parsedShippingDetails?.miscellaneousFee || "",
     },
   });
 
@@ -56,6 +59,9 @@ const Cart = ({ shippingDetails }: Props) => {
           status: data.status,
           finalAmount: data.finalAmount,
           paymentStatus: data.paymentStatus,
+          insurance: data.insurance,
+          localDeliveryFee: data.localDeliveryFee,
+          miscellaneousFee: data.miscellaneousFee,
           path: pathname,
         });
         router.push(`/admin/shipping-carts/${parsedShippingDetails._id}`);
@@ -163,6 +169,72 @@ const Cart = ({ shippingDetails }: Props) => {
               {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="insurance"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Insurance Fee <span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <Input
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  {...field}
+                  placeholder="Enter insurance fee"
+                />
+              </FormControl>
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                        Create a title for your post.
+                      </FormDescription> */}
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="miscellaneousFee"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Miscellaneous Fee <span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <Input
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  {...field}
+                  placeholder="Enter miscellaneous fee"
+                />
+              </FormControl>
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                        Create a title for your post.
+                      </FormDescription> */}
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="localDeliveryFee"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Local Delivery Fee <span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <Input
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  {...field}
+                  placeholder="Enter local Delivery Fee"
+                />
+              </FormControl>
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                        Create a title for your post.
+                      </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}

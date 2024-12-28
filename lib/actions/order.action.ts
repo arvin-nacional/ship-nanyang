@@ -77,7 +77,15 @@ export async function updateOrder(params: UpdateOrderParams) {
   try {
     dbConnect();
 
-    const { orderId, status, finalAmount, paymentStatus } = params;
+    const {
+      orderId,
+      status,
+      finalAmount,
+      paymentStatus,
+      insurance,
+      miscellaneousFee,
+      localDeliveryFee,
+    } = params;
 
     console.log(params);
 
@@ -90,6 +98,9 @@ export async function updateOrder(params: UpdateOrderParams) {
     order.status = status;
     order.finalAmount = finalAmount;
     order.paymentStatus = paymentStatus;
+    order.insurance = insurance;
+    order.miscellaneousFee = miscellaneousFee;
+    order.localDeliveryFee = localDeliveryFee;
 
     order.save();
 

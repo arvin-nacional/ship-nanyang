@@ -59,6 +59,9 @@ export interface UpdateOrderParams {
   status: string;
   finalAmount: string;
   paymentStatus: string;
+  insurance: string;
+  miscellaneousFee: string;
+  localDeliveryFee: string;
   path: string;
 }
 

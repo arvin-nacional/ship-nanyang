@@ -154,3 +154,16 @@ export const capitalizeWords = (str: string): string => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
+
+export const getTotalFinalAmount = (packages: any[]) => {
+  return packages.reduce((total, pkg) => total + (pkg.finalAmount || 0), 0);
+};
+
+export const getTotalPrice = (
+  totalFinalAmount: number = 0,
+  insurance: number = 0,
+  miscellaneousFee: number = 0,
+  localDeliveryFee: number = 0
+) => {
+  return totalFinalAmount + insurance + miscellaneousFee + localDeliveryFee;
+};
