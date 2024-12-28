@@ -1,3 +1,4 @@
+import { capitalizeWords } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import React from "react";
@@ -25,10 +26,10 @@ const PackageList = async ({ packageName, status, packageId }: Props) => {
           <p className="body-regular hover:text-primary-500">{packageName}</p>
         </Link>
       </div>
-      <div className="flex gap-5">
+      <div className="flex gap-5 w-[130px]">
         <div className="flex flex-col gap-2">
           <p className="small-regular">Status</p>
-          <p className="body-regular">{status}</p>
+          <p className="body-regular">{capitalizeWords(status)}</p>
         </div>
 
         {/* <Button className=" text-primary-500 ">Pay</Button> */}

@@ -2,7 +2,8 @@
 import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
 import { getOrderById } from "@/lib/actions/order.action";
-import { formatDate } from "@/lib/utils";
+import { capitalizeWords, formatDate } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
 import { PackagePlus, PhilippinePeso } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -10,8 +11,11 @@ type tParams = Promise<{ id: string }>;
 const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
 
+  const { sessionClaims } = await auth();
+
+  const userType = (sessionClaims?.userType as string) || "user";
   const result = await getOrderById(id);
-  console.log(result.order.packages);
+
   return (
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between">
       <div className="h-full">
@@ -24,12 +28,7 @@ const page = async ({ params }: { params: tParams }) => {
                 {result?.order.name}
               </p>
             </div>
-            <div className="flex flex-col">
-              <p className="paragraph-regular text-dark-300">Payment Status</p>
-              <p className="h2-semibold text-primary-500">
-                {result?.order.paymentStatus}
-              </p>
-            </div>
+
             <div className="flex flex-col">
               <p className="paragraph-regular text-dark-300">Invoice</p>
               <p className="h2-semibold text-primary-500">Details</p>
@@ -43,7 +42,13 @@ const page = async ({ params }: { params: tParams }) => {
             <div className="flex flex-col">
               <p className="paragraph-regular text-dark-300">Status</p>
               <p className="h2-semibold text-primary-500">
-                {result.order.status}
+                {capitalizeWords(result.order.status)}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <p className="paragraph-regular text-dark-300">Payment Status</p>
+              <p className="h2-semibold text-primary-500">
+                {capitalizeWords(result?.order.paymentStatus)}
               </p>
             </div>
           </div>
@@ -52,7 +57,9 @@ const page = async ({ params }: { params: tParams }) => {
               <p className="paragraph-regular text-dark-300">Total Price</p>
               <div className="flex gap-2 items-center">
                 <PhilippinePeso size={20} className="text-primary-500" />
-                <p className="h2-semibold text-primary-500">1568</p>
+                <p className="h2-semibold text-primary-500">
+                  {result?.order.finalAmount}
+                </p>
               </div>
             </div>
             <Link href={"/admin/shipping-carts/update/" + id}>
@@ -76,6 +83,8 @@ const page = async ({ params }: { params: tParams }) => {
                 status={item.status}
                 packageId={JSON.stringify(item._id)}
                 value={item.value}
+                userType={userType}
+                finalAmount={item.finalAmount?.toString()}
               />
             </div>
           ))}

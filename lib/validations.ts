@@ -61,5 +61,16 @@ export const UpdateOrderSchema = z.object({
   paymentStatus: z
     .string()
     .min(1, { message: "Please select a payment status" }),
-  finalAmount: z.string().min(1, { message: "Please enter a final amount" }),
+  finalAmount: z.string(),
+});
+
+export const UpdatePackageSchema = z.object({
+  vendor: z.string().min(1, { message: "Please select a vendor" }),
+  trackingNumber: z
+    .string()
+    .min(1, { message: "Please enter a tracking number" }),
+  value: z.string().min(1, { message: "Please enter an item value" }),
+  description: z.string(),
+  shipmentPrice: z.string(),
+  status: z.string().min(1, { message: "Please select a status" }),
 });

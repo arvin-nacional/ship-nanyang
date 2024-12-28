@@ -21,7 +21,7 @@ const OrderSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   status: { type: String, required: true },
-  paymentStatus: { type: String, default: "Pending" },
+  paymentStatus: { type: String, default: "pending" },
   paidAt: { type: Date },
   isDelivered: { type: Boolean, default: false },
   deliveredAt: { type: Date },
@@ -32,6 +32,6 @@ const OrderSchema = new Schema({
   address: { type: Schema.Types.ObjectId, ref: "Address" },
 });
 
-const Order = models.Order || model("Order", OrderSchema);
+const Order = models.Order || model<IOrder>("Order", OrderSchema);
 
 export default Order;

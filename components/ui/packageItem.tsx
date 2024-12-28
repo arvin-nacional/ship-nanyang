@@ -13,10 +13,12 @@ import {
   AlertDialogTrigger,
 } from "./alert-dialog";
 
-import { PackageX } from "lucide-react";
+import { FilePenLine, PackageX, PhilippinePeso } from "lucide-react";
 import { removePackage } from "@/lib/actions/package.action";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { capitalizeWords } from "@/lib/utils";
 
 interface Props {
   vendorName: string;
@@ -26,6 +28,8 @@ interface Props {
   status: string;
   packageId: string;
   value: string;
+  userType: string;
+  finalAmount: string;
 }
 
 const PackageItem = ({
@@ -36,6 +40,8 @@ const PackageItem = ({
   status,
   packageId,
   value,
+  userType,
+  finalAmount,
 }: Props) => {
   const pathname = usePathname();
   const parsedId = JSON.parse(packageId);
@@ -65,14 +71,18 @@ const PackageItem = ({
       </div>
       <div className="flex flex-col gap-2 w-[100px] ">
         <p className="small-regular">Shipment Price</p>
-        <p className="body-regular ">Amount</p>
-      </div>
-      <div className="flex gap-5">
-        <div className="flex flex-col gap-2 w-[50px] ">
-          <p className="small-regular">Status</p>
-          <p className="body-regular">{status}</p>
+        <div className="flex gap-1 items-center">
+          <PhilippinePeso size={16} />{" "}
+          <p className="body-regular ">{finalAmount}</p>
         </div>
       </div>
+      <div className="flex gap-5">
+        <div className="flex flex-col gap-2 w-[100px] ">
+          <p className="small-regular">Status</p>
+          <p className="body-regular">{capitalizeWords(status)}</p>
+        </div>
+      </div>
+
       <div className="w-[40px]">
         <AlertDialog>
           <AlertDialogTrigger>
@@ -106,6 +116,12 @@ const PackageItem = ({
           </AlertDialogContent>
         </AlertDialog>
       </div>
+
+      {userType === "admin" && (
+        <Link href={"/admin/packages/update/" + parsedId} className="py-2">
+          <FilePenLine className="text-green-600 cursor-pointer" size={22} />
+        </Link>
+      )}
     </div>
   );
 };

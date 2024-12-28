@@ -1,9 +1,9 @@
-"user server";
-
+"use server";
 import Order from "@/database/order.model";
 import dbConnect from "../mongoose";
 import Package from "@/database/package.model";
 import Address from "@/database/address.model";
+import { UpdateOrderParams } from "./shared.types";
 
 export async function getOrdersByUserId(userId: string) {
   try {
@@ -70,5 +70,32 @@ export async function getAllOrders() {
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching orders");
+  }
+}
+
+export async function updateOrder(params: UpdateOrderParams) {
+  try {
+    dbConnect();
+
+    const { orderId, status, finalAmount, paymentStatus } = params;
+
+    console.log(params);
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    order.status = status;
+    order.finalAmount = finalAmount;
+    order.paymentStatus = paymentStatus;
+
+    order.save();
+
+    return;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error updating order status");
   }
 }

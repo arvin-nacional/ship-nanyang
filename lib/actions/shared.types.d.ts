@@ -53,3 +53,21 @@ export interface UpdateUserParams {
   path: string;
   addressId?: string;
 }
+
+export interface UpdateOrderParams {
+  orderId: string;
+  status: string;
+  finalAmount: string;
+  paymentStatus: string;
+  path: string;
+}
+
+export interface UpdatePackageParams {
+  packageId: string;
+  vendor: string;
+  trackingNumber: string;
+  value: string;
+  description: string;
+  shipmentPrice: string;
+  status: string;
+}

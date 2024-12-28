@@ -4,7 +4,7 @@
 
 import User from "@/database/user.model";
 import dbConnect from "../mongoose";
-import { createPackageParams } from "./shared.types";
+import { createPackageParams, UpdatePackageParams } from "./shared.types";
 import Package from "@/database/package.model";
 import Order from "@/database/order.model";
 import Counter from "@/database/counter.model";
@@ -51,7 +51,7 @@ export async function createPackage(params: createPackageParams) {
       const newOrder = await Order.create({
         name: orderName,
         user: user._id,
-        status: "Pending",
+        status: "created",
         packages: [newPackage._id],
         address: address,
       });
@@ -148,5 +148,63 @@ export async function removePackage(packageId: string, pathname: string) {
   } catch (error) {
     console.log(error);
     throw new Error("Error removing package");
+  }
+}
+
+export async function getPackageById(packageId: string) {
+  try {
+    const pkg = await Package.findById(packageId);
+    if (!pkg) {
+      throw new Error("Package not found");
+    }
+
+    const formatPackage = {
+      ...pkg.toObject(),
+      _id: pkg._id.toString(),
+    };
+
+    return formatPackage;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error retrieving package");
+  }
+}
+
+export async function updatePackage(params: UpdatePackageParams) {
+  try {
+    dbConnect();
+
+    const {
+      packageId,
+      description,
+      value,
+      trackingNumber,
+      shipmentPrice,
+      status,
+    } = params;
+
+    const pkg = await Package.findById(packageId);
+    if (!pkg) {
+      throw new Error("Package not found");
+    }
+    const order = await Order.findOne({ packages: packageId });
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    pkg.description = description;
+    pkg.value = value;
+    pkg.trackingNumber = trackingNumber;
+    pkg.finalAmount = shipmentPrice;
+    pkg.status = status;
+
+    await pkg.save();
+
+    revalidatePath(`/admin/shipping-carts/${order._id} `);
+
+    return { message: "Package updated successfully" };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error updating package");
   }
 }

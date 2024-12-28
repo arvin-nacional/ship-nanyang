@@ -62,11 +62,6 @@ const Order = ({ type, address, orders, addressId, orderId }: Props) => {
 
   console.log(parsedOrders);
 
-  // todo
-  // create a new package
-  // create new order
-  // edit an existing package
-
   React.useEffect(() => {
     const selectedOrderId = form.watch("orderId");
     if (selectedOrderId) {

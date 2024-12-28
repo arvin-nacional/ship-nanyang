@@ -22,8 +22,8 @@ const PackageSchema = new Schema({
   finalAmount: { type: Number },
   trackingNumber: { type: String, required: true },
   vendor: { type: String, required: true },
-  paymentStatus: { type: String, default: "Pending" },
-  status: { type: String, default: "Pending" },
+  paymentStatus: { type: String, default: "pending" },
+  status: { type: String, default: "pending" },
 });
 
 const Package = models.Package || model<IPackage>("Package", PackageSchema);
