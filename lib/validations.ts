@@ -55,3 +55,11 @@ export const CreateOrderSchema = z.object({
   type: z.string().min(1, { message: "Please select a type" }),
   orderId: z.string().optional(),
 });
+
+export const UpdateOrderSchema = z.object({
+  status: z.string().min(1, { message: "Please select a status" }),
+  paymentStatus: z
+    .string()
+    .min(1, { message: "Please select a payment status" }),
+  finalAmount: z.string().min(1, { message: "Please enter a final amount" }),
+});

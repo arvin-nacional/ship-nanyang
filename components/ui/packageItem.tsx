@@ -25,6 +25,7 @@ interface Props {
   date: string;
   status: string;
   packageId: string;
+  value: string;
 }
 
 const PackageItem = ({
@@ -34,6 +35,7 @@ const PackageItem = ({
   date,
   status,
   packageId,
+  value,
 }: Props) => {
   const pathname = usePathname();
   const parsedId = JSON.parse(packageId);
@@ -55,7 +57,7 @@ const PackageItem = ({
       </div>
       <div className="flex flex-col gap-2 w-[100px]  ">
         <p className="small-regular">Item Value</p>
-        <p className="body-regular ">Amount</p>
+        <p className="body-regular ">{value}</p>
       </div>
       <div className="flex flex-col gap-2 w-[100px] ">
         <p className="small-regular">Date</p>

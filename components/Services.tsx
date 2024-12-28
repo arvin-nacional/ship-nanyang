@@ -14,20 +14,32 @@ import {
 
 export function Services() {
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-7xl mx-auto px-4 py-16">
-      <p className="h1-bold text-dark-400">Our Services</p>
-      <BentoGrid className="max-w-full my-16">
-        {items.map((item, i) => (
-          <BentoGridItem
-            key={i}
-            title={item.title}
-            description={item.description}
-            image={item.image}
-            icon={item.icon}
-            className={""}
-          />
-        ))}
-      </BentoGrid>
+    <div className="flex justify-center w-full">
+      <div className="flex flex-col items-start justify-center max-w-[1200px] pt-24 pb-20 max-md:px-8 max-sm:py-16">
+        <p className="h1-bold text-dark-400 mb-5">Our Services</p>
+        <p className="body-regular text-dark-400 mb-10">
+          At SD Express, we take pride in offering a diverse range of logistics
+          solutions tailored to meet the unique needs of businesses and
+          individuals. From efficient international shipping options to
+          specialized services, we are committed to providing seamless and
+          reliable support. Whether it’s air freight, sea freight, or express
+          delivery, our services are designed to keep your goods moving smoothly
+          across borders. With a customer-centric approach, we aim to be your
+          trusted partner in simplifying logistics and empowering growth.
+        </p>
+        <BentoGrid className="max-w-full ">
+          {items.map((item, i) => (
+            <BentoGridItem
+              key={i}
+              title={item.title}
+              description={item.description}
+              image={item.image}
+              icon={item.icon}
+              className={""}
+            />
+          ))}
+        </BentoGrid>
+      </div>
     </div>
   );
 }

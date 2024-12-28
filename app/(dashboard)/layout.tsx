@@ -16,7 +16,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <SidebarProvider className="w-full ">
         <AppSidebar userType={userType} />
         <main className="size-full">
-          <Topbar userName={userName} />
+          <Topbar userName={userName} userType={userType} />
           <div className="flex flex-row ">
             {children}
             {/* <RightSidebar /> */}

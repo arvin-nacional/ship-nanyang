@@ -8,9 +8,10 @@ import React from "react";
 
 interface Props {
   userName: string;
+  userType: string;
 }
 
-const Topbar = ({ userName }: Props) => {
+const Topbar = ({ userName, userType }: Props) => {
   return (
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">
@@ -47,7 +48,13 @@ const Topbar = ({ userName }: Props) => {
             <span className="paragraph-regular">58.00 PHP</span>
           </div>
 
-          <Link href="/user/shipping-calculator">
+          <Link
+            href={
+              userType === "admin"
+                ? "/admin/shipping-calculator"
+                : "/user/shipping-calculator"
+            }
+          >
             <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500 hover:bg-primary-400 hover:text-light-900">
               Estimate Shipment
             </Button>

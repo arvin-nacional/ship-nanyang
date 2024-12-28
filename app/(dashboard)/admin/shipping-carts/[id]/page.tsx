@@ -41,7 +41,7 @@ const page = async ({ params }: { params: tParams }) => {
               </p>
             </div>
             <div className="flex flex-col">
-              <p className="paragraph-regular text-dark-300">Delivery Status</p>
+              <p className="paragraph-regular text-dark-300">Status</p>
               <p className="h2-semibold text-primary-500">
                 {result.order.status}
               </p>
@@ -55,9 +55,11 @@ const page = async ({ params }: { params: tParams }) => {
                 <p className="h2-semibold text-primary-500">1568</p>
               </div>
             </div>
-            <Button className="px-6 rounded-3xl text-light-900 bg-primary-500">
-              Send Payment
-            </Button>
+            <Link href={"/admin/shipping-carts/update/" + id}>
+              <Button className="px-6 rounded-3xl text-light-900 bg-primary-500">
+                Update Cart
+              </Button>
+            </Link>
           </div>
         </div>
         <div>
