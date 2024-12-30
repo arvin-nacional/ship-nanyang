@@ -103,8 +103,6 @@ export async function updateOrder(params: UpdateOrderParams) {
     order.localDeliveryFee = localDeliveryFee;
 
     order.save();
-
-    return;
   } catch (error) {
     console.log(error);
     throw new Error("Error updating order status");

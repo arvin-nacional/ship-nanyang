@@ -4,7 +4,6 @@ import Filter from "@/components/shared/search/Filter";
 import React from "react";
 import { getAllUsers } from "@/lib/actions/user.action";
 import UserList from "@/components/ui/userList";
-import Link from "next/link";
 
 const page = async () => {
   const result = await getAllUsers();

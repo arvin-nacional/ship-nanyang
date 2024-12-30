@@ -100,11 +100,12 @@ const Order = ({
           } else {
             console.error("User is not authenticated");
           }
-          {
+
+          router.push(
             userType === "admin"
-              ? router.push(`/admin/shipping-carts/${orderId}`)
-              : router.push(`/user/packages/${orderId}`);
-          }
+              ? `/admin/shipping-carts/${orderId}`
+              : `/user/packages/${orderId}`
+          );
         } catch (error) {
           console.log(error);
         }
