@@ -11,6 +11,7 @@ export interface IPackage extends Document {
   description: string;
   paymentStatus: string;
   status: string;
+  orderId: Schema.Types.ObjectId;
 }
 
 const PackageSchema = new Schema({
@@ -24,6 +25,7 @@ const PackageSchema = new Schema({
   vendor: { type: String, required: true },
   paymentStatus: { type: String, default: "pending" },
   status: { type: String, default: "pending" },
+  orderId: { type: Schema.Types.ObjectId, ref: "Order" },
 });
 
 const Package = models.Package || model<IPackage>("Package", PackageSchema);

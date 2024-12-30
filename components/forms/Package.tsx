@@ -64,7 +64,7 @@ const Package = ({ packageDetails }: Props) => {
       } catch (error) {
         console.error(error);
       } finally {
-        router.back();
+        router.push(`/admin/shipping-carts/${parsedPackageDetails.orderId}`);
       }
     });
   }

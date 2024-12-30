@@ -1,11 +1,17 @@
+import Summary from "@/components/charts/Summary";
+import RecentlyAddedPackage from "@/components/dashboard/RecentlyAddedPackage";
+import RecentlyAddedUsers from "@/components/dashboard/RecentlyAddedUsers";
 import React from "react";
 
 const page = async () => {
   return (
-    <div className="flex w-full">
-      <div className="p-12 w-full" style={{ height: "90vh" }}>
-        <p className="h2-semibold text-primary-500 mb-5">All Carts</p>
-        page
+    <div className="flex flex-col w-full p-12">
+      <div className="w-full">
+        <Summary />
+      </div>
+      <div className="mt-6 flex flex-wrap gap-5">
+        <RecentlyAddedUsers />
+        <RecentlyAddedPackage />
       </div>
     </div>
   );

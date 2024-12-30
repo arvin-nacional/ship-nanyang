@@ -63,21 +63,27 @@ export async function createPackage(params: createPackageParams) {
         packages: newOrder.packages.map((p: any) => p.toString()),
         address: newOrder.address.toString(),
       };
-
+      newPackage.orderId = newOrder._id;
+      newPackage.save();
       const formatPackage = {
         ...newPackage.toObject(),
         _id: newPackage._id.toString(),
+        orderId: newOrder._id.toString(),
       };
 
       return { order: formatOrder, package: formatPackage };
     } else if (type === "consolidation") {
+      newPackage.orderId = orderId;
       await Order.findByIdAndUpdate(orderId, {
         $push: { packages: newPackage._id },
       });
 
+      newPackage.save();
+
       const formatPackage = {
         ...newPackage.toObject(),
         _id: newPackage._id.toString(),
+        orderId: orderId.toString(),
       };
       return { package: formatPackage };
     }
@@ -118,6 +124,32 @@ export async function getPackagesWithAddressDetails(clerkId: string) {
   } catch (error) {
     console.log(error);
     throw new Error("Error retrieving packages");
+  }
+}
+
+export async function getAllPackagesWithAddressDetails() {
+  try {
+    const packages = await Package.find().populate({
+      path: "orderId",
+      model: Order,
+      populate: {
+        path: "address",
+        model: Address,
+      },
+    });
+
+    const formattedPackages = packages.map((pkg) => ({
+      ...pkg.toObject(),
+      _id: pkg._id.toString(),
+      orderId: pkg.orderId._id.toString(),
+      orderName: pkg.orderId.name,
+      address: pkg.orderId.address.toObject(),
+    }));
+
+    return formattedPackages;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error retrieving packages with address details");
   }
 }
 
@@ -187,10 +219,6 @@ export async function updatePackage(params: UpdatePackageParams) {
     if (!pkg) {
       throw new Error("Package not found");
     }
-    const order = await Order.findOne({ packages: packageId });
-    if (!order) {
-      throw new Error("Order not found");
-    }
 
     pkg.description = description;
     pkg.value = value;
@@ -200,11 +228,39 @@ export async function updatePackage(params: UpdatePackageParams) {
 
     await pkg.save();
 
-    revalidatePath(`/admin/shipping-carts/${order._id} `);
+    revalidatePath(`/admin/shipping-carts/${pkg.orderId} `);
 
     return { message: "Package updated successfully" };
   } catch (error) {
     console.log(error);
     throw new Error("Error updating package");
+  }
+}
+
+export async function getPendingPackageCount() {
+  try {
+    const pendingCount = await Package.countDocuments({ status: "pending" });
+    return pendingCount;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error retrieving pending package count");
+  }
+}
+export async function getRecentlyAddedPackages(limit: number = 5) {
+  try {
+    const recentPackages = await Package.find()
+      .populate({ path: "orderId", model: Order })
+      .sort({ createdAt: -1 })
+      .limit(limit);
+
+    const formattedPackages = recentPackages.map((pkg) => ({
+      ...pkg.toObject(),
+      _id: pkg._id.toString(),
+    }));
+
+    return formattedPackages;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error retrieving recently added packages");
   }
 }

@@ -10,6 +10,8 @@ import {
   PanelLeft,
   Settings,
   LucideIcon,
+  Users,
+  Boxes,
 } from "lucide-react";
 import {
   Sidebar,
@@ -49,6 +51,8 @@ const AppSidebar = ({ userType }: SidebarProps) => {
   const adminLinks: SidebarLink[] = [
     { title: "Dashboard", url: "/admin/dashboard", icon: Home },
     { title: "Shipping Carts", url: "/admin/shipping-carts", icon: Package },
+    { title: "Packages", url: "/admin/packages", icon: Boxes },
+    { title: "Users", url: "/admin/users", icon: Users },
   ];
 
   const userLinks: SidebarLink[] = [

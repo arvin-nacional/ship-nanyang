@@ -33,6 +33,9 @@ export interface createPackageParams {
 export interface GetUserByClerkIdParams {
   clerkId: string;
 }
+export interface GetUserByIdParams {
+  userId: string;
+}
 
 export interface DeleteUserParams {
   clerkId: string;

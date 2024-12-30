@@ -35,9 +35,17 @@ interface Props {
   orders?: string;
   addressId?: string;
   orderId?: string;
+  userType?: string;
 }
 
-const Order = ({ type, address, orders, addressId, orderId }: Props) => {
+const Order = ({
+  type,
+  address,
+  orders,
+  addressId,
+  orderId,
+  userType,
+}: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { user } = useUser();
@@ -92,7 +100,11 @@ const Order = ({ type, address, orders, addressId, orderId }: Props) => {
           } else {
             console.error("User is not authenticated");
           }
-          router.push(`/user/packages/${orderId}`);
+          {
+            userType === "admin"
+              ? router.push(`/admin/shipping-carts/${orderId}`)
+              : router.push(`/user/packages/${orderId}`);
+          }
         } catch (error) {
           console.log(error);
         }

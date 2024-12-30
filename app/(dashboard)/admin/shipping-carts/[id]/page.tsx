@@ -101,7 +101,7 @@ const page = async ({ params }: { params: tParams }) => {
             </div>
           ))}
           <div className="flex flex-col gap-5 items-start mt-5">
-            <Link href={`/user/packages/${id}/add`}>
+            <Link href={`/admin/shipping-carts/${id}/add`}>
               <Button className="px-6 border border-primary-500 text-primary-500  hover:bg-primary-500 hover:text-light-900">
                 <PackagePlus />
                 Add a Package

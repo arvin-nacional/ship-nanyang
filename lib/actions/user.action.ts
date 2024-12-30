@@ -6,6 +6,7 @@ import {
   CreateUserParams,
   DeleteUserParams,
   GetUserByClerkIdParams,
+  GetUserByIdParams,
   UpdateUserParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
@@ -214,5 +215,85 @@ export async function isUserVerified(params: GetUserByClerkIdParams) {
   } catch (error) {
     console.log(error);
     throw new Error("Error checking user verification status");
+  }
+}
+
+export async function getUserCount() {
+  try {
+    dbConnect();
+
+    const userCount = await User.countDocuments();
+    return userCount;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching user count");
+  }
+}
+
+export async function getRecentUsers() {
+  try {
+    dbConnect();
+
+    const recentUsers = await User.find()
+      .sort({ joinedAt: -1 })
+      .limit(5)
+      .populate("address");
+
+    const usersWithFormattedDate = recentUsers.map((user) => ({
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+    }));
+
+    return { users: usersWithFormattedDate };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching recent users");
+  }
+}
+
+export async function getAllUsers() {
+  try {
+    dbConnect();
+
+    const users = await User.find().populate("address");
+
+    const usersWithFormattedDate = users.map((user) => ({
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+    }));
+
+    return { users: usersWithFormattedDate };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching all users");
+  }
+}
+
+export async function getUserById(params: GetUserByIdParams) {
+  try {
+    dbConnect();
+
+    const { userId } = params;
+
+    const user = await User.findById(userId).populate({
+      path: "address",
+      model: Address,
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const userWithFormattedDate = {
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+    };
+
+    return { user: userWithFormattedDate };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching user");
   }
 }

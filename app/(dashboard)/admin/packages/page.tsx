@@ -4,17 +4,15 @@ import { PackageFilters } from "@/constants/filters";
 import Filter from "@/components/shared/search/Filter";
 import React from "react";
 import { auth } from "@clerk/nextjs/server";
-import { getPackagesWithAddressDetails } from "@/lib/actions/package.action";
+import { getAllPackagesWithAddressDetails } from "@/lib/actions/package.action";
 import { formatDate } from "@/lib/utils";
 
 const page = async () => {
-  const { userId } = await auth();
-  if (!userId) {
-    throw new Error("User ID is null");
-  }
-
-  const result = await getPackagesWithAddressDetails(userId);
+  const result = await getAllPackagesWithAddressDetails();
   console.log(result);
+
+  const { sessionClaims } = await auth();
+  const userType = (sessionClaims?.userType as string) || "user";
 
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
@@ -41,8 +39,9 @@ const page = async () => {
             status={item.status}
             trackingNumber={item.trackingNumber}
             description={item.description}
-            packageId={item.packageId}
+            packageId={item.orderId}
             finalAmount={item.finalAmount}
+            userType={userType}
           />
         </div>
       ))}

@@ -110,3 +110,29 @@ export async function updateOrder(params: UpdateOrderParams) {
     throw new Error("Error updating order status");
   }
 }
+
+export async function getOrderCount() {
+  try {
+    dbConnect();
+
+    const count = await Order.countDocuments();
+
+    return count;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching order count");
+  }
+}
+
+export async function getOutForDeliveryOrderCount() {
+  try {
+    dbConnect();
+
+    const count = await Order.countDocuments({ status: "out-for-delivery" });
+
+    return count;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching out-for-delivery order count");
+  }
+}
