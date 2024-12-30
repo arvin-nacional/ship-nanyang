@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import qs from "query-string";
 import { UrlQueryParams } from "@/app/types";
 import { clsx, type ClassValue } from "clsx";
