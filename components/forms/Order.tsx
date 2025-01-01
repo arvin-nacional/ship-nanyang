@@ -169,9 +169,7 @@ const Order = ({
                       </SelectItem>
                     ))} */}
 
-                          <SelectItem value="singleOrder">
-                            Single Order
-                          </SelectItem>
+                          <SelectItem value="singleOrder">New Order</SelectItem>
                           <SelectItem value="consolidation">
                             Consolidate to an Existing Order
                           </SelectItem>

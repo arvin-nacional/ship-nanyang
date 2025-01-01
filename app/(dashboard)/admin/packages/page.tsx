@@ -6,10 +6,15 @@ import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import { getAllPackagesWithAddressDetails } from "@/lib/actions/package.action";
 import { formatDate } from "@/lib/utils";
+import { SearchParamsProps } from "@/types";
 
-const page = async () => {
-  const result = await getAllPackagesWithAddressDetails();
-  console.log(result);
+const page = async ({ searchParams }: SearchParamsProps) => {
+  const resolvedSearchParams = await searchParams;
+  const result = await getAllPackagesWithAddressDetails({
+    searchQuery: resolvedSearchParams.q,
+    filter: resolvedSearchParams.filter,
+    page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
+  });
 
   const { sessionClaims } = await auth();
   const userType = (sessionClaims?.userType as string) || "user";
@@ -19,7 +24,7 @@ const page = async () => {
       <p className="h2-semibold text-primary-500 mb-5">All Packages</p>
       <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
-          route="/user/packages"
+          route="/admin/packages"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
           placeholder="Search Items"
@@ -42,6 +47,7 @@ const page = async () => {
             packageId={item.orderId}
             finalAmount={item.finalAmount}
             userType={userType}
+            vendor={item.vendor}
           />
         </div>
       ))}

@@ -13,6 +13,7 @@ interface Props {
   description: string;
   packageId: string;
   userType?: string;
+  vendor?: string;
 }
 
 const PackageListItem = ({
@@ -25,6 +26,7 @@ const PackageListItem = ({
   description,
   packageId,
   userType,
+  vendor,
 }: Props) => {
   return (
     <div className="border-b-2 border-red-500 py-2 flex gap-2 flex-wrap justify-between">
@@ -58,8 +60,8 @@ const PackageListItem = ({
         <p className="body-regular">{recipient}</p>
       </div>
       <div className="flex flex-col gap-2 w-[150px] ">
-        <p className="small-regular">Invoice</p>
-        <p className="body-regular">Invoice Details</p>
+        <p className="small-regular">Vendor</p>
+        <p className="body-regular">{vendor}</p>
       </div>
       <div className="flex flex-col gap-2 w-[100px] ">
         <p className="small-regular">Amount</p>

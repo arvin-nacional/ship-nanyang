@@ -77,3 +77,18 @@ export interface UpdatePackageParams {
   shipmentPrice: string;
   status: string;
 }
+
+export interface FilterQueryParams {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+}
+
+export interface userPackagesParams {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+  clerkId: string;
+}

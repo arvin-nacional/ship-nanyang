@@ -22,3 +22,6 @@ export interface PieChartProps {
   series: Array<number>;
   colors: Array<string>;
 }
+export interface SearchParamsProps {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}

@@ -4,12 +4,18 @@
 
 import User from "@/database/user.model";
 import dbConnect from "../mongoose";
-import { createPackageParams, UpdatePackageParams } from "./shared.types";
+import {
+  createPackageParams,
+  FilterQueryParams,
+  UpdatePackageParams,
+  userPackagesParams,
+} from "./shared.types";
 import Package from "@/database/package.model";
 import Order from "@/database/order.model";
 import Counter from "@/database/counter.model";
 import Address from "@/database/address.model";
 import { revalidatePath } from "next/cache";
+import { FilterQuery } from "mongoose";
 
 async function getNextSequence(name: string): Promise<number> {
   const counter = await Counter.findOneAndUpdate(
@@ -64,16 +70,19 @@ export async function createPackage(params: createPackageParams) {
         address: newOrder.address.toString(),
       };
       newPackage.orderId = newOrder._id;
+      newPackage.userId = user._id;
       newPackage.save();
       const formatPackage = {
         ...newPackage.toObject(),
         _id: newPackage._id.toString(),
         orderId: newOrder._id.toString(),
+        userId: user._id.toString(),
       };
 
       return { order: formatOrder, package: formatPackage };
     } else if (type === "consolidation") {
       newPackage.orderId = orderId;
+      newPackage.userId = user._id;
       await Order.findByIdAndUpdate(orderId, {
         $push: { packages: newPackage._id },
       });
@@ -84,6 +93,7 @@ export async function createPackage(params: createPackageParams) {
         ...newPackage.toObject(),
         _id: newPackage._id.toString(),
         orderId: orderId.toString(),
+        userId: user._id.toString(),
       };
       return { package: formatPackage };
     }
@@ -93,11 +103,75 @@ export async function createPackage(params: createPackageParams) {
   }
 }
 
-export async function getPackagesWithAddressDetails(clerkId: string) {
-  const user = await User.findOne({ clerkId });
+export async function getPackagesWithAddressDetails(
+  params: userPackagesParams
+) {
   try {
-    // Fetch orders and populate the packages and their addresses
-    const orders = await Order.find({ user })
+    dbConnect();
+
+    const { searchQuery, filter, page = 1, pageSize = 10, clerkId } = params;
+
+    const user = await User.findOne({ clerkId });
+
+    // Calculcate the number of attendees to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
+    // Initialize the Query
+    const query: FilterQuery<typeof Order> = { user };
+
+    if (searchQuery) {
+      query.$or = [
+        { trackingNumber: { $regex: searchQuery, $options: "i" } },
+        { name: { $regex: searchQuery, $options: "i" } },
+        { description: { $regex: searchQuery, $options: "i" } },
+        { vendor: { $regex: searchQuery, $options: "i" } },
+        {
+          $or: [
+            {
+              packages: {
+                $in: await Package.find({
+                  trackingNumber: { $regex: new RegExp(searchQuery, "i") },
+                }).distinct("_id"),
+              },
+            },
+          ],
+        },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "all":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "pending":
+        query.status = "pending";
+        break;
+      case "in-warehouse":
+        query.status = "in-warehouse";
+        break;
+      case "preparing":
+        query.status = "preparing";
+        break;
+      case "in-transit":
+        query.status = "in-transit";
+        break;
+      case "out-for-delivery":
+        query.status = "out-for-delivery";
+        break;
+      case "delivered":
+        query.status = "delivered";
+        break;
+      case "failed-delivery-attempt":
+        query.status = "failed-delivery-attempt";
+        break;
+      case "previous-orders":
+        query.status = "previous-orders";
+        break;
+      default:
+        break;
+    }
+    const orders = await Order.find(query)
       .populate({
         path: "packages",
         model: Package,
@@ -105,7 +179,10 @@ export async function getPackagesWithAddressDetails(clerkId: string) {
       .populate({
         path: "address",
         model: Address,
-      });
+      })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
 
     // Extract packages from orders and include the order name
     const packages = orders.flatMap((order) =>
@@ -127,23 +204,186 @@ export async function getPackagesWithAddressDetails(clerkId: string) {
   }
 }
 
-export async function getAllPackagesWithAddressDetails() {
+export async function getPackagesByUserId(params: userPackagesParams) {
   try {
-    const packages = await Package.find().populate({
-      path: "orderId",
-      model: Order,
-      populate: {
-        path: "address",
-        model: Address,
-      },
-    });
+    dbConnect();
+
+    const { searchQuery, filter, page = 1, pageSize = 10, clerkId } = params;
+
+    const user = await User.findOne({ clerkId });
+
+    // Calculcate the number of attendees to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
+    // Initialize the Query
+    const query: FilterQuery<typeof Package> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { trackingNumber: { $regex: searchQuery, $options: "i" } },
+        { description: { $regex: searchQuery, $options: "i" } },
+        { vendor: { $regex: searchQuery, $options: "i" } },
+        {
+          orderId: {
+            $in: await Order.find({
+              $or: [
+                {
+                  name: { $regex: searchQuery, $options: "i" },
+                },
+              ],
+            }),
+          },
+        },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "all":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "pending":
+        query.status = "pending";
+        break;
+      case "in-warehouse":
+        query.status = "in-warehouse";
+        break;
+      case "preparing":
+        query.status = "preparing";
+        break;
+      case "in-transit":
+        query.status = "in-transit";
+        break;
+      case "out-for-delivery":
+        query.status = "out-for-delivery";
+        break;
+      case "delivered":
+        query.status = "delivered";
+        break;
+      case "failed-delivery-attempt":
+        query.status = "failed-delivery-attempt";
+        break;
+      case "previous-orders":
+        query.status = "previous-orders";
+        break;
+      default:
+        break;
+    }
+
+    const packages = await Package.find(query)
+      .populate({
+        path: "orderId",
+        model: Order,
+        populate: {
+          path: "address",
+          model: Address,
+        },
+      })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
 
     const formattedPackages = packages.map((pkg) => ({
       ...pkg.toObject(),
       _id: pkg._id.toString(),
       orderId: pkg.orderId._id.toString(),
       orderName: pkg.orderId.name,
-      address: pkg.orderId.address.toObject(),
+      address: pkg.orderId.address?.toObject() || null,
+      userId: user._id.toString(),
+    }));
+
+    return formattedPackages;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error retrieving packages");
+  }
+}
+
+export async function getAllPackagesWithAddressDetails(
+  params: FilterQueryParams
+) {
+  try {
+    dbConnect();
+
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+
+    // Calculcate the number of attendees to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
+
+    const query: FilterQuery<typeof Package> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: searchQuery, $options: "i" } },
+        { status: { $regex: searchQuery, $options: "i" } },
+        {
+          packages: {
+            $in: await Package.find({
+              $or: [
+                { trackingNumber: { $regex: searchQuery, $options: "i" } },
+                { description: { $regex: searchQuery, $options: "i" } },
+                { vendor: { $regex: searchQuery, $options: "i" } },
+              ],
+            }).distinct("_id"),
+          },
+        },
+      ];
+    }
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "all":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "pending":
+        query.status = "pending";
+        break;
+      case "in-warehouse":
+        query.status = "in-warehouse";
+        break;
+      case "preparing":
+        query.status = "preparing";
+        break;
+      case "in-transit":
+        query.status = "in-transit";
+        break;
+      case "out-for-delivery":
+        query.status = "out-for-delivery";
+        break;
+      case "delivered":
+        query.status = "delivered";
+        break;
+      case "failed-delivery-attempt":
+        query.status = "failed-delivery-attempt";
+        break;
+      case "previous-orders":
+        query.status = "previous-orders";
+        break;
+      default:
+        break;
+    }
+
+    const packages = await Package.find(query)
+      .populate({
+        path: "orderId",
+        model: Order,
+        populate: {
+          path: "address",
+          model: Address,
+        },
+      })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
+
+    // Format the result
+    const formattedPackages = packages.map((pkg) => ({
+      ...pkg.toObject(),
+      _id: pkg._id.toString(),
+      orderId: pkg.orderId._id.toString(),
+      orderName: pkg.orderId.name,
+      address: pkg.orderId.address?.toObject() || null,
     }));
 
     return formattedPackages;

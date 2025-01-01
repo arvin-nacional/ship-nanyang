@@ -4,16 +4,22 @@ import { PackageFilters } from "@/constants/filters";
 import Filter from "@/components/shared/search/Filter";
 import React from "react";
 import { auth } from "@clerk/nextjs/server";
-import { getPackagesWithAddressDetails } from "@/lib/actions/package.action";
+import { getPackagesByUserId } from "@/lib/actions/package.action";
 import { formatDate } from "@/lib/utils";
+import { SearchParamsProps } from "@/types";
 
-const page = async () => {
+const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
   if (!userId) {
     throw new Error("User ID is null");
   }
-
-  const result = await getPackagesWithAddressDetails(userId);
+  const resolvedSearchParams = await searchParams;
+  const result = await getPackagesByUserId({
+    searchQuery: resolvedSearchParams.q,
+    filter: resolvedSearchParams.filter,
+    page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
+    clerkId: userId,
+  });
   console.log(result);
 
   return (
@@ -43,6 +49,7 @@ const page = async () => {
             description={item.description}
             packageId={item.packageId}
             finalAmount={item.finalAmount}
+            vendor={item.vendor}
           />
         </div>
       ))}
