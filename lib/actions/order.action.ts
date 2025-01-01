@@ -3,24 +3,80 @@ import Order from "@/database/order.model";
 import dbConnect from "../mongoose";
 import Package from "@/database/package.model";
 import Address from "@/database/address.model";
-import { UpdateOrderParams } from "./shared.types";
+import {
+  FilterQueryParams,
+  GetUserOrderParams,
+  UpdateOrderParams,
+} from "./shared.types";
+import User from "@/database/user.model";
+import { FilterQuery } from "mongoose";
 
-export async function getOrdersByUserId(userId: string) {
+export async function getOrdersByUserId(params: GetUserOrderParams) {
   try {
     dbConnect();
 
-    const orders = await Order.find({ user: userId });
+    const { page = 1, pageSize = 10, filter, searchQuery, clerkId } = params;
 
-    if (!orders) {
-      throw new Error("No orders found for this clerk");
-    } else {
-      const formattedOrders = orders.map((order) => ({
-        ...order.toObject(),
-        _id: order._id.toString(),
-      }));
+    const user = await User.findOne({ clerkId });
 
-      return { orders: formattedOrders };
+    // Calculcate the number of orders to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
+    // Initialize the Query
+    const query: FilterQuery<typeof Order> = { user: user._id };
+    if (searchQuery) {
+      query.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
+    let sortOptions = {};
+    if (!filter) {
+      sortOptions = { createdAt: -1 };
+    }
+
+    switch (filter) {
+      case "all":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "created":
+        query.status = "created";
+        break;
+      case "in-warehouse":
+        query.status = "in-warehouse";
+        break;
+      case "preparing":
+        query.status = "preparing";
+        break;
+      case "in-transit":
+        query.status = "in-transit";
+        break;
+      case "out-for-delivery":
+        query.status = "out-for-delivery";
+        break;
+      case "delivered":
+        query.status = "delivered";
+        break;
+      case "failed-delivery-attempt":
+        query.status = "failed-delivery-attempt";
+        break;
+      case "previous-orders":
+        query.status = "previous-orders";
+        break;
+      default:
+        break;
+    }
+
+    const orders = await Order.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
+
+    const formattedOrders = orders.map((order) => ({
+      ...order.toObject(),
+      _id: order._id.toString(),
+      user: user._id.toString(),
+      address: order.address.toString(),
+    }));
+
+    return { orders: formattedOrders };
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching orders");
@@ -51,22 +107,72 @@ export async function getOrderById(orderId: string) {
   }
 }
 
-export async function getAllOrders() {
+export async function getAllOrders(params: FilterQueryParams) {
   try {
     dbConnect();
 
-    const orders = await Order.find();
+    const { page = 1, pageSize = 10, filter, searchQuery } = params;
 
-    if (!orders) {
-      throw new Error("No orders found");
-    } else {
-      const formattedOrders = orders.map((order) => ({
-        ...order.toObject(),
-        _id: order._id.toString(),
-      }));
+    // Calculcate the number of packages to skip based on the page number and page size
+    const skipAmount = (page - 1) * pageSize;
+    // Initialize the Query
 
-      return { orders: formattedOrders };
+    const query: FilterQuery<typeof Order> = {};
+    if (searchQuery) {
+      query.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
+
+    let sortOptions = {};
+    if (!filter) {
+      sortOptions = { createdAt: -1 };
+    }
+
+    switch (filter) {
+      case "all":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "created":
+        query.status = "created";
+        break;
+      case "in-warehouse":
+        query.status = "in-warehouse";
+        break;
+      case "preparing":
+        query.status = "preparing";
+        break;
+      case "in-transit":
+        query.status = "in-transit";
+        break;
+      case "out-for-delivery":
+        query.status = "out-for-delivery";
+        break;
+      case "delivered":
+        query.status = "delivered";
+        break;
+      case "failed-delivery-attempt":
+        query.status = "failed-delivery-attempt";
+        break;
+      case "previous-orders":
+        query.status = "previous-orders";
+        break;
+      default:
+        break;
+    }
+
+    const orders = await Order.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .sort(sortOptions);
+
+    const formattedOrders = orders.map((order) => ({
+      ...order.toObject(),
+      _id: order._id.toString(),
+      user: order.user.toString(),
+      address: order.address.toString(),
+    }));
+
+    return { orders: formattedOrders };
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching orders");

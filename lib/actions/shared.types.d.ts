@@ -92,3 +92,12 @@ export interface userPackagesParams {
   searchQuery?: string;
   clerkId: string;
 }
+
+export interface GetUserOrderParams {
+  page?: number;
+  pageSize?: number;
+  filter?: string;
+  searchQuery?: string;
+  clerkId?: string;
+  userId?: string;
+}

@@ -1,26 +1,32 @@
 import Filter from "@/components/shared/search/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import PackageList from "@/components/ui/packageList";
-import { PackageFilters } from "@/constants/filters";
+import { OrderFilters, PackageFilters } from "@/constants/filters";
 import { getAllOrders } from "@/lib/actions/order.action";
 import React from "react";
+import { SearchParamsProps } from "@/types";
 
-const page = async () => {
-  const result = await getAllOrders();
+const page = async ({ searchParams }: SearchParamsProps) => {
+  const resolvedSearchParams = await searchParams;
+  const result = await getAllOrders({
+    searchQuery: resolvedSearchParams.q,
+    filter: resolvedSearchParams.filter,
+    page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
+  });
   return (
     <div className="flex w-full">
       <div className="p-12 w-full" style={{ height: "90vh" }}>
         <p className="h2-semibold text-primary-500 mb-5">All Carts</p>
         <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
           <LocalSearchbar
-            route="/user/packages"
+            route="/admin/shipping-carts"
             iconPosition="left"
             imgSrc="/assets/icons/search.svg"
             placeholder="Search Packages"
             otherClasses="flex-1"
           />
           <Filter
-            filters={PackageFilters}
+            filters={OrderFilters}
             otherClasses="min-h-[56px] sm:min-w-[170px]"
           />
         </div>

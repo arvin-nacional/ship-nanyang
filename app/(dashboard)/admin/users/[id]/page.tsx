@@ -1,19 +1,33 @@
 import Filter from "@/components/shared/search/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import PackageList from "@/components/ui/packageList";
-import { PackageFilters } from "@/constants/filters";
+import { OrderFilters, PackageFilters } from "@/constants/filters";
 import { getOrdersByUserId } from "@/lib/actions/order.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { Mail, MapPinHouse, PhoneCallIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-type tParams = Promise<{ id: string }>;
-const page = async ({ params }: { params: tParams }) => {
+type tParams = Promise<{ id: string; [key: string]: string | undefined }>;
+
+type PageProps = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+};
+
+const page = async ({ params, searchParams }: PageProps) => {
   const { id } = await params;
+  const resolvedSearchParams = await searchParams;
+  console.log(resolvedSearchParams);
 
   const result = await getUserById({ userId: id });
-  const orders = await getOrdersByUserId(id);
+  console.log(resolvedSearchParams);
+  const orders = await getOrdersByUserId({
+    searchQuery: resolvedSearchParams.q,
+    filter: resolvedSearchParams.filter,
+    page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
+    clerkId: result.user.clerkId,
+  });
   console.log(result);
   return (
     <div className="w-full p-12">
@@ -64,14 +78,14 @@ const page = async ({ params }: { params: tParams }) => {
       <div className="w-full mt-12">
         <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
           <LocalSearchbar
-            route="/user/packages"
+            route={`/admin/users/${id}`}
             iconPosition="left"
             imgSrc="/assets/icons/search.svg"
             placeholder="Search Packages"
             otherClasses="flex-1"
           />
           <Filter
-            filters={PackageFilters}
+            filters={OrderFilters}
             otherClasses="min-h-[56px] sm:min-w-[170px]"
           />
         </div>

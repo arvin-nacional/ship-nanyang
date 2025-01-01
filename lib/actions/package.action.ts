@@ -215,7 +215,8 @@ export async function getPackagesByUserId(params: userPackagesParams) {
     // Calculcate the number of attendees to skip based on the page number and page size
     const skipAmount = (page - 1) * pageSize;
     // Initialize the Query
-    const query: FilterQuery<typeof Package> = {};
+
+    const query: FilterQuery<typeof Package> = { userId: user._id };
 
     if (searchQuery) {
       query.$or = [
@@ -307,24 +308,25 @@ export async function getAllPackagesWithAddressDetails(
 
     const { searchQuery, filter, page = 1, pageSize = 10 } = params;
 
-    // Calculcate the number of attendees to skip based on the page number and page size
+    // Calculcate the number of packages to skip based on the page number and page size
     const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Package> = {};
 
     if (searchQuery) {
       query.$or = [
-        { name: { $regex: searchQuery, $options: "i" } },
-        { status: { $regex: searchQuery, $options: "i" } },
+        { trackingNumber: { $regex: searchQuery, $options: "i" } },
+        { description: { $regex: searchQuery, $options: "i" } },
+        { vendor: { $regex: searchQuery, $options: "i" } },
         {
-          packages: {
-            $in: await Package.find({
+          orderId: {
+            $in: await Order.find({
               $or: [
-                { trackingNumber: { $regex: searchQuery, $options: "i" } },
-                { description: { $regex: searchQuery, $options: "i" } },
-                { vendor: { $regex: searchQuery, $options: "i" } },
+                {
+                  name: { $regex: searchQuery, $options: "i" },
+                },
               ],
-            }).distinct("_id"),
+            }),
           },
         },
       ];

@@ -4,12 +4,13 @@ import React from "react";
 import { redirect } from "next/navigation";
 import RightSidebar from "@/components/RightSidebar";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { PackageFilters } from "@/constants/filters";
+import { OrderFilters } from "@/constants/filters";
 import Filter from "@/components/shared/search/Filter";
 import PackageList from "@/components/ui/packageList";
 import { getOrdersByUserId } from "@/lib/actions/order.action";
+import { SearchParamsProps } from "@/types";
 
-const page = async () => {
+const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
 
   const verificationResult = userId
@@ -23,9 +24,15 @@ const page = async () => {
   if (!userId) {
     throw new Error("User ID is null");
   }
-  const user = await getUserIdByClerkId({ clerkId: userId });
 
-  const result = await getOrdersByUserId(user.userId);
+  const resolvedSearchParams = await searchParams;
+
+  const result = await getOrdersByUserId({
+    searchQuery: resolvedSearchParams.q,
+    filter: resolvedSearchParams.filter,
+    page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
+    clerkId: userId,
+  });
 
   return (
     <div className="flex w-full">
@@ -33,14 +40,14 @@ const page = async () => {
         <p className="h2-semibold text-primary-500 mb-5">All Carts</p>
         <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
           <LocalSearchbar
-            route="/user/packages"
+            route="/user/dashboard"
             iconPosition="left"
             imgSrc="/assets/icons/search.svg"
-            placeholder="Search Packages"
+            placeholder="Search Shipping Carts"
             otherClasses="flex-1"
           />
           <Filter
-            filters={PackageFilters}
+            filters={OrderFilters}
             otherClasses="min-h-[56px] sm:min-w-[170px]"
           />
         </div>
