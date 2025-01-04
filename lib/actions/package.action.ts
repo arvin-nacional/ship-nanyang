@@ -284,6 +284,10 @@ export async function getPackagesByUserId(params: userPackagesParams) {
       .limit(pageSize)
       .sort(sortOptions);
 
+    const totalPackages = await Package.countDocuments(query);
+
+    const isNext = totalPackages > skipAmount + packages.length;
+
     const formattedPackages = packages.map((pkg) => ({
       ...pkg.toObject(),
       _id: pkg._id.toString(),
@@ -293,7 +297,7 @@ export async function getPackagesByUserId(params: userPackagesParams) {
       userId: user._id.toString(),
     }));
 
-    return formattedPackages;
+    return { formattedPackages, isNext };
   } catch (error) {
     console.log(error);
     throw new Error("Error retrieving packages");
@@ -306,7 +310,7 @@ export async function getAllPackagesWithAddressDetails(
   try {
     dbConnect();
 
-    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 7 } = params;
 
     // Calculcate the number of packages to skip based on the page number and page size
     const skipAmount = (page - 1) * pageSize;
@@ -379,6 +383,10 @@ export async function getAllPackagesWithAddressDetails(
       .limit(pageSize)
       .sort(sortOptions);
 
+    const totalPackages = await Package.countDocuments(query);
+
+    const isNext = totalPackages > skipAmount + packages.length;
+
     // Format the result
     const formattedPackages = packages.map((pkg) => ({
       ...pkg.toObject(),
@@ -388,7 +396,7 @@ export async function getAllPackagesWithAddressDetails(
       address: pkg.orderId.address?.toObject() || null,
     }));
 
-    return formattedPackages;
+    return { formattedPackages, isNext };
   } catch (error) {
     console.log(error);
     throw new Error("Error retrieving packages with address details");

@@ -15,7 +15,7 @@ export async function getOrdersByUserId(params: GetUserOrderParams) {
   try {
     dbConnect();
 
-    const { page = 1, pageSize = 10, filter, searchQuery, clerkId } = params;
+    const { page = 1, pageSize = 6, filter, searchQuery, clerkId } = params;
 
     const user = await User.findOne({ clerkId });
 
@@ -76,7 +76,11 @@ export async function getOrdersByUserId(params: GetUserOrderParams) {
       address: order.address.toString(),
     }));
 
-    return { orders: formattedOrders };
+    const totalOrders = await Order.countDocuments(query);
+
+    const isNext = totalOrders > skipAmount + orders.length;
+
+    return { orders: formattedOrders, isNext };
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching orders");
@@ -111,7 +115,7 @@ export async function getAllOrders(params: FilterQueryParams) {
   try {
     dbConnect();
 
-    const { page = 1, pageSize = 10, filter, searchQuery } = params;
+    const { page = 1, pageSize = 7, filter, searchQuery } = params;
 
     // Calculcate the number of packages to skip based on the page number and page size
     const skipAmount = (page - 1) * pageSize;
@@ -165,6 +169,10 @@ export async function getAllOrders(params: FilterQueryParams) {
       .limit(pageSize)
       .sort(sortOptions);
 
+    const totalOrders = await Order.countDocuments(query);
+
+    const isNext = totalOrders > skipAmount + orders.length;
+
     const formattedOrders = orders.map((order) => ({
       ...order.toObject(),
       _id: order._id.toString(),
@@ -172,7 +180,7 @@ export async function getAllOrders(params: FilterQueryParams) {
       address: order.address.toString(),
     }));
 
-    return { orders: formattedOrders };
+    return { orders: formattedOrders, isNext };
   } catch (error) {
     console.log(error);
     throw new Error("Error fetching orders");

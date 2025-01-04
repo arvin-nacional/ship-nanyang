@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs/server";
 import { getPackagesByUserId } from "@/lib/actions/package.action";
 import { formatDate } from "@/lib/utils";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/search/Pagination";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
@@ -38,7 +39,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           otherClasses="min-h-[56px] sm:min-w-[170px]"
         />
       </div>
-      {result?.map((item) => (
+      {result?.formattedPackages?.map((item) => (
         <div key={item._id}>
           <PackageListItem
             recipient={item.address.name}
@@ -53,6 +54,14 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           />
         </div>
       ))}
+      <div className="mt-10">
+        <Pagination
+          pageNumber={
+            resolvedSearchParams?.page ? +resolvedSearchParams.page : 1
+          }
+          isNext={result.isNext}
+        />
+      </div>
     </div>
   );
 };

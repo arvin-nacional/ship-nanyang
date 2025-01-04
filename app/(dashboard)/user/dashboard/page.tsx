@@ -9,6 +9,7 @@ import Filter from "@/components/shared/search/Filter";
 import PackageList from "@/components/ui/packageList";
 import { getOrdersByUserId } from "@/lib/actions/order.action";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/search/Pagination";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
@@ -35,8 +36,8 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   });
 
   return (
-    <div className="flex w-full">
-      <div className="p-12 w-full" style={{ height: "90vh" }}>
+    <div className="flex w-full ">
+      <div className="p-12 w-full overflow-scroll" style={{ height: "90vh" }}>
         <p className="h2-semibold text-primary-500 mb-5">All Carts</p>
         <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
           <LocalSearchbar
@@ -60,6 +61,15 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             />
           </div>
         ))}
+
+        <div className="mt-10">
+          <Pagination
+            pageNumber={
+              resolvedSearchParams?.page ? +resolvedSearchParams.page : 1
+            }
+            isNext={result.isNext}
+          />
+        </div>
       </div>
       <RightSidebar />
     </div>
