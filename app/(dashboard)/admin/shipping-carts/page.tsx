@@ -1,7 +1,7 @@
 import Filter from "@/components/shared/search/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import PackageList from "@/components/ui/packageList";
-import { OrderFilters, PackageFilters } from "@/constants/filters";
+import { OrderFilters } from "@/constants/filters";
 import { getAllOrders } from "@/lib/actions/order.action";
 import React from "react";
 import { SearchParamsProps } from "@/types";

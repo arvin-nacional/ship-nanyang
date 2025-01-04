@@ -1,4 +1,4 @@
-import { getUserIdByClerkId, isUserVerified } from "@/lib/actions/user.action";
+import { isUserVerified } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 import { redirect } from "next/navigation";

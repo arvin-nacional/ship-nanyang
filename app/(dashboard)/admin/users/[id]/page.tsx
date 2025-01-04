@@ -1,14 +1,14 @@
 import Filter from "@/components/shared/search/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import PackageList from "@/components/ui/packageList";
-import { OrderFilters, PackageFilters } from "@/constants/filters";
+import { OrderFilters } from "@/constants/filters";
 import { getOrdersByUserId } from "@/lib/actions/order.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { Mail, MapPinHouse, PhoneCallIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-type tParams = Promise<{ id: string; [key: string]: string | undefined }>;
+// type tParams = Promise<{ id: string; [key: string]: string | undefined }>;
 
 type PageProps = {
   params: Promise<{ id: string }>;
