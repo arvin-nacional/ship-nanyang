@@ -15,7 +15,7 @@ const page = async () => {
   const user = await getUserIdByClerkId({ clerkId: userId });
 
   const address = await getAddressByUserId(user.userId);
-  const orders = await getOrdersByUserId(user.userId);
+  const orders = await getOrdersByUserId({ clerkId: userId });
   console.log(orders);
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
