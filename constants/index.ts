@@ -12,7 +12,7 @@ export const summaryInfo = [
     value: 683,
     series: [10, 25],
     colors: ["#BECCDA", "#FD8539"],
-    href: "/members?filter=active",
+    href: "/admin/shipping-carts",
   },
 
   {
@@ -20,21 +20,21 @@ export const summaryInfo = [
     value: 10,
     series: [25, 25],
     colors: ["#BECCDA", "#FE6D8E"],
-    href: "/members?filter=inactive",
+    href: "/admin/packages?filter=pending",
   },
   {
     title: "For Delivery",
     value: 12,
     series: [13, 25],
     colors: ["#BECCDA", "#01545B"],
-    href: "/ministries",
+    href: "/admin/shipping-carts?filter=out-for-delivery&page=1",
   },
   {
     title: "Total Users",
     value: 684,
     series: [684, 1000],
     colors: ["#BECCDA", "#2ED480"],
-    href: "/members",
+    href: "/admin/users",
   },
 ];
 

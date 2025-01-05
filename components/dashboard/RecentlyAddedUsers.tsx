@@ -22,20 +22,24 @@ const RecentlyAddedUsers = async () => {
             key={user._id}
             className="mb-2 flex w-[326px] items-center gap-[10px] mx-2"
           >
-            <div className=" relative h-[50px] w-[50px] overflow-hidden">
-              <Image
-                className="absolute inset-0 h-[50px] w-[50px] rounded-lg object-cover object-left-top"
-                alt=""
-                src={user.picture}
-                height={50}
-                width={50}
-              />
-            </div>
+            <Link href={`/admin/users/${user._id}`}>
+              <div className=" relative h-[50px] w-[50px] overflow-hidden">
+                <Image
+                  className="absolute inset-0 h-[50px] w-[50px] rounded-lg object-cover object-left-top"
+                  alt=""
+                  src={user.picture}
+                  height={50}
+                  width={50}
+                />
+              </div>
+            </Link>
             <div className="flex flex-1 flex-col items-start gap-[2px]">
               <div className="flex h-[20px] w-full items-center justify-between">
-                <div className="paragraph-medium">
-                  {user.firstName + " " + user.lastName}
-                </div>
+                <Link href={`/admin/users/${user._id}`}>
+                  <div className="paragraph-medium">
+                    {user.firstName + " " + user.lastName}
+                  </div>
+                </Link>
                 {/* <MemberButton memberId={member.id} /> */}
               </div>
               <div className="body-regular text-dark-500 relative text-sm font-light">
