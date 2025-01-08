@@ -48,7 +48,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             status={item.status}
             trackingNumber={item.trackingNumber}
             description={item.description}
-            packageId={item.packageId}
+            packageId={item.orderId}
             finalAmount={item.finalAmount}
             vendor={item.vendor}
           />

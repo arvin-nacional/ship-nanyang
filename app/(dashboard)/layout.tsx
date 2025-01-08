@@ -1,4 +1,5 @@
 import AppSidebar from "@/components/AppSidebar";
+import MessengerBtn from "@/components/shared/MessengerBtn";
 import Topbar from "@/components/shared/navbar/Topbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { auth, currentUser } from "@clerk/nextjs/server";
@@ -21,6 +22,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             {children}
             {/* <RightSidebar /> */}
           </div>
+          <MessengerBtn />
         </main>
       </SidebarProvider>
     </div>
