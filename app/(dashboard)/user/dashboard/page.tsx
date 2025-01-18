@@ -36,8 +36,8 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   });
 
   return (
-    <div className="flex w-full ">
-      <div className="p-12 w-full overflow-scroll" style={{ height: "90vh" }}>
+    <div className="flex w-full max-sm:flex-col">
+      <div className="max-sm:p-6 p-12 w-full overflow-scroll h-[90vh]">
         <p className="h2-semibold text-primary-500 mb-5">All Carts</p>
         <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
           <LocalSearchbar

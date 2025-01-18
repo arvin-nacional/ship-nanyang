@@ -43,6 +43,21 @@ export const AddressSchema = z.object({
   name: z.string().min(1, { message: "Please enter a name" }),
   isDefault: z.boolean(),
 });
+export const ImageSchema = z.object({
+  src: z.string().url(),
+  alt: z.string().min(1, { message: "Please enter an alt text" }),
+  _id: z.string().min(1).max(30),
+});
+
+export const PaymentSchema = z.object({
+  images: z.array(
+    z.object({
+      src: z.string().url(),
+      alt: z.string().min(1),
+      _id: z.string().min(1).max(30),
+    })
+  ),
+});
 
 export const CreateOrderSchema = z.object({
   vendor: z.string().min(1, { message: "Please select a vendor" }),
@@ -65,6 +80,7 @@ export const UpdateOrderSchema = z.object({
   insurance: z.string(),
   miscellaneousFee: z.string(),
   localDeliveryFee: z.string(),
+  discount: z.string(),
 });
 
 export const UpdatePackageSchema = z.object({

@@ -3,13 +3,22 @@ import Order from "@/database/order.model";
 import dbConnect from "../mongoose";
 import Package from "@/database/package.model";
 import Address from "@/database/address.model";
+import { v2 as cloudinary } from "cloudinary";
 import {
   FilterQueryParams,
   GetUserOrderParams,
+  SubmitPaymentParams,
   UpdateOrderParams,
 } from "./shared.types";
 import User from "@/database/user.model";
 import { FilterQuery } from "mongoose";
+import { revalidatePath } from "next/cache";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function getOrdersByUserId(params: GetUserOrderParams) {
   try {
@@ -138,6 +147,9 @@ export async function getAllOrders(params: FilterQueryParams) {
       case "created":
         query.status = "created";
         break;
+      case "for-review":
+        query.paymentStatus = "for-review";
+        break;
       case "in-warehouse":
         query.status = "in-warehouse";
         break;
@@ -199,6 +211,7 @@ export async function updateOrder(params: UpdateOrderParams) {
       insurance,
       miscellaneousFee,
       localDeliveryFee,
+      discount,
     } = params;
 
     console.log(params);
@@ -215,11 +228,47 @@ export async function updateOrder(params: UpdateOrderParams) {
     order.insurance = insurance;
     order.miscellaneousFee = miscellaneousFee;
     order.localDeliveryFee = localDeliveryFee;
+    order.discount = discount;
 
     order.save();
   } catch (error) {
     console.log(error);
     throw new Error("Error updating order status");
+  }
+}
+
+export async function submitPayment(params: SubmitPaymentParams) {
+  try {
+    dbConnect();
+
+    const { orderId, paymentImages, path } = params;
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+    order.paymentStatus = "for-review";
+
+    // Upload additional images if they are in base64 format
+    const updatedImages = await Promise.all(
+      paymentImages.map(async (image) => {
+        if (image.src.startsWith("data:image")) {
+          const imageUploadResult = await cloudinary.uploader.upload(image.src);
+          return { src: imageUploadResult.url, alt: image.alt };
+        }
+        return image;
+      })
+    );
+
+    order.paymentImages = updatedImages;
+
+    order.save();
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error submitting payment");
   }
 }
 

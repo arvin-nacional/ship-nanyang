@@ -1,5 +1,10 @@
 import { Schema, models, model, Document } from "mongoose";
 
+export interface IImage {
+  src: string;
+  alt: string;
+}
+
 export interface IOrder extends Document {
   user: Schema.Types.ObjectId;
   createdAt: Date;
@@ -17,6 +22,8 @@ export interface IOrder extends Document {
   insurance: number;
   localDeliveryFee: number;
   miscellaneousFee: number;
+  discount: number;
+  paymentImages: IImage[];
 }
 
 const OrderSchema = new Schema({
@@ -36,6 +43,13 @@ const OrderSchema = new Schema({
   insurance: { type: Number },
   localDeliveryFee: { type: Number },
   miscellaneousFee: { type: Number },
+  discount: { type: Number },
+  paymentImages: [
+    {
+      src: { type: String, required: true },
+      alt: { type: String, required: true },
+    },
+  ],
 });
 
 const Order = models.Order || model<IOrder>("Order", OrderSchema);

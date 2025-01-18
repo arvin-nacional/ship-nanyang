@@ -1,7 +1,9 @@
 import AppSidebar from "@/components/AppSidebar";
 import MessengerBtn from "@/components/shared/MessengerBtn";
+
 import Topbar from "@/components/shared/navbar/Topbar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import Logo from "@/components/ui/logo";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import React from "react";
 
@@ -16,8 +18,14 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     <div>
       <SidebarProvider className="w-full ">
         <AppSidebar userType={userType} />
+
         <main className="size-full">
+          <div className="flex items-center justify-between p-4 sm:hidden">
+            <Logo />
+            <SidebarTrigger />
+          </div>
           <Topbar userName={userName} userType={userType} />
+
           <div className="flex flex-row ">
             {children}
             {/* <RightSidebar /> */}

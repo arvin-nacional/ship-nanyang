@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
+import PaymentImages from "@/components/ui/PaymentImages";
 import { getOrderById } from "@/lib/actions/order.action";
 import {
   capitalizeWords,
@@ -27,7 +28,8 @@ const page = async ({ params }: { params: tParams }) => {
     totalFinalAmount,
     result?.order.insurance,
     result?.order.miscellaneousFee,
-    result?.order.localDeliveryFee
+    result?.order.localDeliveryFee,
+    result?.order.discount
   );
 
   return (
@@ -174,6 +176,7 @@ const page = async ({ params }: { params: tParams }) => {
                 </p>
               </div>
             </div>
+
             <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
               <p className="body-regular text-primary-500">
                 Local Delivery Fees
@@ -185,8 +188,21 @@ const page = async ({ params }: { params: tParams }) => {
                 </p>
               </div>
             </div>
+            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+              <p className="body-regular text-primary-500">Discount</p>
+              <div className="flex gap-2 items-center w-[80px]">
+                <PhilippinePeso size={16} className="text-dark-400" />
+                <p className="paragraph-regular text-dark-400">
+                  {result?.order.discount}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      <div>
+        <p className="h2-semibold text-dark-400 my-10">Payment Images</p>
+        <PaymentImages images={JSON.stringify(result?.order.paymentImages)} />
       </div>
     </div>
   );

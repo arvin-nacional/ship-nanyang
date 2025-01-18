@@ -11,7 +11,7 @@ const Logo = () => {
       {" "}
       {mode === "light" ? (
         <Image
-          src="/assets/images/primary-logo-dark.svg"
+          src="/assets/icons/logo-primary.png"
           width={150}
           height={40}
           alt="logo"

@@ -8,10 +8,20 @@ import {
   getTotalFinalAmount,
   getTotalPrice,
 } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { auth } from "@clerk/nextjs/server";
 import { PackagePlus, PhilippinePeso } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import Payment from "@/components/forms/Payment";
 type tParams = Promise<{ id: string }>;
 const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
@@ -29,8 +39,11 @@ const page = async ({ params }: { params: tParams }) => {
     totalFinalAmount,
     result?.order.insurance,
     result?.order.miscellaneousFee,
-    result?.order.localDeliveryFee
+    result?.order.localDeliveryFee,
+    result?.order.discount
   );
+
+  console.log(result);
 
   return (
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between">
@@ -76,9 +89,42 @@ const page = async ({ params }: { params: tParams }) => {
                 <p className="h2-semibold text-primary-500">{totalPrice}</p>
               </div>
             </div>
-            <Button className="px-6 rounded-3xl text-light-900 bg-primary-500">
-              Send Payment
-            </Button>
+            {result?.order.paymentStatus === "pending" ||
+            result?.order.paymentStatus === "invalid" ||
+            result?.order.paymentStatus === "partially-paid" ? (
+              <Dialog>
+                <DialogTrigger className="px-6 py-2 rounded-3xl text-light-900 bg-primary-500">
+                  {/* <Button className="px-6 rounded-3xl text-light-900 bg-primary-500"> */}
+                  Send Payment
+                  {/* </Button> */}
+                </DialogTrigger>
+                <DialogContent className="bg-light-900 ">
+                  <VisuallyHidden.Root>
+                    <DialogTitle>Menu</DialogTitle>
+                  </VisuallyHidden.Root>
+                  <DialogHeader>
+                    <DialogTitle>Upload payment receipts</DialogTitle>
+                    {/* <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </DialogDescription> */}
+                    <Payment
+                      orderId={id}
+                      paymentDetails={JSON.stringify(
+                        result?.order.paymentImages
+                      )}
+                    />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            ) : (
+              <Button
+                className="px-6 rounded-3xl text-light-900 bg-primary-500"
+                disabled
+              >
+                Payment Submitted
+              </Button>
+            )}
           </div>
         </div>
         <div>
@@ -157,37 +203,55 @@ const page = async ({ params }: { params: tParams }) => {
                 </p>
               </div>
             </div>
-            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center ">
-              <p className="body-regular text-primary-500">Insurance</p>
-              <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-400" />
-                <p className="paragraph-regular text-dark-400">
-                  {result?.order.insurance}
-                </p>
+            {result?.order.insurance > 0 && (
+              <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center ">
+                <p className="body-regular text-primary-500">Insurance</p>
+                <div className="flex gap-2 items-center w-[80px]">
+                  <PhilippinePeso size={16} className="text-dark-400" />
+                  <p className="paragraph-regular text-dark-400">
+                    {result?.order.insurance}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
-              <p className="body-regular text-primary-500">
-                Miscellaneous fees
-              </p>
-              <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-4000" />
-                <p className="paragraph-regular text-dark-400">
-                  {result?.order.miscellaneousFee}
+            )}
+
+            {result?.order.miscellaneousFee > 0 && (
+              <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+                <p className="body-regular text-primary-500">
+                  Miscellaneous fees
                 </p>
+                <div className="flex gap-2 items-center w-[80px]">
+                  <PhilippinePeso size={16} className="text-dark-4000" />
+                  <p className="paragraph-regular text-dark-400">
+                    {result?.order.miscellaneousFee}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
-              <p className="body-regular text-primary-500">
-                Local Delivery Fees
-              </p>
-              <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-400" />
-                <p className="paragraph-regular text-dark-400">
-                  {result?.order.localDeliveryFee}
+            )}
+            {result?.order.localDeliveryFee > 0 && (
+              <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+                <p className="body-regular text-primary-500">
+                  Local Delivery Fees
                 </p>
+                <div className="flex gap-2 items-center w-[80px]">
+                  <PhilippinePeso size={16} className="text-dark-400" />
+                  <p className="paragraph-regular text-dark-400">
+                    {result?.order.localDeliveryFee}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
+            {result?.order.discount > 0 && (
+              <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
+                <p className="body-regular text-primary-500">Discount</p>
+                <div className="flex gap-2 items-center w-[80px]">
+                  <PhilippinePeso size={16} className="text-dark-400" />
+                  <p className="paragraph-regular text-dark-400">
+                    - {result?.order.discount}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

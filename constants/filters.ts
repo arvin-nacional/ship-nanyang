@@ -42,6 +42,7 @@ export const OrderFilters = [
     name: "All",
     value: "all",
   },
+  { name: "For Review", value: "for-review" },
   {
     name: "Created",
     value: "created",

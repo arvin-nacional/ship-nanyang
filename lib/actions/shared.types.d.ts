@@ -66,6 +66,18 @@ export interface UpdateOrderParams {
   miscellaneousFee: string;
   localDeliveryFee: string;
   path: string;
+  discount: string;
+}
+
+export interface PaymentImages {
+  src: string;
+  alt: string;
+}
+
+export interface SubmitPaymentParams {
+  orderId: string;
+  paymentImages: PaymentImages[];
+  path: string;
 }
 
 export interface UpdatePackageParams {

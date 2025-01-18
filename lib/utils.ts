@@ -165,7 +165,14 @@ export const getTotalPrice = (
   totalFinalAmount: number = 0,
   insurance: number = 0,
   miscellaneousFee: number = 0,
-  localDeliveryFee: number = 0
+  localDeliveryFee: number = 0,
+  discount: number = 0
 ) => {
-  return totalFinalAmount + insurance + miscellaneousFee + localDeliveryFee;
+  return (
+    totalFinalAmount +
+    insurance +
+    miscellaneousFee +
+    localDeliveryFee -
+    discount
+  );
 };

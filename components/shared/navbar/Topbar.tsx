@@ -45,7 +45,9 @@ const Topbar = ({ userName, userType }: Props) => {
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2">
             <span className="small-regular">Currency Rate of the Day:</span>
-            <span className="paragraph-regular">58.00 PHP</span>
+            <span className="paragraph-regular max-sm:small-regular">
+              58.00 PHP
+            </span>
           </div>
 
           <Link
@@ -55,7 +57,7 @@ const Topbar = ({ userName, userType }: Props) => {
                 : "/user/shipping-calculator"
             }
           >
-            <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500 hover:bg-primary-400 hover:text-light-900">
+            <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500 hover:bg-primary-400 hover:text-light-900 max-sm:hidden">
               Estimate Shipment
             </Button>
           </Link>

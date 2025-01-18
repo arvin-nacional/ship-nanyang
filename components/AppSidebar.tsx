@@ -30,6 +30,8 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { SheetContent, SheetTitle } from "./ui/sheet";
 
 // Define the type for links
 type SidebarLink = {
@@ -56,7 +58,7 @@ const AppSidebar = ({ userType }: SidebarProps) => {
   ];
 
   const userLinks: SidebarLink[] = [
-    { title: "Dashboard", url: "/user/dashboard", icon: Home },
+    { title: "Shipping Carts", url: "/user/dashboard", icon: Home },
     { title: "Add Package", url: "/user/add-package", icon: PackagePlus },
     { title: "Packages", url: "/user/packages", icon: Package },
     { title: "Receiver Address", url: "/user/address", icon: MapPinHouse },
@@ -102,6 +104,7 @@ const AppSidebar = ({ userType }: SidebarProps) => {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

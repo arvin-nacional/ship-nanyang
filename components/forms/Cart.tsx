@@ -44,9 +44,12 @@ const Cart = ({ shippingDetails }: Props) => {
       status: parsedShippingDetails?.status,
       paymentStatus: parsedShippingDetails?.paymentStatus,
       finalAmount: parsedShippingDetails?.finalAmount?.toString() || "",
-      insurance: parsedShippingDetails?.insurance || "",
-      localDeliveryFee: parsedShippingDetails?.localDeliveryFee || "",
-      miscellaneousFee: parsedShippingDetails?.miscellaneousFee || "",
+      insurance: parsedShippingDetails?.insurance?.toString() || "",
+      localDeliveryFee:
+        parsedShippingDetails?.localDeliveryFee?.toString() || "",
+      miscellaneousFee:
+        parsedShippingDetails?.miscellaneousFee?.toString() || "",
+      discount: parsedShippingDetails?.discount?.toString() || "",
     },
   });
 
@@ -62,6 +65,7 @@ const Cart = ({ shippingDetails }: Props) => {
           insurance: data.insurance,
           localDeliveryFee: data.localDeliveryFee,
           miscellaneousFee: data.miscellaneousFee,
+          discount: data.discount,
           path: pathname,
         });
         router.push(`/admin/shipping-carts/${parsedShippingDetails._id}`);
@@ -158,6 +162,8 @@ const Cart = ({ shippingDetails }: Props) => {
                       </SelectItem>
                     ))} */}
                     <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="for-review">For Review</SelectItem>
+                    <SelectItem value="invalid">Invalid</SelectItem>
                     <SelectItem value="paid">Paid</SelectItem>
                     <SelectItem value="partially-paid">
                       Partially Paid
@@ -230,6 +236,28 @@ const Cart = ({ shippingDetails }: Props) => {
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                   {...field}
                   placeholder="Enter local Delivery Fee"
+                />
+              </FormControl>
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                        Create a title for your post.
+                      </FormDescription> */}
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="discount"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Discount<span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <Input
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  {...field}
+                  placeholder="Enter discount amount"
                 />
               </FormControl>
               {/* <FormDescription className="body-regular mt-2.5 text-light-500">
