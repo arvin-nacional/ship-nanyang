@@ -30,8 +30,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { SheetContent, SheetTitle } from "./ui/sheet";
 
 // Define the type for links
 type SidebarLink = {

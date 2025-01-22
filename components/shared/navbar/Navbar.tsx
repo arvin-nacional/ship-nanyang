@@ -81,7 +81,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-between gap-5">
-          {/* <SignedOut>
+          <SignedOut>
             <Link href="/signin" className="max-lg:hidden">
               <Button className="rounded-3xl border-2 border-light-850 px-10 text-light-800">
                 Track Your Package

@@ -1,3 +1,4 @@
+/* tslint:disable */
 "use client";
 
 import React, { useTransition, useState } from "react";
@@ -154,6 +155,7 @@ const Payment = ({ orderId, paymentDetails }: Props) => {
                     type="file"
                     {...rest}
                     multiple // Allow multiple file selection
+                    // @ts-ignore
                     onChange={(e) => {
                       // @ts-ignore
                       handleMultipleImageChange(e.target.files);
