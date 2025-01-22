@@ -72,7 +72,7 @@ export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/send-2.svg",
     label: "Contact",
-    route: "/https://m.me/sdexpressinternational",
+    route: "https://m.me/sdexpressinternational",
   },
   {
     imgURL: "/assets/icons/package2.svg",
