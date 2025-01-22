@@ -32,28 +32,6 @@ const Topbar = ({ userName, userType }: Props) => {
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">
         <div className="flex items-center gap-2">
-          {userName ? (
-            <SignedIn>
-              <UserButton
-                appearance={{
-                  elements: {
-                    avatarBox: "h-10 w-10",
-                  },
-                  variables: {
-                    colorPrimary: "#ff7000",
-                  },
-                }}
-              />
-            </SignedIn>
-          ) : (
-            <Image
-              src="/assets/images/default_user.svg"
-              height={40}
-              width={40}
-              className="rounded-[50%]"
-              alt="default Image"
-            />
-          )}
           <span className="base-regular">Hi,</span>
           <span className="base-semibold text-primary-500">{userName}</span>
         </div>
@@ -77,6 +55,28 @@ const Topbar = ({ userName, userType }: Props) => {
               Estimate Shipment
             </Button>
           </Link>
+          {userName ? (
+            <SignedIn>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "h-10 w-10",
+                  },
+                  variables: {
+                    colorPrimary: "#ff7000",
+                  },
+                }}
+              />
+            </SignedIn>
+          ) : (
+            <Image
+              src="/assets/images/default_user.svg"
+              height={40}
+              width={40}
+              className="rounded-[50%]"
+              alt="default Image"
+            />
+          )}
         </div>
       </div>
     </div>
