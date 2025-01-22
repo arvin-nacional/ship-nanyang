@@ -60,7 +60,7 @@ const Navbar = () => {
       <div className="flex-between gap-5 py-4 dark:shadow-none max-xl:w-full max-xl:p-6 max-sm:px-10 max-sm:py-6 xl:min-w-[1200px]">
         <Link href="/" className="flex items-center gap-1">
           <Image
-            src="/assets/icons/logo-white.png"
+            src="/assets/icons/logo-white-2.png"
             width={150}
             height={40}
             alt="logo"
