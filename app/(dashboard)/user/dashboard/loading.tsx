@@ -24,7 +24,7 @@ const loading = () => {
           />
         </div>
         <div className="flex justify-center items-center ">
-          <GridLoader color="#3B82F6" size={15} />
+          <GridLoader color="#BD1826" size={15} />
         </div>
       </div>
       <RightSidebar />

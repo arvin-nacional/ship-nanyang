@@ -9,7 +9,7 @@ const loading = () => {
       <section className="flex py-12 flex-1 flex-col overflow-y-auto justify-center items-center w-full">
         <div className="text-center text-white">
           <svg
-            className="w-16 h-16 animate-spin text-blue-600"
+            className="w-16 h-16 animate-spin text-primary-500"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 100"
             preserveAspectRatio="xMidYMid"
