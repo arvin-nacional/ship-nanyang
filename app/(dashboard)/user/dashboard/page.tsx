@@ -1,4 +1,4 @@
-import { isUserVerified } from "@/lib/actions/user.action";
+import { getUserIdByClerkId, isUserVerified } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 import { redirect } from "next/navigation";
@@ -14,16 +14,19 @@ import Pagination from "@/components/shared/search/Pagination";
 const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
 
-  const verificationResult = userId
-    ? await isUserVerified({ clerkId: userId })
-    : null;
-
-  if (verificationResult?.verified === false) {
-    redirect("/create-account");
-  }
-
   if (!userId) {
-    throw new Error("User ID is null");
+    redirect("/signin");
+  }
+  const user = await getUserIdByClerkId({ clerkId: userId });
+
+  if (user) {
+    const verificationResult = userId
+      ? await isUserVerified({ clerkId: userId })
+      : null;
+
+    if (verificationResult?.verified === false) {
+      redirect("/create-account");
+    }
   }
 
   const resolvedSearchParams = await searchParams;
