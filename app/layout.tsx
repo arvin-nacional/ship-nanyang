@@ -7,6 +7,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,7 +48,10 @@ export default function RootLayout({
         <body
           className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
         >
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            {children}
+            <Analytics />
+          </ThemeProvider>
           <Toaster />
         </body>
       </html>
