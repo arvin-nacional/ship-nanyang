@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <section className="relative flex h-screen w-full items-center justify-center px-16 py-10 pb-14 max-md:px-10 max-md:py-20">
       <Image
-        src="/assets/images/hero-bg-new.png"
+        src="/assets/images/hero-bg-new3.png"
         alt="Hero Background"
         layout="fill"
         objectFit="cover"

@@ -20,7 +20,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <AppSidebar userType={userType} />
 
         <main className="size-full">
-          <div className="flex items-center justify-between p-4 sm:hidden">
+          <div className="flex items-center justify-between p-4 sm:hidden bg-primary-500">
             <Logo />
             <SidebarTrigger />
           </div>
