@@ -48,37 +48,37 @@ const PackageItem = ({
 
   const { toast } = useToast();
   return (
-    <div className="border-b-2 border-red-500 py-2 flex  flex-wrap justify-between ">
-      <div className="flex flex-col gap-2 w-[120px] ">
-        <p className="small-regular ">Vendor</p>
+    <div className="border-b-2 border-red-500 py-2 flex  flex-wrap justify-between max-sm:flex-col gap-2">
+      <div className="flex flex-col gap-2 w-[120px] max-sm:w-full">
+        <p className="small-regular text-primary-500">Vendor</p>
         <p className="body-regular ">{vendorName}</p>
       </div>
-      <div className="flex flex-col gap-2 w-[180px] ">
-        <p className="small-regular">Description</p>
+      <div className="flex flex-col gap-2 w-[180px] max-sm:w-full">
+        <p className="small-regular text-primary-500">Description</p>
         <p className="body-regular ">{description}</p>
       </div>
-      <div className="flex flex-col gap-2 w-[180px] ">
-        <p className="small-regular">Tracking Number (CN)</p>
+      <div className="flex flex-col gap-2 w-[180px] max-sm:w-full">
+        <p className="small-regular text-primary-500">Tracking Number (CN)</p>
         <p className="body-regular ">{trackingNumber}</p>
       </div>
-      <div className="flex flex-col gap-2 w-[100px]  ">
-        <p className="small-regular">Item Value</p>
+      <div className="flex flex-col gap-2 w-[100px]  max-sm:w-full">
+        <p className="small-regular text-primary-500">Item Value</p>
         <p className="body-regular ">{value}</p>
       </div>
-      <div className="flex flex-col gap-2 w-[100px] ">
-        <p className="small-regular">Date</p>
+      <div className="flex flex-col gap-2 w-[100px] max-sm:w-full">
+        <p className="small-regular text-primary-500">Date</p>
         <p className="body-regular ">{date}</p>
       </div>
-      <div className="flex flex-col gap-2 w-[100px] ">
-        <p className="small-regular">Shipment Price</p>
+      <div className="flex flex-col gap-2 w-[100px] max-sm:w-full">
+        <p className="small-regular text-primary-500">Shipment Price</p>
         <div className="flex gap-1 items-center">
           <PhilippinePeso size={16} />{" "}
           <p className="body-regular ">{finalAmount}</p>
         </div>
       </div>
       <div className="flex gap-5">
-        <div className="flex flex-col gap-2 w-[100px] ">
-          <p className="small-regular">Status</p>
+        <div className="flex flex-col gap-2 w-[100px] max-sm:w-full">
+          <p className="small-regular text-primary-500">Status</p>
           <p className="body-regular">{capitalizeWords(status)}</p>
         </div>
       </div>

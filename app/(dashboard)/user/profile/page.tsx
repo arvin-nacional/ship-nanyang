@@ -49,7 +49,7 @@ const Page = async () => {
         {!result && <></>}
       </div>
 
-      <div className="flex gap-5 w-full">
+      <div className="flex gap-5 w-full max-sm:flex-col">
         <div className="flex flex-col gap-2 w-full">
           <span className="paragraph-regular">First Name</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">
@@ -63,7 +63,7 @@ const Page = async () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-5 w-full mt-5">
+      <div className="flex gap-5 w-full mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-2 w-full">
           <span className="paragraph-regular">Contact Number</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">
@@ -77,7 +77,7 @@ const Page = async () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-5 w-full mt-5">
+      <div className="flex gap-5 w-full mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-2 w-full">
           <span className="paragraph-regular">Address Line 1</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">
@@ -91,7 +91,7 @@ const Page = async () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-5 w-full mt-5">
+      <div className="flex gap-5 w-full mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-2 w-full">
           <span className="paragraph-regular">Province</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">
@@ -105,7 +105,7 @@ const Page = async () => {
           </p>
         </div>
       </div>
-      <div className="flex gap-5 w-full mt-5">
+      <div className="flex gap-5 w-full mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-2 w-full">
           <span className="paragraph-regular">Postal Code</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">

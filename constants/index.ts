@@ -74,6 +74,11 @@ export const sidebarLinks: SidebarLink[] = [
     label: "Contact",
     route: "/https://m.me/sdexpressinternational",
   },
+  {
+    imgURL: "/assets/icons/package2.svg",
+    label: "Track Your Package",
+    route: "/user/dashboard",
+  },
 ];
 
 export const solutions: SolutionsCardProps[] = [

@@ -26,12 +26,12 @@ const AddressItem = ({
   isDefault,
 }: Props) => {
   return (
-    <div className="p-5 shadow-lg rounded-2xl flex justify-between items-center">
-      <div className="flex flex-row gap-5 items-center">
+    <div className="p-5 shadow-lg rounded-2xl flex justify-between items-center max-sm:items-start">
+      <div className="flex flex-row gap-5 items-center max-sm:flex-col max-sm:items-start">
         <MapPinHouse className="text-primary-500" size={40} />
 
         <div className="flex flex-col">
-          <div className="flex flex-row gap-5 items-center">
+          <div className="flex flex-row gap-5 items-center max-sm:flex-col max-sm:items-start max-sm:gap-2">
             <p className="base-semibold text-dark-400">{name}</p>
 
             <div className="flex flex-row gap-2 items-center">
@@ -46,7 +46,7 @@ const AddressItem = ({
               </div>
             )}
           </div>
-          <div className="flex flex-row flex-wrap gap-2">
+          <div className="flex flex-row flex-wrap gap-2 max-sm:gap-1 max-sm:mt-2">
             <p className="paragraph-regular">{addressLine1}</p>
 
             <p className="paragraph-regular">{addressLine2}</p>

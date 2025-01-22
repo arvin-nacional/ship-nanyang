@@ -49,8 +49,8 @@ const page = async ({ params }: { params: tParams }) => {
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between">
       <div className="h-full">
         <p className="h2-semibold text-dark-300 mb-5">Shipping Cart Details</p>
-        <div className="flex justify-between  mb-10 items-end">
-          <div className="flex flex-wrap gap-10">
+        <div className="flex justify-between  mb-10 items-end max-sm:flex-col max-sm:items-start">
+          <div className="flex flex-wrap gap-10 max-sm:flex-col max-sm:gap-2">
             <div className="flex flex-col">
               <p className="paragraph-regular text-dark-300">Cart Name</p>
               <p className="h2-semibold text-primary-500">
@@ -58,10 +58,10 @@ const page = async ({ params }: { params: tParams }) => {
               </p>
             </div>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <p className="paragraph-regular text-dark-300">Invoice</p>
               <p className="h2-semibold text-primary-500">Details</p>
-            </div>
+            </div> */}
             <div className="flex flex-col">
               <p className="paragraph-regular text-dark-300">Recipient</p>
               <p className="h2-semibold text-primary-500">
@@ -131,6 +131,7 @@ const page = async ({ params }: { params: tParams }) => {
           {result?.order.packages.length === 0 && (
             <p className="h2-semibold text-dark-300">Shipping Cart is Empty</p>
           )}
+          <p className="h2-semibold text-dark-300 mb-5">Shipping Carts</p>
           {result?.order.packages.map((item: any) => (
             <div key={item._id}>
               <PackageItem
@@ -165,7 +166,7 @@ const page = async ({ params }: { params: tParams }) => {
         </div>
       </div>
 
-      <div className="h-full flex mt-10">
+      <div className="h-full flex mt-10 max-sm:flex-col-reverse">
         {/* <p className="h2-semibold text-dark-300 mb-5">Order Details</p> */}
         <div className="flex flex-col gap-3">
           <div className="flex flex-col">
@@ -190,7 +191,7 @@ const page = async ({ params }: { params: tParams }) => {
             </p>
           </div>
         </div>
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end mb-5">
           <div className="w-[400px] flex flex-col ">
             <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
               <p className="body-regular text-primary-500">

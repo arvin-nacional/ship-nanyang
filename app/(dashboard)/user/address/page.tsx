@@ -26,8 +26,8 @@ const page = async () => {
 
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
-      <div className="flex justify-between">
-        <Breadcrumb className="mb-5">
+      <div className="flex justify-between  h-12 items-center max-sm:flex-row-reverse">
+        <Breadcrumb className="flex h-full items-center max-sm:hidden">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink href="/user/profile/">Profile</BreadcrumbLink>

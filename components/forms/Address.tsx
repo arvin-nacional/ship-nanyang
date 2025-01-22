@@ -140,7 +140,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
           className="flex w-full flex-col gap-5"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-5 max-sm:flex-col">
             <FormField
               control={form.control}
               name="name"
@@ -186,7 +186,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
               )}
             />
           </div>
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-5 max-sm:flex-col">
             <FormField
               control={form.control}
               name="addressLine1"
@@ -232,7 +232,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
               )}
             />
           </div>
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-5 max-sm:flex-col">
             <FormField
               control={form.control}
               name="city"
@@ -278,7 +278,7 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
               )}
             />
           </div>
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-5 max-sm:flex-col">
             <FormField
               control={form.control}
               name="postalCode"
