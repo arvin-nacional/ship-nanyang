@@ -38,8 +38,8 @@ const PaymentImages = ({ images }: Props) => {
             src={image.src}
             alt={image.alt}
             onClick={() => setIndex(idx)}
-            width={380}
-            height={380}
+            width={280}
+            height={280}
             loading="lazy" // Add lazy loading here
             className="max-w-[450px] cursor-pointer rounded-lg object-cover shadow-md transition-transform hover:scale-105"
           />

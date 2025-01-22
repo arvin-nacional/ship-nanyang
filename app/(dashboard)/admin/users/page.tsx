@@ -16,8 +16,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   });
   console.log(result);
   return (
-    <div className="w-full p-12">
-      {" "}
+    <div className="w-full p-12 max-sm:p-6">
       <p className="h2-semibold text-primary-500 mb-5">All Users</p>
       <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar

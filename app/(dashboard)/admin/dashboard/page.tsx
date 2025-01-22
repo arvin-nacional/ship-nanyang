@@ -5,7 +5,7 @@ import React from "react";
 
 const page = async () => {
   return (
-    <div className="flex flex-col w-full p-12">
+    <div className="flex flex-col w-full p-12 max-sm:p-6">
       <div className="w-full">
         <Summary />
       </div>

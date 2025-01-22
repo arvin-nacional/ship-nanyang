@@ -30,9 +30,9 @@ const page = async ({ params, searchParams }: PageProps) => {
   });
   console.log(result);
   return (
-    <div className="w-full p-12">
+    <div className="w-full p-12 max-sm:p-6">
       {/* <p className="h2-bold text-primary-500 mb-5">User Profile</p> */}
-      <div className="flex gap-5 bg-light-800 p-6 rounded-md shadow-md">
+      <div className="flex gap-5 bg-light-800 p-6 rounded-md shadow-md max-sm:flex-col">
         <Image
           src={result.user.picture}
           alt="user photo"

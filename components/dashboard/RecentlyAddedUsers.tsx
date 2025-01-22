@@ -7,7 +7,7 @@ const RecentlyAddedUsers = async () => {
   const result = await getRecentUsers();
 
   return (
-    <div className="background-light800_darkgradient text-dark300_light900 max-w-sm  rounded p-5 text-left text-lg shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)]">
+    <div className="background-light800_darkgradient text-dark300_light900 max-w-sm  rounded p-5 text-left text-lg shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] max-sm:w-full">
       <div className="flex flex-col items-start justify-between">
         <div className="mb-2 flex w-[326px] items-center justify-between gap-[22px]">
           <div className="font-semibold">Recently Added Users</div>
