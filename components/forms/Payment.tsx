@@ -127,6 +127,7 @@ const Payment = ({ orderId, paymentDetails }: Props) => {
                       height={300}
                       width={120}
                       alt="receipt"
+                      onClick={() => handleRemoveImageFromList(item.src)}
                     />
                   </TooltipTrigger>
                   <TooltipContent className="background-light900_dark300">
