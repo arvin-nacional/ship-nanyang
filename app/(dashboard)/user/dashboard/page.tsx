@@ -37,7 +37,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <div className="flex w-full max-sm:flex-col">
-      <div className="max-sm:p-6 p-12 w-full overflow-scroll h-[90vh]">
+      <div className="max-sm:p-6 p-12 w-full overflow-scroll h-[90vh] max-sm:h-full">
         <p className="h2-semibold text-primary-500 mb-5">All Carts</p>
         <div className="mb-6 flex justify-between gap-5 max-sm:flex-col sm:items-center">
           <LocalSearchbar
@@ -52,6 +52,9 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             otherClasses="min-h-[56px] sm:min-w-[170px]"
           />
         </div>
+        {result.orders.length === 0 && (
+          <div className="text-center text-gray-500">No Shipping Carts</div>
+        )}
         {result.orders.map((item) => (
           <div key={item._id}>
             <PackageList
