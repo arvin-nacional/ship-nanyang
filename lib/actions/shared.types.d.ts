@@ -55,6 +55,7 @@ export interface UpdateUserParams {
   privacyPolicyAccepted: boolean;
   path: string;
   addressId?: string;
+  type?: string;
 }
 
 export interface UpdateOrderParams {
