@@ -12,7 +12,7 @@ const Page = async () => {
   const result = await getUserByClerkIdFromCreate({ clerkId: userId });
 
   return (
-    <div className="w-full py-12 min-h-[90vh]">
+    <div className="w-full p-12 min-h-[90vh] max-sm:p-6">
       <div className="w-full flex justify-center items-center ">
         <div className="w-3/4 max-sm:w-full mt-12">
           <p className="h2-bold text-primary-500 mb-5">
