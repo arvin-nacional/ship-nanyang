@@ -12,6 +12,7 @@ import {
   LucideIcon,
   Users,
   Boxes,
+  Combine,
 } from "lucide-react";
 import {
   Sidebar,
@@ -53,11 +54,21 @@ const AppSidebar = ({ userType }: SidebarProps) => {
     { title: "Shipping Carts", url: "/admin/shipping-carts", icon: Package },
     { title: "Packages", url: "/admin/packages", icon: Boxes },
     { title: "Users", url: "/admin/users", icon: Users },
+    {
+      title: "Estimate Shipment",
+      url: "/admin/shipping-calculator",
+      icon: Combine,
+    },
   ];
 
   const userLinks: SidebarLink[] = [
     { title: "Shipping Carts", url: "/user/dashboard", icon: Home },
     { title: "Add Package", url: "/user/add-package", icon: PackagePlus },
+    {
+      title: "Estimate Shipment",
+      url: "/user/shipping-calculator",
+      icon: Combine,
+    },
     { title: "Packages", url: "/user/packages", icon: Package },
     { title: "Receiver Address", url: "/user/address", icon: MapPinHouse },
     { title: "Profile", url: "/user/profile", icon: Settings },
