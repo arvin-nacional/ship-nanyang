@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
@@ -12,6 +12,23 @@ interface Props {
 }
 
 const Topbar = ({ userName, userType }: Props) => {
+  const [currencyRate, setCurrencyRate] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCurrencyRate = async () => {
+      try {
+        const response = await fetch(
+          "https://api.exchangerate-api.com/v4/latest/USD"
+        );
+        const data = await response.json();
+        setCurrencyRate(data.rates.PHP);
+      } catch (error) {
+        console.error("Error fetching currency rate:", error);
+      }
+    };
+
+    fetchCurrencyRate();
+  }, []);
   return (
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">
@@ -44,9 +61,9 @@ const Topbar = ({ userName, userType }: Props) => {
 
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2">
-            <span className="small-regular">Currency Rate of the Day:</span>
+            <span className="small-regular">Currency Rate:</span>
             <span className="paragraph-regular max-sm:small-regular">
-              58.00 PHP
+              {currencyRate} PHP
             </span>
           </div>
 
