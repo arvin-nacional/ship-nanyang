@@ -48,10 +48,13 @@ const Navbar = () => {
   }, [user]);
 
   return (
+    // only show the transarent navbar on home
     <nav
       className={cn(
         "flex-center background-light900_dark200 fixed z-50 w-full",
-        scrolled ? "bg-primary-500 shadow-md" : "bg-primary-500"
+        scrolled || pathname !== "/"
+          ? "bg-primary-500 shadow-md"
+          : "navbar-transparent"
       )}
     >
       <div className="flex-between gap-5 py-4 dark:shadow-none max-xl:w-full max-xl:p-6 max-sm:px-10 max-sm:py-6 xl:min-w-[1200px]">
