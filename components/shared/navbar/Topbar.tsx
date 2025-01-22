@@ -30,13 +30,13 @@ const Topbar = ({ userName, userType }: Props) => {
   }, []);
   return (
     <div className="z-50 w-full">
-      <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">
+      <div className="py-4 bg-light-800 flex justify-between px-6  ">
         <div className="flex items-center gap-2 sm:pl-3">
           <span className="base-regular">Hi,</span>
           <span className="base-semibold text-primary-500">{userName}</span>
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <span className="small-regular">Currency Rate:</span>
             <span className="paragraph-regular max-sm:small-regular">
