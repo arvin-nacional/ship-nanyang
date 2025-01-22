@@ -23,7 +23,7 @@ const loading = () => {
             otherClasses="min-h-[56px] sm:min-w-[170px]"
           />
         </div>
-        <div className="flex justify-center items-center size-full">
+        <div className="flex justify-center items-center ">
           <GridLoader color="#3B82F6" size={15} />
         </div>
       </div>

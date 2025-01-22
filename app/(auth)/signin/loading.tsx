@@ -6,7 +6,7 @@ const loading = () => {
   return (
     <main className="background-light900_dark200 relative">
       <Navbar />
-      <section className="flex min-h-screen flex-1 flex-col overflow-y-auto justify-center items-center w-full">
+      <section className="flex py-12 flex-1 flex-col overflow-y-auto justify-center items-center w-full">
         <div className="text-center text-white">
           <svg
             className="w-16 h-16 animate-spin text-blue-600"
