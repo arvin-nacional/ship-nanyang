@@ -18,6 +18,7 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
 });
 
 export async function getOrdersByUserId(params: GetUserOrderParams) {
@@ -250,12 +251,26 @@ export async function submitPayment(params: SubmitPaymentParams) {
     }
     order.paymentStatus = "for-review";
 
-    // Upload additional images if they are in base64 format
+    // Upload additional images with base64 processing
     const updatedImages = await Promise.all(
       paymentImages.map(async (image) => {
         if (image.src.startsWith("data:image")) {
-          const imageUploadResult = await cloudinary.uploader.upload(image.src);
-          return { src: imageUploadResult.url, alt: image.alt };
+          // Extract mime type and base64 data
+          const mime = image.src.match(/data:(.*?);base64,/)?.[1];
+          const base64Data = image.src.split(",")[1];
+
+          if (!mime || !base64Data) {
+            throw new Error("Invalid image format");
+          }
+
+          const fileUri = `data:${mime};base64,${base64Data}`;
+
+          // Upload to Cloudinary
+          const imageUploadResult = await cloudinary.uploader.upload(fileUri, {
+            invalidate: true,
+          });
+
+          return { src: imageUploadResult.secure_url, alt: image.alt };
         }
         return image;
       })
@@ -263,7 +278,7 @@ export async function submitPayment(params: SubmitPaymentParams) {
 
     order.paymentImages = updatedImages;
 
-    order.save();
+    await order.save();
 
     revalidatePath(path);
   } catch (error) {
