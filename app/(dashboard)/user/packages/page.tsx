@@ -39,6 +39,12 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           otherClasses="min-h-[56px] sm:min-w-[170px]"
         />
       </div>
+
+      {result?.formattedPackages.length === 0 && (
+        <div className="text-center text-gray-500 mt-12">
+          Packages is Empty.
+        </div>
+      )}
       {result?.formattedPackages?.map((item) => (
         <div key={item._id}>
           <PackageListItem

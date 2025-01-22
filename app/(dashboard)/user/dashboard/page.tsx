@@ -14,11 +14,15 @@ import Pagination from "@/components/shared/search/Pagination";
 const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
 
+  // redirect to sign if not authenticated
   if (!userId) {
     redirect("/signin");
   }
+
+  // check if user is in the database
   const user = await getUserIdByClerkId({ clerkId: userId });
 
+  // check if user is verified
   if (user) {
     const verificationResult = userId
       ? await isUserVerified({ clerkId: userId })
@@ -29,8 +33,10 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     }
   }
 
+  // get the search params
   const resolvedSearchParams = await searchParams;
 
+  // get the orders
   const result = await getOrdersByUserId({
     searchQuery: resolvedSearchParams.q,
     filter: resolvedSearchParams.filter,
@@ -56,7 +62,9 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           />
         </div>
         {result.orders.length === 0 && (
-          <div className="text-center text-gray-500">No Shipping Carts</div>
+          <div className="text-center text-gray-500 mt-12">
+            No Shipping Carts. Create one now!
+          </div>
         )}
         {result.orders.map((item) => (
           <div key={item._id}>
