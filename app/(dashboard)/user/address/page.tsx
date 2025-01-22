@@ -25,7 +25,7 @@ const page = async () => {
   const address = await getAddressByUserId(result.userId);
 
   return (
-    <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
+    <div className="p-12 w-full max-sm:p-6" style={{ minHeight: "90vh" }}>
       <div className="flex justify-between  h-12 items-center max-sm:flex-row-reverse">
         <Breadcrumb className="flex h-full items-center max-sm:hidden">
           <BreadcrumbList>

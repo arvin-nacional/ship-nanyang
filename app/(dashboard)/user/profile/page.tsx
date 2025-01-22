@@ -19,7 +19,7 @@ const Page = async () => {
   const result = userId ? await getUserByClerkId({ clerkId: userId }) : null;
 
   return (
-    <div className="p-12 w-full" style={{ height: "100vh" }}>
+    <div className="p-12 w-full max-sm:p-6" style={{ height: "100vh" }}>
       <div className="flex justify-between">
         <Breadcrumb className="mb-5">
           <BreadcrumbList>
