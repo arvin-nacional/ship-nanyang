@@ -33,7 +33,7 @@ const page = async ({ params }: { params: tParams }) => {
   );
 
   return (
-    <div className="w-full min-h-[90vh] p-12 flex flex-col items-between">
+    <div className="w-full min-h-[90vh] p-12 flex flex-col items-between max-sm:p-6">
       <div className="h-full">
         <p className="h2-semibold text-dark-300 mb-5">Shipping Cart Details</p>
         <div className="flex justify-between  mb-10 items-end max-sm:flex-col max-sm:items-start">
