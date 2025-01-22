@@ -1,11 +1,9 @@
 import Footer from "@/components/Footer";
-import Navbar from "@/components/shared/navbar/Navbar";
 import React from "react";
 
 const loading = () => {
   return (
     <main className="background-light900_dark200 relative">
-      <Navbar />
       <section className="flex min-h-screen flex-1 flex-col overflow-y-auto justify-center items-center w-full mt-20">
         <div className="text-center text-white">
           <svg
