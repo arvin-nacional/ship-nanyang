@@ -87,16 +87,16 @@ const Navbar = () => {
                 Track Your Package
               </Button>
             </Link>
-            <Link href="/signup" className="max-sm:hidden">
+            <Link href="/signup">
               <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
                 Register Now
               </Button>
             </Link>
-            <Link href="/signin" className="sm:hidden">
+            {/* <Link href="/signin" className="sm:hidden">
               <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
                 Sign In
               </Button>
-            </Link>
+            </Link> */}
           </SignedOut>
 
           <SignedIn>
