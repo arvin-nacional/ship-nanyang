@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 "use client";
 
 import React, { useTransition, useState } from "react";
