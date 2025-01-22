@@ -116,7 +116,6 @@ const MobileNav = () => {
               width={20}
               height={20}
               alt="logo"
-              className="invert-colors"
             />
           </a>
           <a
@@ -128,7 +127,6 @@ const MobileNav = () => {
               width={20}
               height={20}
               alt="logo"
-              className="invert-colors"
             />
           </a>
           <a
@@ -140,7 +138,6 @@ const MobileNav = () => {
               width={20}
               height={20}
               alt="logo"
-              className="invert-colors"
             />
           </a>
         </div>
