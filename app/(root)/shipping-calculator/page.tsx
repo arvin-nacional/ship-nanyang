@@ -6,9 +6,9 @@ import React from "react";
 const page = () => {
   return (
     <>
-      <section className="background-light400_dark300 flex items-center justify-center overflow-hidden px-16 pb-20 pt-0 max-md:p-10">
-        <div className="w-[1200px] max-w-full justify-center pb-6 max-md:mt-10 lg:mt-20 ">
-          <h6 className="h1-bold mt-5 mb-10 text-center">
+      <section className="background-light400_dark300 flex items-center justify-center overflow-hidden px-16 pb-20 pt-0 max-md:p-10 max-sm:px-6">
+        <div className="w-[1200px] max-w-full justify-center  max-md:mt-10 lg:mt-20 ">
+          <h6 className="h1-bold mt-8 mb-10 text-dark-500 sm:text-center">
             Shipping Calculator
           </h6>
           <div className="w-full flex justify-center items-center ">
