@@ -6,12 +6,16 @@ import MobileNav from "./MobileNav";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { SignedIn, UserButton } from "@clerk/nextjs";
-// import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
+import { isUserVerified } from "@/lib/actions/user.action";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [isVerified, setIsVerified] = useState<boolean | null>(null);
+
+  const { user } = useUser();
+  const pathname = usePathname();
 
   useEffect(() => {
     const checkPosition = () => {
@@ -29,6 +33,20 @@ const Navbar = () => {
       window.removeEventListener("scroll", checkPosition);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchVerificationStatus = async () => {
+      if (user) {
+        const { verified } = await isUserVerified({ clerkId: user.id });
+        setIsVerified(verified);
+      } else {
+        setIsVerified(null);
+      }
+    };
+
+    fetchVerificationStatus();
+  }, [user]);
+
   return (
     <nav
       className={cn(
@@ -36,8 +54,8 @@ const Navbar = () => {
         scrolled ? "bg-primary-500 shadow-md" : "bg-primary-500"
       )}
     >
-      <div className="flex-between gap-5 py-4  dark:shadow-none max-xl:w-full max-xl:p-6 max-sm:px-10 max-sm:py-6 xl:min-w-[1200px]">
-        <Link href="/" className="flex items-center gap-1 ">
+      <div className="flex-between gap-5 py-4 dark:shadow-none max-xl:w-full max-xl:p-6 max-sm:px-10 max-sm:py-6 xl:min-w-[1200px]">
+        <Link href="/" className="flex items-center gap-1">
           <Image
             src="/assets/icons/logo-white.png"
             width={150}
@@ -65,18 +83,28 @@ const Navbar = () => {
         <div className="flex-between gap-5">
           {/* <SignedOut>
             <Link href="/signin" className="max-lg:hidden">
-              <Button className="rounded-3xl border-2 border-light-850  px-10 text-light-800">
+              <Button className="rounded-3xl border-2 border-light-850 px-10 text-light-800">
                 Track Your Package
               </Button>
             </Link>
-          </SignedOut> */}
-          <Link href="https://m.me/sdexpressinternational">
-            <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
-              Contact Us
-            </Button>
-          </Link>
+            <Link href="/signup">
+              <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
+                Register Now
+              </Button>
+            </Link>
+          </SignedOut>
 
           <SignedIn>
+            {pathname !== "/create-account" && (
+              <Link
+                href={isVerified ? "/user/dashboard" : "/create-account"}
+                className="max-lg:hidden"
+              >
+                <Button className="rounded-3xl border-2 border-light-850 px-10 text-light-800">
+                  Track Your Package
+                </Button>
+              </Link>
+            )}
             <UserButton
               appearance={{
                 elements: {
@@ -88,8 +116,6 @@ const Navbar = () => {
               }}
             />
           </SignedIn>
-
-          {/* <Sidebar /> */}
 
           <MobileNav />
         </div>

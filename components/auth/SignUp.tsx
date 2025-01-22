@@ -13,7 +13,7 @@ const SignUpComponent = () => {
       return "/admin/dashboard";
     }
 
-    return "/user/dashboard";
+    return "/create-account";
   };
   return (
     <div>

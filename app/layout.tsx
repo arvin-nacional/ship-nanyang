@@ -6,6 +6,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({
           className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
         >
           <ThemeProvider>{children}</ThemeProvider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

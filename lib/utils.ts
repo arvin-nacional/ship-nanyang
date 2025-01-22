@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import qs from "query-string";
+import { UrlQueryParams } from "@/app/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -98,4 +101,78 @@ export const calculateShippingFee = ({
   };
 
   return result;
+};
+
+export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  currentUrl[key] = value;
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+interface RemoveUrlQueryParams {
+  params: string;
+  keysToRemove: string[];
+}
+export const removeKeysFromQuery = ({
+  params,
+  keysToRemove,
+}: RemoveUrlQueryParams) => {
+  const currentUrl = qs.parse(params);
+
+  keysToRemove.forEach((key) => {
+    delete currentUrl[key];
+  });
+
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query: currentUrl,
+    },
+    { skipNull: true }
+  );
+};
+
+export const formatDate = (date: Date): string => {
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = date
+    .toLocaleString("default", { month: "short" })
+    .toUpperCase();
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+};
+
+export const capitalizeWords = (str: string): string => {
+  return str
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+export const getTotalFinalAmount = (packages: any[]) => {
+  return packages.reduce((total, pkg) => total + (pkg.finalAmount || 0), 0);
+};
+
+export const getTotalPrice = (
+  totalFinalAmount: number = 0,
+  insurance: number = 0,
+  miscellaneousFee: number = 0,
+  localDeliveryFee: number = 0,
+  discount: number = 0
+) => {
+  return (
+    totalFinalAmount +
+    insurance +
+    miscellaneousFee +
+    localDeliveryFee -
+    discount
+  );
 };

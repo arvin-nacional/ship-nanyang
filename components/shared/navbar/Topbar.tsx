@@ -1,19 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SignedIn, useClerk, UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Topbar = () => {
-  const { user } = useClerk();
-  console.log(user);
+interface Props {
+  userName: string;
+  userType: string;
+}
+
+const Topbar = ({ userName, userType }: Props) => {
   return (
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6 gap-10 ">
         <div className="flex items-center gap-2">
-          {user ? (
+          {userName ? (
             <SignedIn>
               <UserButton
                 appearance={{
@@ -36,19 +39,25 @@ const Topbar = () => {
             />
           )}
           <span className="base-regular">Hi,</span>
-          <span className="base-semibold text-primary-500">
-            {user?.fullName}
-          </span>
+          <span className="base-semibold text-primary-500">{userName}</span>
         </div>
 
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2">
             <span className="small-regular">Currency Rate of the Day:</span>
-            <span className="paragraph-regular">58.00 PHP</span>
+            <span className="paragraph-regular max-sm:small-regular">
+              58.00 PHP
+            </span>
           </div>
 
-          <Link href="/user/shipping-calculator">
-            <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500">
+          <Link
+            href={
+              userType === "admin"
+                ? "/admin/shipping-calculator"
+                : "/user/shipping-calculator"
+            }
+          >
+            <Button className="px-10 rounded-3xl border border-primary-500 text-primary-500 hover:bg-primary-400 hover:text-light-900 max-sm:hidden">
               Estimate Shipment
             </Button>
           </Link>

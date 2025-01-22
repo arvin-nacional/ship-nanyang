@@ -6,6 +6,38 @@ export const themes = [
   { value: "system", label: "System", icon: "/assets/icons/computer.svg" },
 ];
 
+export const summaryInfo = [
+  {
+    title: "Shipping Carts",
+    value: 683,
+    series: [10, 25],
+    colors: ["#BECCDA", "#FD8539"],
+    href: "/admin/shipping-carts",
+  },
+
+  {
+    title: "Pending Package",
+    value: 10,
+    series: [25, 25],
+    colors: ["#BECCDA", "#FE6D8E"],
+    href: "/admin/packages?filter=pending",
+  },
+  {
+    title: "For Delivery",
+    value: 12,
+    series: [13, 25],
+    colors: ["#BECCDA", "#01545B"],
+    href: "/admin/shipping-carts?filter=out-for-delivery&page=1",
+  },
+  {
+    title: "Total Users",
+    value: 684,
+    series: [684, 1000],
+    colors: ["#BECCDA", "#2ED480"],
+    href: "/admin/users",
+  },
+];
+
 export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/home.svg",
@@ -41,6 +73,11 @@ export const sidebarLinks: SidebarLink[] = [
     imgURL: "/assets/icons/send-2.svg",
     label: "Contact",
     route: "/https://m.me/sdexpressinternational",
+  },
+  {
+    imgURL: "/assets/icons/package2.svg",
+    label: "Track Your Package",
+    route: "/user/dashboard",
   },
 ];
 
