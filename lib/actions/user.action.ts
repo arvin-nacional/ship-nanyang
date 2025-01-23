@@ -205,19 +205,38 @@ export async function updateUser(params: UpdateUserParams) {
 
 export async function isUserVerified(params: GetUserByClerkIdParams) {
   try {
-    dbConnect();
+    // Ensure the database connection is established
+    await dbConnect();
 
     const { clerkId } = params;
 
+    // Log the clerkId being searched
+    console.log("Checking verification status for Clerk ID:", clerkId);
+
+    // Query the user from the database
     const user = await User.findOne({ clerkId });
+
+    // Log the user data for debugging
+    console.log("User found:", user);
+
     if (!user) {
-      throw new Error("User not found");
+      // Log and throw an error if user is not found
+      console.error(`User not found for Clerk ID: ${clerkId}`);
+      return { verified: false }; // Return default verified status as false
     }
 
-    return { verified: user.verified };
+    // Ensure `user.verified` is a Boolean and return it
+    const isVerified = Boolean(user.verified);
+    console.log(
+      `User verification status for Clerk ID ${clerkId}:`,
+      isVerified
+    );
+
+    return { verified: isVerified };
   } catch (error) {
-    console.log(error);
-    throw new Error("Error checking user verification status");
+    // Log the error for debugging
+    console.error("Error in isUserVerified:", error);
+    return { verified: false }; // Return a default fallback
   }
 }
 
