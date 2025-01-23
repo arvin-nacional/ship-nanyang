@@ -42,7 +42,7 @@ const About = () => {
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
             >
-              <source src="/assets/videos/delivery.mp4" type="video/mp4" />
+              <source src="/assets/videos/delivery2.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {/* <Image
