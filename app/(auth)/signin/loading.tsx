@@ -35,7 +35,6 @@ const loading = () => {
           </svg>
         </div>
       </section>
-      <Footer />
     </main>
   );
 };
