@@ -8,9 +8,12 @@ const SignInComponent = () => {
 
   const getRedirectUrl = () => {
     const userType = user?.publicMetadata?.userType as string;
+    const isVerified = user?.publicMetadata?.verified as boolean;
 
     if (userType === "admin") {
       return "/admin/dashboard";
+    } else if (userType === "user" && !isVerified) {
+      return "/create-account";
     }
 
     return "/user/dashboard";
