@@ -73,6 +73,8 @@ const Profile = ({ type, profileDetails }: Props) => {
         });
         if (type === "Edit") {
           router.push("/user/profile");
+        } else if (type === "Create") {
+          router.push("/user/dashboard");
         }
       } catch (error) {
         console.log(error);

@@ -154,11 +154,9 @@ export async function updateUser(params: UpdateUserParams) {
 
     console.log({ params: params });
 
-    // Step 1: Update user metadata if formType is "Create"
     if (formType === "Create") {
       const client = await clerkClient();
 
-      // Update the Clerk metadata to set `verified: true`
       await client.users.updateUserMetadata(clerkId, {
         publicMetadata: {
           verified: true,
@@ -166,21 +164,19 @@ export async function updateUser(params: UpdateUserParams) {
       });
     }
 
-    // Step 2: Find the user in the database
     const user = await User.findOne({ clerkId });
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    // Step 3: Update the user's fields
     user.firstName = firstName;
     user.lastName = lastName;
     user.email = email;
     user.privacyPolicyAccepted = privacyPolicyAccepted;
     user.verified = true;
 
-    // Step 4: Handle address creation or update
+    // Create or update address in the address collection
     const address = {
       name: `${firstName} ${lastName}`,
       userId: user._id,
@@ -205,25 +201,15 @@ export async function updateUser(params: UpdateUserParams) {
     user.address = userAddress._id;
     await user.save();
 
-    // Step 5: Wait until user is verified in Clerk's session
-    const client = await clerkClient();
+    const userWithFormattedDate = {
+      ...user.toObject(),
+      _id: user._id.toString(), // Convert ObjectId to string
+      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
+      address: user.address.toString(),
+    };
+    revalidatePath(path);
 
-    // Fetch the user again to ensure metadata has been updated
-    const updatedUser = await client.users.getUser(clerkId);
-
-    // Wait until the verified field in Clerk session is truly updated to true
-    if (updatedUser.publicMetadata?.verified === true) {
-      console.log("User is verified in Clerk. Proceeding with redirect.");
-
-      // Step 6: Revalidate the path and redirect
-      revalidatePath(path);
-
-      return { user: user.toObject(), redirect: "/user/dashboard" };
-    } else {
-      console.log("User not verified in Clerk. Delaying redirect.");
-      // Add some delay or retry mechanism if necessary
-      return { redirect: "/create-account" }; // Redirecting to create-account if not verified yet
-    }
+    return { user: userWithFormattedDate };
   } catch (error) {
     console.log(error);
     throw new Error("Error updating user");

@@ -7,7 +7,7 @@ const isAdminRoute = createRouteMatcher("/admin/(.*)");
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
 
-  const isVerified = sessionClaims?.verified || false;
+  // const isVerified = sessionClaims?.verified || false;
 
   // Check if it's a user route
   if (isUserRoute(req)) {
@@ -24,10 +24,10 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(adminDashboardUrl);
     }
 
-    if (!isVerified) {
-      const createAccountUrl = new URL("/create-account", req.url);
-      return NextResponse.redirect(createAccountUrl);
-    }
+    // if (!isVerified) {
+    //   const createAccountUrl = new URL("/create-account", req.url);
+    //   return NextResponse.redirect(createAccountUrl);
+    // }
   }
 
   // Check if it's an admin route
