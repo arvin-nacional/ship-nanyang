@@ -208,10 +208,13 @@ export async function updateUser(params: UpdateUserParams) {
       address: user.address.toString(),
     };
     revalidatePath(path);
+
     return { user: userWithFormattedDate };
   } catch (error) {
     console.log(error);
     throw new Error("Error updating user");
+  } finally {
+    return { redirect: "/user/dashboard" };
   }
 }
 
