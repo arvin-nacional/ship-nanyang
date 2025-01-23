@@ -17,7 +17,6 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(signinUrl);
   }
 
-  const clerkId = sessionClaims.sub;
   const userRole = sessionClaims.userType || "user";
   const isVerified = sessionClaims.verified || false;
 
