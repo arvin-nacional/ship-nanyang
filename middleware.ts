@@ -19,9 +19,16 @@ export default clerkMiddleware(async (auth, req) => {
 
     const userRole = sessionClaims.userType || "user";
 
+    const isVerified = sessionClaims.verified || false;
+
     if (userRole !== "user") {
       const adminDashboardUrl = new URL("/admin/dashboard", req.url);
       return NextResponse.redirect(adminDashboardUrl);
+    }
+
+    if (!isVerified) {
+      const createAccountUrl = new URL("/create-account", req.url);
+      return NextResponse.redirect(createAccountUrl);
     }
   }
 
