@@ -4,7 +4,7 @@ import { process } from "@/constants";
 
 const ShipmentProcess = () => {
   return (
-    <section className="flex items-center justify-center bg-gray-100 px-16 py-20 max-md:px-5 max-sm:py-5 sm:px-14">
+    <section className="flex items-center justify-center bg-gray-100 px-16 py-20 max-md:px-5 max-sm:py-5 sm:px-14 ">
       <div className="grid w-[1200px] max-w-full  gap-10 px-2 pb-6 align-top max-md:mt-10 ">
         <p className="h1-bold ">Our Shipment Process</p>
         <p className="paragraph-regular text-dark-400">
