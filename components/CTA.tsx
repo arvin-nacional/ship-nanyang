@@ -11,10 +11,12 @@ const CTA = () => {
           <article className="flex w-[41%] flex-col max-md:ml-0 max-md:w-full ">
             <div className="flex w-full flex-col items-start justify-center gap-5 max-md:mt-10 max-md:max-w-full h-full max-sm:ml-5 ml-20">
               <h4 className="base-medium">Ready to ship from China?</h4>
-              <h5 className="h1-bold drop-shadow-lg">Send Us a Message Now</h5>
-              <Link href="https://m.me/sdexpressinternational">
+              <h5 className="h1-bold drop-shadow-lg">
+                Create Your Account Now
+              </h5>
+              <Link href="/signup">
                 <Button className="rounded-3xl bg-primary-500 px-10 text-light-900">
-                  Contact Us
+                  Register Now
                 </Button>
               </Link>
             </div>
