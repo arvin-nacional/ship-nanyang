@@ -24,7 +24,7 @@ const About = () => {
               simplify the entire process, so you can focus on what
               matters—enjoying your purchases.
             </p>
-            <Link href="https://m.me/sdexpressinternational">
+            <Link href="/signin">
               <Button className="mt-10 rounded-3xl bg-primary-500 px-10 text-light-900">
                 Start Now
               </Button>
