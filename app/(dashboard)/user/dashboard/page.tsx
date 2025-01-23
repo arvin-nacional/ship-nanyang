@@ -25,7 +25,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   // check if user is verified
   if (user) {
     const verificationResult = userId
-      ? await isUserVerified({ clerkId: userId })
+      ? isUserVerified({ clerkId: userId })
       : null;
 
     if (verificationResult?.verified === false) {
