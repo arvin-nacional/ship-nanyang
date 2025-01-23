@@ -14,29 +14,29 @@ import Pagination from "@/components/shared/search/Pagination";
 const page = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = await auth();
 
-  // redirect to sign if not authenticated
+  // Redirect to sign-in if not authenticated
   if (!userId) {
     redirect("/signin");
   }
 
-  // check if user is in the database
+  // Check if user is in the database
   const user = await getUserIdByClerkId({ clerkId: userId });
-
-  // check if user is verified
-  if (user) {
-    const verificationResult = userId
-      ? await isUserVerified({ clerkId: userId })
-      : null;
-
-    if (verificationResult?.verified === false) {
-      redirect("/create-account");
-    }
+  if (!user) {
+    redirect("/create-account");
   }
 
-  // get the search params
+  // Check if user is verified
+  const verificationResult = await isUserVerified({ clerkId: userId });
+
+  // Ensure verificationResult is properly handled
+  if (verificationResult?.verified !== true) {
+    redirect("/create-account");
+  }
+
+  // Safely resolve searchParams
   const resolvedSearchParams = await searchParams;
 
-  // get the orders
+  // Fetch user orders
   const result = await getOrdersByUserId({
     searchQuery: resolvedSearchParams.q,
     filter: resolvedSearchParams.filter,
