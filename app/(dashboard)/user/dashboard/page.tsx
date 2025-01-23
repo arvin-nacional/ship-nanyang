@@ -19,17 +19,19 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     redirect("/signin");
   }
 
-  // Check if user is in the database
-  const user = await getUserIdByClerkId({ clerkId: userId });
+  // Start the verification and order fetch in parallel
+  const [user, verificationResult] = await Promise.all([
+    getUserIdByClerkId({ clerkId: userId }), // Check if user exists in the database
+    isUserVerified({ clerkId: userId }), // Check if user is verified
+  ]);
+
+  // Redirect if user is not found
   if (!user) {
     redirect("/create-account");
   }
 
-  // Check if user is verified
-  const verificationResult = await isUserVerified({ clerkId: userId });
-
-  // Ensure verificationResult is properly handled
-  if (verificationResult?.verified !== true) {
+  // Redirect if the user is not verified
+  if (!verificationResult?.verified) {
     redirect("/create-account");
   }
 
