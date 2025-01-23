@@ -65,7 +65,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
         </div>
         {result.orders.length === 0 && (
           <div className="text-center text-gray-500 mt-12">
-            No Shipping Carts. Create one now!
+            No Shipping Carts.
           </div>
         )}
         {result.orders.map((item) => (
