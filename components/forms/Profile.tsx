@@ -69,7 +69,7 @@ const Profile = ({ type, profileDetails }: Props) => {
           privacyPolicyAccepted: data.privacyPolicyAccepted,
           addressId: parsedProfileDetails?.address?._id,
           path: pathname,
-          type: type,
+          formType: type,
         });
         if (type === "Edit") {
           router.push("/user/profile");

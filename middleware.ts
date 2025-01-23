@@ -7,6 +7,8 @@ const isAdminRoute = createRouteMatcher("/admin/(.*)");
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
 
+  console.log(sessionClaims);
+
   // Check if it's a user route
   if (isUserRoute(req)) {
     if (!sessionClaims) {
