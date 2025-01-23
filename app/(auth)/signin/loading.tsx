@@ -4,7 +4,6 @@ import React from "react";
 const loading = () => {
   return (
     <main className="background-light900_dark200 relative">
-      <Navbar />
       <section className="flex py-12 flex-1 flex-col overflow-y-auto justify-center items-center w-full mt-20 h-[90vh]">
         <div className="text-center text-white">
           <svg
