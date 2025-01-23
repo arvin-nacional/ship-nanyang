@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
       <section className="flex items-center justify-center bg-gray-100 px-16 pt-20 max-md:px-5 max-sm:pt-5 max-sm:pb-0 sm:px-14">
-        <div className="grid w-[1200px] max-w-full grid-cols-2 gap-10 px-2 pb-6 align-top max-md:mt-10 max-sm:grid-cols-1">
+        <div className="grid w-[1200px] max-w-full grid-cols-2 gap-10 px-2 pb-6 align-top max-md:mt-10 max-sm:grid-cols-1 ">
           <div className="flex flex-col items-start justify-center">
             <h2 className="h1-bold mb-2 text-dark-500">
               Order with ease and let us handle the journey. Fast, reliable, and
@@ -31,12 +31,42 @@ const About = () => {
               </Button>
             </Link>
           </div>
-          <Image
+
+          {/* <div className="flex items-center justify-center"> */}
+
+          <div className="relative w-full h-full overflow-hidden rounded-lg max-sm:h-64">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src="/assets/videos/delivery.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            {/* <Image
+              alt="about-gif"
+              src="/assets/images/delivery.gif"
+              layout="fill"
+              objectFit="cover"
+              className="object-cover"
+            /> */}
+          </div>
+          {/* <Image
+            alt="about-gif"
+            src="/assets/images/delivery.gif"
+            width={552}
+            height={552}
+            className="object-cover"
+          /> */}
+          {/* </div> */}
+          {/* <Image
             alt="about-image"
             src="/assets/images/about-1.png"
             width={552}
             height={552}
-          />
+          /> */}
         </div>
       </section>
       {/* <div id="solutions"></div> */}

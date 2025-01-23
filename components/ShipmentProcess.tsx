@@ -16,7 +16,7 @@ const ShipmentProcess = () => {
           seamless, reliable, and affordable delivery experience every time.
         </p>
 
-        <div className="mt-5 flex items-start justify-between max-md:flex-col md:flex-wrap">
+        <div className="mt-5 flex items-start justify-between max-md:flex-col md:flex-wrap gap-3">
           {process.map((item) => (
             <ProcessCard key={item.id} {...item} />
           ))}
