@@ -32,7 +32,7 @@ const AboutPage = () => {
         </div>
         <Image
           alt="about-image"
-          src="/assets/images/about-3.svg"
+          src="/assets/images/about-1.svg"
           width={552}
           height={552}
         />
