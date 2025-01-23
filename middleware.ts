@@ -7,56 +7,60 @@ const isAdminRoute = createRouteMatcher("/admin/(.*)");
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
 
-  console.log(sessionClaims);
+  console.log("Session Claims:", sessionClaims);
 
-  // Check if it's a user route
-  if (isUserRoute(req)) {
-    if (!sessionClaims) {
-      // Redirect unauthenticated users trying to access user routes
-      const homeUrl = new URL("/", req.url);
-      return NextResponse.redirect(homeUrl);
+  // Redirect unauthenticated users
+  if (!sessionClaims) {
+    console.log("User not authenticated. Redirecting to /signin.");
+    const signinUrl = new URL("/signin", req.url);
+    return NextResponse.redirect(signinUrl);
+  }
+
+  const userRole = sessionClaims.userType || "user";
+  const isVerified = sessionClaims.verified || false;
+
+  // Admin-specific routes
+  if (isAdminRoute(req)) {
+    if (userRole !== "admin") {
+      console.log(
+        `Non-admin (${userRole}) attempting to access admin route. Redirecting.`
+      );
+      const userDashboardUrl = new URL("/user/dashboard", req.url);
+      return NextResponse.redirect(userDashboardUrl);
     }
+    console.log("Admin access granted.");
+    return NextResponse.next();
+  }
 
-    const userRole = sessionClaims.userType || "user";
-
-    const isVerified = sessionClaims.verified || false;
-
+  // User-specific routes
+  if (isUserRoute(req)) {
     if (userRole !== "user") {
+      console.log(
+        `Non-user (${userRole}) attempting to access user route. Redirecting to admin.`
+      );
       const adminDashboardUrl = new URL("/admin/dashboard", req.url);
       return NextResponse.redirect(adminDashboardUrl);
     }
 
     if (!isVerified) {
+      console.log("User not verified. Redirecting to /create-account.");
       const createAccountUrl = new URL("/create-account", req.url);
       return NextResponse.redirect(createAccountUrl);
     }
+
+    console.log("Verified user. Access granted.");
+    return NextResponse.next();
   }
 
-  // Check if it's an admin route
-  if (isAdminRoute(req)) {
-    if (!sessionClaims) {
-      // Redirect unauthenticated users trying to access admin routes
-      const homeUrl = new URL("/", req.url);
-      return NextResponse.redirect(homeUrl);
-    }
-
-    const userRole = sessionClaims.userType || "user";
-
-    if (userRole !== "admin") {
-      const userDashboardUrl = new URL("/user/dashboard", req.url);
-      return NextResponse.redirect(userDashboardUrl);
-    }
-  }
-
-  // Allow free access to all other routes
+  // Allow all other routes
+  console.log("Free access granted.");
   return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    // Middleware runs for all routes, but logic above ensures selective protection
+    // Middleware runs for all routes, selective protection is handled in logic above
     "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    // Always run for API routes
     "/(api|trpc)(.*)",
   ],
 };
