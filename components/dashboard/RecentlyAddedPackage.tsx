@@ -24,15 +24,15 @@ const RecentlyAddedPackage = async () => {
           >
             <div className="flex flex-col gap-1 ">
               <p className="small-regular">Cart Name</p>
-              <Link href={`/admin/shipping-carts/${item.orderId._id}`}>
+              <Link href={`/admin/shipping-carts/${item?.orderId?._id}`}>
                 <p className="body-regular text-primary-500">
-                  {item.orderId.name}
+                  {item?.orderId?.name}
                 </p>
               </Link>
             </div>
             <div className="flex flex-col gap-1 w-[150px] items-end">
               <p className="small-regular">Tracking Number</p>
-              <p className="body-regular">{item.trackingNumber}</p>
+              <p className="body-regular">{item?.trackingNumber}</p>
             </div>
           </div>
         ))}
