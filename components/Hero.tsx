@@ -1,6 +1,6 @@
 import React from "react";
-// import { Button } from "./ui/button";
-// import Link from "next/link";
+import { Button } from "./ui/button";
+import Link from "next/link";
 // import Image from "next/image";
 
 const Hero = () => {
@@ -35,13 +35,13 @@ const Hero = () => {
           Order with ease and let us handle the journey. Fast, reliable, and
           secure logistics tailored to bring your products home.
         </h2>
-        {/* <div className="mt-10 flex gap-2">
-          <Link href="https://m.me/sdexpressinternational">
+        <div className="mt-10 flex gap-2">
+          <Link href="/signin">
             <Button className="rounded-3xl bg-light-800 text-primary-500 px-10">
-              Contact Us
+              Start Now
             </Button>
           </Link>
-        </div> */}
+        </div>
       </div>
     </section>
   );
