@@ -15,7 +15,6 @@ const Page = () => {
       <PartnerLogos />
       <Services />
       <About />
-
       <Solutions />
       <ShipmentProcess />
       <Testimonials />
