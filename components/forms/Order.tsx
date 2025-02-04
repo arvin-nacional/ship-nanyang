@@ -27,6 +27,17 @@ import {
 } from "../ui/select";
 import { createPackage } from "@/lib/actions/package.action";
 import { useUser } from "@clerk/nextjs";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import { cn } from "@/lib/utils";
 
 interface Props {
   type?: string;
@@ -36,6 +47,7 @@ interface Props {
   addressId?: string;
   orderId?: string;
   userType?: string;
+  admin?: boolean;
 }
 
 const Order = ({
@@ -45,6 +57,7 @@ const Order = ({
   addressId,
   orderId,
   userType,
+  admin,
 }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -132,6 +145,29 @@ const Order = ({
       }
     });
   }
+
+  const frameworks = [
+    {
+      value: "next.js",
+      label: "Next.js",
+    },
+    {
+      value: "sveltekit",
+      label: "SvelteKit",
+    },
+    {
+      value: "nuxt.js",
+      label: "Nuxt.js",
+    },
+    {
+      value: "remix",
+      label: "Remix",
+    },
+    {
+      value: "astro",
+      label: "Astro",
+    },
+  ];
 
   return (
     <Form {...form}>
@@ -315,50 +351,103 @@ const Order = ({
               </FormItem>
             )}
           />
-          {form.watch("type") === "singleOrder" && (
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Address <span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                          <SelectValue placeholder="Select Receiver Address" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="bg-light-900">
-                        {parsedAddress?.addresses.map((item: any) => (
-                          <SelectItem key={item._id} value={item._id}>
-                            {item.name} - {item.contactNumber} -{" "}
-                            {item.addressLine1}, {item.addressLine2},{" "}
-                            {item.city}, {item.province}, {item.postalCode}
-                          </SelectItem>
-                        ))}
+          {form.watch("type") === "singleOrder" &&
+            (!admin ? (
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Address <span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
+                            <SelectValue placeholder="Select Receiver Address" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-light-900">
+                          {parsedAddress?.addresses.map((item: any) => (
+                            <SelectItem key={item._id} value={item._id}>
+                              {item.name} - {item.contactNumber} -{" "}
+                              {item.addressLine1}, {item.addressLine2},{" "}
+                              {item.city}, {item.province}, {item.postalCode}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col ">
+                    <FormLabel>Receiver</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border w-full justify-between"
+                        >
+                          {field.value
+                            ? parsedAddress?.addresses.find(
+                                (item: any) => item._id === field.value
+                              )?.name
+                            : "Select Address"}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-full min-w-[var(--radix-popover-trigger-width)] p-0"
+                        align="start" // Ensures proper alignment with the trigger
+                      >
+                        <Command>
+                          <CommandInput placeholder="Search address..." />
+                          <CommandList>
+                            <CommandEmpty>No receiver found.</CommandEmpty>
+                            <CommandGroup>
+                              {parsedAddress?.addresses.map((item: any) => (
+                                <CommandItem
+                                  key={item._id}
+                                  value={item.name}
+                                  onSelect={() => field.onChange(item._id)}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      field.value === item._id
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                  <span>{item.name}</span>
+                                  <div className="truncate text-xs ">
+                                    {item.contactNumber} {item.addressLine1}{" "}
+                                    {item.city}
+                                  </div>
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
 
-                        {/* <SelectItem value="defaultAddress">
-                      Profile Address
-                    </SelectItem>
-                    <SelectItem value="m@google.com">m@google.com</SelectItem>
-                    <SelectItem value="m@support.com">m@support.com</SelectItem> */}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Create a title for your post.
-              </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
-          )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
         </div>
         <Button
           type="submit"

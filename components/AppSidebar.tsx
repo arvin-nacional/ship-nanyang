@@ -59,6 +59,12 @@ const AppSidebar = ({ userType }: SidebarProps) => {
       url: "/admin/shipping-calculator",
       icon: Combine,
     },
+    {
+      title: "Receivers",
+      url: "/admin/receiver",
+      icon: MapPinHouse,
+    },
+    { title: "Add Package", url: "/admin/add-package", icon: PackagePlus },
   ];
 
   const userLinks: SidebarLink[] = [

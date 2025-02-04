@@ -31,9 +31,10 @@ interface Props {
   type?: string;
   addressDetails?: string;
   addressId?: string;
+  admin?: boolean;
 }
 
-const Address = ({ type, addressDetails, addressId }: Props) => {
+const Address = ({ type, addressDetails, addressId, admin }: Props) => {
   const [isPending, startTransition] = useTransition();
 
   const pathname = usePathname();
@@ -73,7 +74,9 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             isDefault: data.isDefault,
           });
 
-          router.push("/user/address");
+          if (admin) {
+            router.push("/admin/receiver");
+          } else router.push("/user/address");
         } else {
           await updateAddress(addressId ?? "", {
             clerkId: user?.id ?? "",
@@ -87,7 +90,9 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             isDefault: data.isDefault,
           });
 
-          router.push("/user/address");
+          if (admin) {
+            router.push("/admin/receiver");
+          } else router.push("/user/address");
         }
       } catch (error) {
         console.log(error);
@@ -109,7 +114,11 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
   return (
     <>
       {type === "create" ? (
-        <p className="h2-bold mb-5">Add Address</p>
+        admin ? (
+          <p className="h2-bold mb-5">Add Receiver</p>
+        ) : (
+          <p className="h2-bold mb-5">Add a Package</p>
+        )
       ) : (
         <div className="flex justify-between">
           <p className="h2-bold mb-5">Edit Address</p>
@@ -303,34 +312,35 @@ const Address = ({ type, addressDetails, addressId }: Props) => {
             />
             <div className="w-full"></div>
           </div>
-          {parsedAddressDetails?.isDefault === false && (
-            <FormField
-              control={form.control}
-              name="isDefault"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  {/* <FormLabel className="paragraph-semibold text-dark400_light800">
+          {parsedAddressDetails?.isDefault === false ||
+            (!admin && (
+              <FormField
+                control={form.control}
+                name="isDefault"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col">
+                    {/* <FormLabel className="paragraph-semibold text-dark400_light800">
                   Postal Code <span className="text-primary-500">*</span>
                 </FormLabel> */}
-                  <FormControl className="mt-3.5">
-                    <div className="flex items-center space-x-2">
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                      <Label htmlFor="airplane-mode">
-                        Set as Default Address
-                      </Label>
-                    </div>
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                    <FormControl className="mt-3.5">
+                      <div className="flex items-center space-x-2">
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                        <Label htmlFor="airplane-mode">
+                          Set as Default Address
+                        </Label>
+                      </div>
+                    </FormControl>
+                    {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
-          )}
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                )}
+              />
+            ))}
 
           <Button
             type="submit"

@@ -12,6 +12,7 @@ interface Props {
   postalCode: string;
   addressId: string;
   isDefault?: boolean;
+  admin?: boolean;
 }
 
 const AddressItem = ({
@@ -24,6 +25,7 @@ const AddressItem = ({
   postalCode,
   addressId,
   isDefault,
+  admin,
 }: Props) => {
   return (
     <div className="p-5 shadow-lg rounded-2xl flex justify-between items-center max-sm:items-start">
@@ -56,7 +58,13 @@ const AddressItem = ({
           </div>
         </div>
       </div>
-      <Link href={`/user/address/edit/${addressId}`}>
+      <Link
+        href={
+          admin
+            ? `/admin/receiver/edit/${addressId}`
+            : `/user/address/edit/${addressId}`
+        }
+      >
         <div>
           <Edit className="text-green-600 mt-2" size={24} />
           <p className="small-regular text-gray-400">Edit</p>
