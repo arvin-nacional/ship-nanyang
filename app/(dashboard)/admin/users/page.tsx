@@ -35,11 +35,11 @@ const page = async ({ searchParams }: SearchParamsProps) => {
         <UserList
           key={item._id}
           name={item.firstName + " " + item.lastName}
-          phoneNumber={item.address.contactNumber}
+          phoneNumber={item.address?.contactNumber}
           id={item._id}
           email={item.email}
           photo={item.picture}
-          address={item.address.city}
+          address={item.address?.city}
         />
       ))}
     </div>
