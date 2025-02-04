@@ -5,7 +5,7 @@ import React from "react";
 
 const error = () => {
   return (
-    <div className="w-full h-screen flex items-center justify-center flex-col">
+    <div className="w-full h-screen flex items-center justify-center flex-col mt-[-100px]">
       <p className="paragraph-regular text-dark-500 mb-5">
         We encountered an Error.
       </p>
