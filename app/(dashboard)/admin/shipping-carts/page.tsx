@@ -31,6 +31,12 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             otherClasses="min-h-[56px] sm:min-w-[170px]"
           />
         </div>
+
+        {result.orders.length === 0 && (
+          <div className="text-center text-gray-500 mt-12">
+            No Shipping Carts.
+          </div>
+        )}
         {result.orders.map((item) => (
           <div key={item._id}>
             <PackageList

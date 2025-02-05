@@ -5,6 +5,7 @@ import React from "react";
 import { getAllUsers } from "@/lib/actions/user.action";
 import UserList from "@/components/ui/userList";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/search/Pagination";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
   const resolvedSearchParams = await searchParams;
@@ -42,6 +43,15 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           address={item.address?.city}
         />
       ))}
+
+      <div className="mt-10">
+        <Pagination
+          pageNumber={
+            resolvedSearchParams?.page ? +resolvedSearchParams.page : 1
+          }
+          isNext={result.isNext}
+        />
+      </div>
     </div>
   );
 };

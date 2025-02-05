@@ -291,7 +291,7 @@ export async function getAllUsers(params: FilterQueryParams) {
   try {
     dbConnect();
 
-    const { searchQuery, page = 1, pageSize = 10 } = params;
+    const { searchQuery, page = 1, pageSize = 7 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 
@@ -305,7 +305,10 @@ export async function getAllUsers(params: FilterQueryParams) {
       ];
     }
 
-    const users = await User.find(query).populate("address");
+    const users = await User.find(query)
+      .populate("address")
+      .skip(skipAmount)
+      .limit(pageSize);
 
     const totalUsers = await User.countDocuments(query);
     const isNext = totalUsers > skipAmount + users.length;
