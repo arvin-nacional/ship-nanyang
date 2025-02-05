@@ -7,7 +7,7 @@ import { WebhookEvent, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const SIGNING_SECRET = process.env.SIGNING_SECRET;
+  const SIGNING_SECRET = "whsec_gJGacwZ3qMZQ4UMg72vhnYMinyF+N23T";
 
   if (!SIGNING_SECRET) {
     throw new Error(
