@@ -15,7 +15,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     filter: resolvedSearchParams.filter,
     page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
   });
-  console.log(result);
+  // console.log(result);
   return (
     <div className="w-full p-12 max-sm:p-6">
       <p className="h2-semibold text-primary-500 mb-5">All Users</p>
