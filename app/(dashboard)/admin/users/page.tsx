@@ -24,7 +24,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           route="/admin/users"
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
-          placeholder="Search Packages"
+          placeholder="Search Users"
           otherClasses="flex-1"
         />
         {/* <Filter
