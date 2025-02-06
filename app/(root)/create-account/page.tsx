@@ -6,6 +6,8 @@ import React from "react";
 const Page = async () => {
   const { userId } = await auth();
 
+  console.log(await auth());
+
   if (!userId) {
     throw new Error("User ID is null");
   }
