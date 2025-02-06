@@ -12,6 +12,7 @@ const Page = async () => {
     throw new Error("User ID is null");
   }
   const result = await getUserByClerkIdFromCreate({ clerkId: userId });
+  console.log("lasdhasdfhasdfh");
 
   return (
     <div className="w-full p-12 min-h-[90vh] max-sm:p-6 max-sm:mt-8">
