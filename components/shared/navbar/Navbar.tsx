@@ -51,7 +51,7 @@ const Navbar = () => {
     // only show the transarent navbar on home
     <nav
       className={cn(
-        "flex-center background-light900_dark200 fixed z-[999] w-full",
+        "flex-center background-light900_dark200 fixed z-50 w-full",
         scrolled || pathname !== "/"
           ? "bg-primary-500 shadow-md"
           : "navbar-transparent"
