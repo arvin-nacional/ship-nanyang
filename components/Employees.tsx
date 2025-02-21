@@ -18,7 +18,7 @@ const Employees = () => {
     },
   ];
   return (
-    <main className="flex flex-col items-center justify-center overflow-hidden py-14 max-md:py-0 max-md:pt-14">
+    <main className="flex flex-col items-center justify-center overflow-hidden py-14 max-md:py-0">
       <section className="w-[1200px] max-w-full overflow-hidden max-sm:rounded-none rounded-3xl bg-gray-100 shadow-lg">
         {/* <p className="h1-bold mb-5">Our Team</p> */}
         <AnimatedTestimonials testimonials={testimonials} />
