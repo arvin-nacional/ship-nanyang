@@ -18,7 +18,7 @@ const RightSidebar = () => {
       </Link>
       <p className="base-semibold text-dark-400 mb-5">Your Shipping Address</p>
       <div className="p-5 rounded-sm shadow-lg bg-light-800">
-        <p className="base-semibold">AirFreight Address: </p>
+        <p className="base-semibold">AirFreight & SeaFreight Address: </p>
         <p>
           收件人： 郑建盛13326968789
           广东省中山市沙溪镇新濠路24号后座——超凡转28292号 邮政编码：528400
