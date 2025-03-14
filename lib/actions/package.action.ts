@@ -28,7 +28,7 @@ async function getNextSequence(name: string): Promise<number> {
 
 export async function createPackage(params: createPackageParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const {
       clerkId,
@@ -54,13 +54,19 @@ export async function createPackage(params: createPackageParams) {
       const orderNumber = await getNextSequence("orderNumber");
       const orderName = `SD-#${orderNumber + 1000}`;
 
-      const newOrder = await Order.create({
-        name: orderName,
-        user: user._id,
-        status: "created",
-        packages: [newPackage._id],
-        address: address,
-      });
+      let newOrder;
+      try {
+        newOrder = await Order.create({
+          name: orderName,
+          user: user._id,
+          status: "created",
+          packages: [newPackage._id],
+          address: address,
+        });
+      } catch (err) {
+        console.error("Error creating order:", err);
+        throw new Error("Failed to create order");
+      }
 
       const formatOrder = {
         ...newOrder.toObject(),

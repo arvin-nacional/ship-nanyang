@@ -4,6 +4,7 @@ import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import emailjs from "@emailjs/browser";
 
 import {
   Form,
@@ -97,6 +98,21 @@ const Order = ({
 
   async function onSubmit(data: z.infer<typeof CreateOrderSchema>) {
     startTransition(async () => {
+      const templateParams = {
+        name: user?.firstName + " " + user?.lastName,
+        vendor: data.vendor,
+        trackingNumber: data.trackingNumber,
+        value: data.value,
+        description: data.description,
+      };
+
+      await emailjs.send(
+        "service_1bcie1i",
+        "template_2n6x7ol",
+        templateParams,
+        "fDv2DYRFGmAq1kj7y"
+      );
+
       if (type === "consolidation" && data.orderId) {
         try {
           if (user) {
