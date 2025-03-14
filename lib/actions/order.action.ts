@@ -67,7 +67,7 @@ export async function getOrdersByUserId(params: GetUserOrderParams) {
         query.status = "failed-delivery-attempt";
         break;
       case "previous-orders":
-        query.status = "previous-orders";
+        sortOptions = { createdAt: 1 };
         break;
       default:
         break;
@@ -170,7 +170,7 @@ export async function getAllOrders(params: FilterQueryParams) {
         query.status = "failed-delivery-attempt";
         break;
       case "previous-orders":
-        query.status = "previous-orders";
+        sortOptions = { createdAt: 1 };
         break;
       default:
         break;

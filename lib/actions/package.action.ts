@@ -172,7 +172,7 @@ export async function getPackagesWithAddressDetails(
         query.status = "failed-delivery-attempt";
         break;
       case "previous-orders":
-        query.status = "previous-orders";
+        sortOptions = { createdAt: 1 };
         break;
       default:
         break;
@@ -271,7 +271,7 @@ export async function getPackagesByUserId(params: userPackagesParams) {
         query.status = "failed-delivery-attempt";
         break;
       case "previous-orders":
-        query.status = "previous-orders";
+        sortOptions = { createdAt: 1 };
         break;
       default:
         break;
@@ -370,7 +370,7 @@ export async function getAllPackagesWithAddressDetails(
         query.status = "failed-delivery-attempt";
         break;
       case "previous-orders":
-        query.status = "previous-orders";
+        sortOptions = { createdAt: 1 };
         break;
       default:
         break;
