@@ -81,6 +81,7 @@ export const UpdateOrderSchema = z.object({
   miscellaneousFee: z.string(),
   localDeliveryFee: z.string(),
   discount: z.string(),
+  airwayBillNumber: z.string(),
 });
 
 export const UpdatePackageSchema = z.object({

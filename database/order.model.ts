@@ -15,6 +15,7 @@ export interface IOrder extends Document {
   isDelivered: boolean;
   deliveredAt: Date;
   paymentLink: string;
+  airwayBillNumber: string;
   finalAmount?: number;
   packages: Schema.Types.ObjectId[];
   name: string;
@@ -37,6 +38,7 @@ const OrderSchema = new Schema({
   deliveredAt: { type: Date },
   paymentLink: { type: String },
   finalAmount: { type: Number },
+  airwayBillNumber: { type: String },
   packages: [{ type: Schema.Types.ObjectId, ref: "Package" }],
   name: { type: String },
   address: { type: Schema.Types.ObjectId, ref: "Address" },

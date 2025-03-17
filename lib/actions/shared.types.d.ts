@@ -68,6 +68,7 @@ export interface UpdateOrderParams {
   localDeliveryFee: string;
   path: string;
   discount: string;
+  airwayBillNumber: string;
 }
 
 export interface PaymentImages {

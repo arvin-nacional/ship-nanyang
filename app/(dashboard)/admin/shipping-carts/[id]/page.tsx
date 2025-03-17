@@ -67,6 +67,14 @@ const page = async ({ params }: { params: tParams }) => {
                 {capitalizeWords(result?.order.paymentStatus)}
               </p>
             </div>
+            <div className="flex flex-col">
+              <p className="paragraph-regular text-dark-300">
+                Airway Bill Number
+              </p>
+              <p className="h2-semibold text-primary-500">
+                {capitalizeWords(result?.order.airwayBillNumber)}
+              </p>
+            </div>
           </div>
           <div className="flex gap-10 items-center">
             <div className="flex flex-col">

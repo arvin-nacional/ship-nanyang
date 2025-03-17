@@ -213,6 +213,7 @@ export async function updateOrder(params: UpdateOrderParams) {
       miscellaneousFee,
       localDeliveryFee,
       discount,
+      airwayBillNumber,
     } = params;
 
     console.log(params);
@@ -230,6 +231,7 @@ export async function updateOrder(params: UpdateOrderParams) {
     order.miscellaneousFee = miscellaneousFee;
     order.localDeliveryFee = localDeliveryFee;
     order.discount = discount;
+    order.airwayBillNumber = airwayBillNumber;
 
     order.save();
   } catch (error) {

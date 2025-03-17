@@ -38,6 +38,8 @@ const Cart = ({ shippingDetails }: Props) => {
   const router = useRouter();
   const parsedShippingDetails = JSON.parse(shippingDetails);
 
+  console.log(parsedShippingDetails);
+
   const form = useForm<z.infer<typeof UpdateOrderSchema>>({
     resolver: zodResolver(UpdateOrderSchema),
     defaultValues: {
@@ -50,6 +52,7 @@ const Cart = ({ shippingDetails }: Props) => {
       miscellaneousFee:
         parsedShippingDetails?.miscellaneousFee?.toString() || "",
       discount: parsedShippingDetails?.discount?.toString() || "",
+      airwayBillNumber: parsedShippingDetails?.airwayBillNumber,
     },
   });
 
@@ -66,6 +69,7 @@ const Cart = ({ shippingDetails }: Props) => {
           localDeliveryFee: data.localDeliveryFee,
           miscellaneousFee: data.miscellaneousFee,
           discount: data.discount,
+          airwayBillNumber: data.airwayBillNumber,
           path: pathname,
         });
         router.push(`/admin/shipping-carts/${parsedShippingDetails._id}`);
@@ -83,8 +87,11 @@ const Cart = ({ shippingDetails }: Props) => {
       >
         <div className="flex flex-col">
           <p className="paragraph-regular text-dark-300">Cart Name</p>
-          <p className="h2-semibold text-primary-500">SD-#1020</p>
+          <p className="h2-semibold text-primary-500">
+            {parsedShippingDetails?.name}
+          </p>
         </div>
+
         <FormField
           control={form.control}
           name="status"
@@ -175,6 +182,28 @@ const Cart = ({ shippingDetails }: Props) => {
               {/* <FormDescription className="body-regular mt-2.5 text-light-500">
                 Create a title for your post.
               </FormDescription> */}
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="airwayBillNumber"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col">
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Airway Bill Number <span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <Input
+                  className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  {...field}
+                  placeholder="Enter airway bill number"
+                />
+              </FormControl>
+              {/* <FormDescription className="body-regular mt-2.5 text-light-500">
+                        Create a title for your post.
+                      </FormDescription> */}
               <FormMessage className="text-red-500" />
             </FormItem>
           )}
