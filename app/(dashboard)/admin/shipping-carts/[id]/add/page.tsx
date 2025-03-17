@@ -8,9 +8,8 @@ const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
 
   const result = await getOrderById(id);
-  // console.log(result);
+
   const orderAddressId = result?.order.address._id;
-  // console.log(orderAddressId);
 
   const { sessionClaims } = await auth();
 
