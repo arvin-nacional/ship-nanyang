@@ -2,7 +2,7 @@
   "crons": [
     {
       "name": "every-5-minutes",
-      "path": "/lib/actions/keepAlive.ts",
+      "path": "/api/keepAlive",
       "schedule": "*/5 * * * *"
     }
   ]
