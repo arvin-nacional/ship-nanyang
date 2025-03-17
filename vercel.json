@@ -1,7 +1,6 @@
 {
   "crons": [
     {
-      "name": "everyday",
       "path": "/api/keepAlive",
       "schedule": "0 5 * * *"
     }
