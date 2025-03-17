@@ -72,7 +72,7 @@ const page = async ({ params }: { params: tParams }) => {
                 Airway Bill Number
               </p>
               <p className="h2-semibold text-primary-500">
-                {capitalizeWords(result?.order.airwayBillNumber)}
+                {result?.order?.airwayBillNumber}
               </p>
             </div>
           </div>
