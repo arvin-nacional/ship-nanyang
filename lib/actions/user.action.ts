@@ -152,8 +152,6 @@ export async function updateUser(params: UpdateUserParams) {
       formType,
     } = params;
 
-    console.log({ params: params });
-
     if (formType === "Create") {
       const client = await clerkClient();
 
@@ -187,7 +185,6 @@ export async function updateUser(params: UpdateUserParams) {
       postalCode,
       contactNumber,
     };
-    console.log(addressId);
 
     let userAddress;
     if (addressId) {

@@ -18,17 +18,14 @@ type PageProps = {
 const page = async ({ params, searchParams }: PageProps) => {
   const { id } = await params;
   const resolvedSearchParams = await searchParams;
-  console.log(resolvedSearchParams);
 
   const result = await getUserById({ userId: id });
-  console.log(resolvedSearchParams);
   const orders = await getOrdersByUserId({
     searchQuery: resolvedSearchParams.q,
     filter: resolvedSearchParams.filter,
     page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
     clerkId: result.user.clerkId,
   });
-  console.log(result);
   return (
     <div className="w-full p-12 max-sm:p-6">
       {/* <p className="h2-bold text-primary-500 mb-5">User Profile</p> */}

@@ -7,9 +7,8 @@ const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
 
   const result = await getOrderById(id);
-  console.log(result);
   const orderAddressId = result?.order.address._id;
-  console.log(orderAddressId);
+
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>
       <p className="h2-bold mb-5">Add a Package</p>

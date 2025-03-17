@@ -21,7 +21,6 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
     clerkId: userId,
   });
-  console.log(result);
 
   return (
     <div className="p-12 w-full max-sm:p-6" style={{ minHeight: "90vh" }}>

@@ -4,7 +4,6 @@ import React from "react";
 
 const RecentlyAddedPackage = async () => {
   const result = await getRecentlyAddedPackages();
-  console.log(result);
   return (
     <div className="background-light800_darkgradient text-dark300_light900 max-w-sm  rounded p-5 text-left text-lg shadow-[0px_4px_4px_rgba(0,_0,_0,_0.25)] max-sm:w-full">
       <div className="flex flex-col items-start justify-between ">

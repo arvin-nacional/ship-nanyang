@@ -82,8 +82,6 @@ const Order = ({
     },
   });
 
-  console.log(parsedOrders);
-
   React.useEffect(() => {
     const selectedOrderId = form.watch("orderId");
     if (selectedOrderId) {

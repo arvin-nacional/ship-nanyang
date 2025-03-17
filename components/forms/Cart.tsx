@@ -59,7 +59,6 @@ const Cart = ({ shippingDetails }: Props) => {
   async function onSubmit(data: z.infer<typeof UpdateOrderSchema>) {
     startTransition(async () => {
       try {
-        console.log(data);
         await updateOrder({
           orderId: parsedShippingDetails._id,
           status: data.status,

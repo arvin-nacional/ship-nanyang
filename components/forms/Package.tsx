@@ -51,7 +51,6 @@ const Package = ({ packageDetails }: Props) => {
   async function onSubmit(data: z.infer<typeof UpdatePackageSchema>) {
     startTransition(async () => {
       try {
-        console.log(data);
         await updatePackage({
           packageId: parsedPackageDetails._id,
           vendor: data.vendor,

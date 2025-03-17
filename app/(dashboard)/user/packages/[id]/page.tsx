@@ -30,7 +30,6 @@ const page = async ({ params }: { params: tParams }) => {
   const userType = (sessionClaims?.userType as string) || "user";
 
   const result = await getOrderById(id);
-  console.log(result.order.packages);
 
   const totalFinalAmount = getTotalFinalAmount(result.order.packages);
 
@@ -41,8 +40,6 @@ const page = async ({ params }: { params: tParams }) => {
     result?.order.localDeliveryFee,
     result?.order.discount
   );
-
-  console.log(result);
 
   return (
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between max-sm:p-6">
