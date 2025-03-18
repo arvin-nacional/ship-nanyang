@@ -343,6 +343,9 @@ export async function getAllPackagesWithAddressDetails(
     }
 
     let sortOptions = {};
+    if (!filter) {
+      sortOptions = { createdAt: -1 };
+    }
 
     switch (filter) {
       case "all":
