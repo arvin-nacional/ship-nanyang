@@ -1,11 +1,13 @@
 import Filter from "@/components/shared/search/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
+import { Button } from "@/components/ui/button";
 import PackageList from "@/components/ui/packageList";
 import { OrderFilters } from "@/constants/filters";
 import { getOrdersByUserId } from "@/lib/actions/order.action";
 import { getUserById } from "@/lib/actions/user.action";
-import { Mail, MapPinHouse, PhoneCallIcon } from "lucide-react";
+import { Mail, MapPinHouse, PackagePlus, PhoneCallIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 // type tParams = Promise<{ id: string; [key: string]: string | undefined }>;
@@ -29,47 +31,60 @@ const page = async ({ params, searchParams }: PageProps) => {
   return (
     <div className="w-full p-12 max-sm:p-6">
       {/* <p className="h2-bold text-primary-500 mb-5">User Profile</p> */}
-      <div className="flex gap-5 bg-light-800 p-6 rounded-md shadow-md max-sm:flex-col">
-        <Image
-          src={result.user.picture}
-          alt="user photo"
-          height={100}
-          width={100}
-          className="rounded-md"
-        />
+      <div className="flex gap-5 bg-light-800 p-6 rounded-md shadow-md max-sm:flex-col justify-between items-center">
+        <div className="flex gap-5  max-sm:flex-col">
+          <Image
+            src={result.user.picture}
+            alt="user photo"
+            height={100}
+            width={100}
+            className="rounded-md"
+          />
+          <div>
+            <p className="h2-semibold text-dark-200">
+              {result.user.firstName + " " + result.user.lastName}
+            </p>
+            <div className="flex gap-2 items-center">
+              <Mail size={16} className="inline-block text-primary-500" />
+              <p className="paragraph-medium text-dark-500">
+                {result.user.email}
+              </p>
+            </div>
+            <div className="flex gap-2 items-center">
+              <PhoneCallIcon
+                size={16}
+                className="inline-block text-primary-500"
+              />
+              <p className="paragraph-medium text-dark-500">
+                {result.user.address.contactNumber}
+              </p>
+            </div>
+            <div className="flex gap-2 items-center">
+              <MapPinHouse
+                size={16}
+                className="inline-block text-primary-500"
+              />
+              <p>
+                {result.user.address.addressLine1 +
+                  " " +
+                  result.user.address.addressLine2 +
+                  " " +
+                  result.user.address.city +
+                  " " +
+                  result.user.address.province +
+                  " " +
+                  result.user.address.postalCode}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div>
-          <p className="h2-semibold text-dark-200">
-            {result.user.firstName + " " + result.user.lastName}
-          </p>
-          <div className="flex gap-2 items-center">
-            <Mail size={16} className="inline-block text-primary-500" />
-            <p className="paragraph-medium text-dark-500">
-              {result.user.email}
-            </p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <PhoneCallIcon
-              size={16}
-              className="inline-block text-primary-500"
-            />
-            <p className="paragraph-medium text-dark-500">
-              {result.user.address.contactNumber}
-            </p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <MapPinHouse size={16} className="inline-block text-primary-500" />
-            <p>
-              {result.user.address.addressLine1 +
-                " " +
-                result.user.address.addressLine2 +
-                " " +
-                result.user.address.city +
-                " " +
-                result.user.address.province +
-                " " +
-                result.user.address.postalCode}
-            </p>
-          </div>
+          <Link href={`/admin/add-package/${id}`}>
+            <Button className="px-5 border border-primary-500 hover:bg-primary-400 rounded-3xl w-full bg-primary-500 text-light-800 mb-5">
+              <PackagePlus /> Add Package
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="w-full mt-12">
