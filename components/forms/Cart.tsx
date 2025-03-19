@@ -52,7 +52,7 @@ const Cart = ({ shippingDetails }: Props) => {
       miscellaneousFee:
         parsedShippingDetails?.miscellaneousFee?.toString() || "",
       discount: parsedShippingDetails?.discount?.toString() || "",
-      airwayBillNumber: parsedShippingDetails?.airwayBillNumber,
+      airwayBillNumber: parsedShippingDetails?.airwayBillNumber || "",
     },
   });
 
