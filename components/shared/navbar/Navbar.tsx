@@ -73,7 +73,7 @@ const Navbar = () => {
           <Link href="/about" className="base-regular">
             About Us
           </Link>
-          <Link href="/#solutions" className="base-regular">
+          <Link href="#solutions" className="base-regular">
             Solutions
           </Link>
           <Link href="/shipping-calculator" className="base-regular">
