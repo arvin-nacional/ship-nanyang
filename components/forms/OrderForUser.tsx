@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { createPackage } from "@/lib/actions/package.action";
+import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/nextjs";
 // import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 // import { Check, ChevronsUpDown } from "lucide-react";
@@ -63,6 +64,8 @@ const OrderForUser = ({
 }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
+  const { toast } = useToast();
 
   const parsedUser = JSON.parse(user || "{}");
   console.log(parsedUser);
@@ -130,12 +133,25 @@ const OrderForUser = ({
             console.error("User is not authenticated");
           }
 
-          router.push(
-            userType === "admin"
-              ? `/admin/shipping-carts/${orderId}`
-              : `/user/packages/${orderId}`
-          );
+          toast({
+            title: "Package Created",
+            description: "Package has been created successfully.",
+          });
         } catch (error) {
+          toast({
+            title: "Error",
+            description:
+              "An error occurred while creating the package. Please try again.",
+            action: (
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+              >
+                Refresh
+              </Button>
+            ),
+            variant: "destructive",
+          });
           console.log(error);
         }
       } else {
@@ -154,8 +170,26 @@ const OrderForUser = ({
           } else {
             console.error("User is not authenticated");
           }
-          router.push("/user/dashboard");
+
+          toast({
+            title: "Package Created",
+            description: "Package has been created successfully.",
+          });
         } catch (error) {
+          toast({
+            title: "Error",
+            description:
+              "An error occurred while creating the package. Please try again.",
+            action: (
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+              >
+                Refresh
+              </Button>
+            ),
+            variant: "destructive",
+          });
           console.log(error);
         }
       }

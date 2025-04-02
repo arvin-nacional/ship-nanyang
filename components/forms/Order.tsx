@@ -39,6 +39,7 @@ import {
   CommandList,
 } from "../ui/command";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   type?: string;
@@ -66,6 +67,8 @@ const Order = ({
 
   const parsedAddress = JSON.parse(address || "{}");
   const parsedOrders = JSON.parse(orders || "{}");
+
+  const { toast } = useToast();
 
   const parsedAddressId = addressId ? JSON.parse(addressId) : null;
 
@@ -128,12 +131,31 @@ const Order = ({
             console.error("User is not authenticated");
           }
 
+          toast({
+            title: "Package Created",
+            description: "Package has been created successfully.",
+          });
+
           router.push(
             userType === "admin"
               ? `/admin/shipping-carts/${orderId}`
               : `/user/packages/${orderId}`
           );
         } catch (error) {
+          toast({
+            title: "Error",
+            description:
+              "An error occurred while creating the package. Please try again.",
+            action: (
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+              >
+                Refresh
+              </Button>
+            ),
+            variant: "destructive",
+          });
           console.log(error);
         }
       } else {
@@ -149,12 +171,32 @@ const Order = ({
               type: data.type,
               orderId: data.orderId || "",
             });
+
+            toast({
+              title: "Package Created",
+              description: "Package has been created successfully.",
+            });
+            router.push("/user/dashboard");
           } else {
             console.error("User is not authenticated");
           }
-          router.push("/user/dashboard");
+          // router.push("/user/dashboard");
         } catch (error) {
           console.log(error);
+          toast({
+            title: "Error",
+            description:
+              "An error occurred while creating the package. Please try again.",
+            action: (
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+              >
+                Refresh
+              </Button>
+            ),
+            variant: "destructive",
+          });
         }
       }
     });
