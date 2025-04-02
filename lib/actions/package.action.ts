@@ -63,6 +63,7 @@ export async function createPackage(params: createPackageParams) {
           address: address,
         });
       } catch (err) {
+        await Package.findByIdAndDelete(newPackage._id);
         console.error("Error creating order:", err);
         throw new Error("Failed to create order");
       }
