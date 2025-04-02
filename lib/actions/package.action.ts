@@ -40,7 +40,7 @@ export async function createPackage(params: createPackageParams) {
       type,
       orderId,
     } = params;
-
+    const orderNumber = await getNextSequence("orderNumber");
     const user = await User.findOne({ clerkId });
 
     const newPackage = await Package.create({
@@ -51,7 +51,6 @@ export async function createPackage(params: createPackageParams) {
     });
 
     if (type === "singleOrder") {
-      const orderNumber = await getNextSequence("orderNumber");
       const orderName = `SD-#${orderNumber + 1000}`;
 
       let newOrder;
