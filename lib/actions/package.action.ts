@@ -40,7 +40,11 @@ export async function createPackage(params: createPackageParams) {
       type,
       orderId,
     } = params;
-    const orderNumber = await getNextSequence("orderNumber");
+    const orderNumber = getNextSequence("orderNumber");
+
+    if (!orderNumber) {
+      throw new Error("Failed to generate order number");
+    }
     const user = await User.findOne({ clerkId });
 
     const newPackage = await Package.create({
@@ -51,7 +55,7 @@ export async function createPackage(params: createPackageParams) {
     });
 
     if (type === "singleOrder") {
-      const orderName = `SD-#${orderNumber + 1000}`;
+      const orderName = `SD-#${(await orderNumber) + 1000}`;
 
       let newOrder;
       try {
@@ -93,7 +97,7 @@ export async function createPackage(params: createPackageParams) {
         $push: { packages: newPackage._id },
       });
 
-      newPackage.save();
+      await newPackage.save();
 
       const formatPackage = {
         ...newPackage.toObject(),

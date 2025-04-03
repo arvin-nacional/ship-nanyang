@@ -314,3 +314,26 @@ export async function getOutForDeliveryOrderCount() {
     throw new Error("Error fetching out-for-delivery order count");
   }
 }
+
+export async function deleteCart(orderId: string) {
+  try {
+    dbConnect();
+
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    // Delete all packages associated with the order
+    await Package.deleteMany({ _id: { $in: order.packages } });
+
+    // Delete the order itself
+    await Order.findByIdAndDelete(orderId);
+
+    return { message: "Cart and associated packages deleted successfully" };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error deleting cart");
+  }
+}

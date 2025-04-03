@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import DeleteCartButton from "@/components/deleteCartButton";
 import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
 import PaymentImages from "@/components/ui/PaymentImages";
@@ -35,7 +37,13 @@ const page = async ({ params }: { params: tParams }) => {
   return (
     <div className="w-full min-h-[90vh] p-12 flex flex-col items-between max-sm:p-6">
       <div className="h-full">
-        <p className="h2-semibold text-dark-300 mb-5">Shipping Cart Details</p>
+        <div className="flex justify-between items-center">
+          <p className="h2-semibold text-dark-300 mb-5">
+            Shipping Cart Details
+          </p>
+          <DeleteCartButton id={id} />
+        </div>
+
         <div className="flex justify-between  mb-10 items-end max-sm:flex-col max-sm:items-start">
           <div className="flex flex-wrap gap-10 max-sm:flex-col max-sm:gap-2">
             <div className="flex flex-col">

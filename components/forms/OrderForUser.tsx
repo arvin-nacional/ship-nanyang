@@ -175,6 +175,7 @@ const OrderForUser = ({
             title: "Package Created",
             description: "Package has been created successfully.",
           });
+          router.push(`/admin/users/${parsedUser._id}`);
         } catch (error) {
           toast({
             title: "Error",
