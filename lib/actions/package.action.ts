@@ -3,6 +3,7 @@
 "use server";
 
 import User from "@/database/user.model";
+import mongoose from "mongoose";
 import dbConnect from "../mongoose";
 import {
   createPackageParams,
@@ -27,6 +28,9 @@ async function getNextSequence(name: string): Promise<number> {
 }
 
 export async function createPackage(params: createPackageParams) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
     await dbConnect();
 
@@ -40,77 +44,133 @@ export async function createPackage(params: createPackageParams) {
       type,
       orderId,
     } = params;
-    const orderNumber = getNextSequence("orderNumber");
 
-    if (!orderNumber) {
-      throw new Error("Failed to generate order number");
+    // Validate required fields
+    if (!clerkId || !trackingNumber || !description || !vendor) {
+      throw new Error("Missing required fields");
     }
-    const user = await User.findOne({ clerkId });
 
-    const newPackage = await Package.create({
-      trackingNumber,
-      description,
-      value,
-      vendor,
-    });
+    const user = await User.findOne({ clerkId }).session(session);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    // Create the package within transaction
+    const [newPackage] = await Package.create(
+      [
+        {
+          trackingNumber,
+          description,
+          value,
+          vendor,
+          userId: user._id,
+        },
+      ],
+      { session }
+    );
 
     if (type === "singleOrder") {
-      const orderName = `SD-#${(await orderNumber) + 1000}`;
-
-      let newOrder;
-      try {
-        newOrder = await Order.create({
-          name: orderName,
-          user: user._id,
-          status: "created",
-          packages: [newPackage._id],
-          address: address,
-        });
-      } catch (err) {
-        await Package.findByIdAndDelete(newPackage._id);
-        console.error("Error creating order:", err);
-        throw new Error("Failed to create order");
+      if (!address) {
+        throw new Error("Address is required for single order");
       }
 
-      const formatOrder = {
-        ...newOrder.toObject(),
-        _id: newOrder._id.toString(),
-        user: newOrder.user.toString(),
-        packages: newOrder.packages.map((p: any) => p.toString()),
-        address: newOrder.address.toString(),
-      };
-      newPackage.orderId = newOrder._id;
-      newPackage.userId = user._id;
-      newPackage.save();
-      const formatPackage = {
-        ...newPackage.toObject(),
-        _id: newPackage._id.toString(),
-        orderId: newOrder._id.toString(),
-        userId: user._id.toString(),
-      };
+      const orderNumber = await getNextSequence("orderNumber");
+      if (!orderNumber) {
+        throw new Error("Failed to generate order number");
+      }
 
-      return { order: formatOrder, package: formatPackage };
+      const orderName = `SD-#${orderNumber + 1000}`;
+
+      // Create order within the same transaction
+      const [newOrder] = await Order.create(
+        [
+          {
+            name: orderName,
+            user: user._id,
+            status: "created",
+            packages: [newPackage._id],
+            address: address,
+          },
+        ],
+        { session }
+      );
+
+      // Update package with order reference
+      await Package.findByIdAndUpdate(
+        newPackage._id,
+        { orderId: newOrder._id },
+        { session }
+      );
+
+      await session.commitTransaction();
+
+      return {
+        order: formatOrder(newOrder),
+        package: formatPackage(newPackage),
+      };
     } else if (type === "consolidation") {
-      newPackage.orderId = orderId;
-      newPackage.userId = user._id;
-      await Order.findByIdAndUpdate(orderId, {
-        $push: { packages: newPackage._id },
-      });
+      if (!orderId) {
+        throw new Error("Order ID is required for consolidation");
+      }
 
-      await newPackage.save();
+      // Verify the order exists and belongs to the user
+      const existingOrder = await Order.findOne({
+        _id: orderId,
+        user: user._id,
+      }).session(session);
 
-      const formatPackage = {
-        ...newPackage.toObject(),
-        _id: newPackage._id.toString(),
-        orderId: orderId.toString(),
-        userId: user._id.toString(),
+      if (!existingOrder) {
+        throw new Error("Order not found or access denied");
+      }
+
+      // Update both package and order within transaction
+      await Package.findByIdAndUpdate(newPackage._id, { orderId }, { session });
+
+      await Order.findByIdAndUpdate(
+        orderId,
+        { $push: { packages: newPackage._id } },
+        { session }
+      );
+
+      await session.commitTransaction();
+
+      return {
+        package: formatPackage(newPackage),
       };
-      return { package: formatPackage };
+    } else {
+      throw new Error("Invalid package type");
     }
   } catch (error) {
-    console.log(error);
-    throw new Error("Error creating package");
+    await session.abortTransaction();
+    console.error("Transaction aborted:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Failed to complete package creation"
+    );
+  } finally {
+    await session.endSession();
   }
+}
+
+// Helper functions
+function formatOrder(order: any) {
+  return {
+    ...order.toObject(),
+    _id: order._id.toString(),
+    user: order.user.toString(),
+    packages: order.packages.map((p: any) => p.toString()),
+    address: order.address.toString(),
+  };
+}
+
+function formatPackage(pkg: any) {
+  return {
+    ...pkg.toObject(),
+    _id: pkg._id.toString(),
+    orderId: pkg.orderId?.toString(),
+    userId: pkg.userId.toString(),
+  };
 }
 
 export async function getPackagesWithAddressDetails(
