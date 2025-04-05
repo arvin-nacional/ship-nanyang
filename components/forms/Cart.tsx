@@ -38,8 +38,6 @@ const Cart = ({ shippingDetails }: Props) => {
   const router = useRouter();
   const parsedShippingDetails = JSON.parse(shippingDetails);
 
-  console.log(parsedShippingDetails);
-
   const form = useForm<z.infer<typeof UpdateOrderSchema>>({
     resolver: zodResolver(UpdateOrderSchema),
     defaultValues: {

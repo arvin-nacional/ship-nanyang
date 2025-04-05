@@ -116,7 +116,6 @@ export async function createPackage(params: createPackageParams) {
       // Verify the order exists and belongs to the user
       const existingOrder = await Order.findOne({
         _id: orderId,
-        user: user._id,
       }).session(session);
 
       if (!existingOrder) {

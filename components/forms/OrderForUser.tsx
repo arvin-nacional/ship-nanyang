@@ -68,7 +68,7 @@ const OrderForUser = ({
   const { toast } = useToast();
 
   const parsedUser = JSON.parse(user || "{}");
-  console.log(parsedUser);
+
   const parsedAddress = JSON.parse(address || "{}");
   const parsedOrders = JSON.parse(orders || "{}");
 

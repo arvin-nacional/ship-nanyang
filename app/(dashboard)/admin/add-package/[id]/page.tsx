@@ -12,14 +12,11 @@ type PageProps = {
 };
 const page = async ({ params }: PageProps) => {
   const { id } = await params;
-  console.log(id);
 
   if (!id) {
     throw new Error("User ID is null");
   }
   const user = await getUserById({ userId: id });
-
-  console.log(user);
 
   const address = await getAddressByUserId(id);
   const orders = await getOrdersByUserId({ clerkId: user.user.clerkId });
