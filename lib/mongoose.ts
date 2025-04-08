@@ -11,15 +11,22 @@ interface MongooseCache {
   promise: Promise<Mongoose> | null;
 }
 
+// For hot reload in development
 declare global {
-  /* eslint-disable no-var */
-  var mongoose: MongooseCache;
+  var mongooseCache: MongooseCache | undefined;
 }
 
-let cached = global.mongoose;
+const globalWithCache = global as typeof globalThis & {
+  mongooseCache: MongooseCache;
+};
+
+let cached = globalWithCache.mongooseCache;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = globalWithCache.mongooseCache = {
+    conn: null,
+    promise: null,
+  };
 }
 
 const dbConnect = async (): Promise<Mongoose> => {
@@ -32,18 +39,18 @@ const dbConnect = async (): Promise<Mongoose> => {
       .connect(MONGODB_URI, {
         dbName: "sd-express",
       })
-      .then((result) => {
-        console.log("Connected to MongoDB");
-        return result;
+      .then((mongooseInstance) => {
+        console.log("✅ MongoDB connected");
+        return mongooseInstance;
       })
-      .catch((error) => {
-        console.log("Error connecting to MongoDB", error);
-        return error;
+      .catch((err) => {
+        console.error("❌ MongoDB connection error:", err);
+        cached.promise = null; // Reset so next call can try again
+        throw err; // Re-throw to prevent caching failed connection
       });
   }
 
   cached.conn = await cached.promise;
-
   return cached.conn;
 };
 

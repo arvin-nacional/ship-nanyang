@@ -28,12 +28,11 @@ async function getNextSequence(name: string): Promise<number> {
 }
 
 export async function createPackage(params: createPackageParams) {
+  await dbConnect();
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    await dbConnect();
-
     const {
       clerkId,
       trackingNumber,
