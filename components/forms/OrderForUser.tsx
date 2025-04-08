@@ -4,7 +4,7 @@ import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from "@emailjs/browser";
+// import emailjs from "@emailjs/browser";
 
 import {
   Form,
@@ -109,12 +109,12 @@ const OrderForUser = ({
         description: data.description,
       };
 
-      await emailjs.send(
-        "service_1bcie1i",
-        "template_2n6x7ol",
-        templateParams,
-        "fDv2DYRFGmAq1kj7y"
-      );
+      // await emailjs.send(
+      //   "service_1bcie1i",
+      //   "template_2n6x7ol",
+      //   templateParams,
+      //   "fDv2DYRFGmAq1kj7y"
+      // );
 
       if (type === "consolidation" && data.orderId) {
         try {
