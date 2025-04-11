@@ -18,14 +18,14 @@ import Address from "@/database/address.model";
 import { revalidatePath } from "next/cache";
 import { FilterQuery } from "mongoose";
 
-async function getNextSequence(name: string): Promise<number> {
-  const counter = await Counter.findOneAndUpdate(
-    { name },
-    { $inc: { seq: 1 } },
-    { new: true, upsert: true }
-  );
-  return counter.seq;
-}
+// async function getNextSequence(name: string): Promise<number> {
+//   const counter = await Counter.findOneAndUpdate(
+//     { name },
+//     { $inc: { seq: 1 } },
+//     { new: true, upsert: true }
+//   );
+//   return counter.seq;
+// }
 
 export async function createPackage(params: createPackageParams) {
   await dbConnect();
@@ -73,11 +73,22 @@ export async function createPackage(params: createPackageParams) {
         throw new Error("Address is required for single order");
       }
 
-      const orderNumber = await getNextSequence("orderNumber");
-      if (!orderNumber) {
-        throw new Error("Failed to generate order number");
-      }
+      // const orderNumber = await getNextSequence("orderNumber");
+      // if (!orderNumber) {
+      //   throw new Error("Failed to generate order number");
+      // }
 
+      // const orderName = `SD-#${orderNumber + 1000}`;
+
+      // Generate order number without separate counter collection
+      const lastOrder = await Order.findOne(
+        {},
+        {},
+        { sort: { createdAt: -1 }, session }
+      );
+      const orderNumber = lastOrder
+        ? parseInt(lastOrder.name.split("#")[1]) - 999
+        : 1;
       const orderName = `SD-#${orderNumber + 1000}`;
 
       // Create order within the same transaction
