@@ -389,7 +389,7 @@ export async function getAllPackagesWithAddressDetails(
   try {
     dbConnect();
 
-    const { searchQuery, filter, page = 1, pageSize = 7 } = params;
+    const { searchQuery, filter, page = 1, pageSize = 6 } = params;
 
     // Calculcate the number of packages to skip based on the page number and page size
     const skipAmount = (page - 1) * pageSize;
@@ -571,6 +571,7 @@ export async function updatePackage(params: UpdatePackageParams) {
 
 export async function getPendingPackageCount() {
   try {
+    dbConnect();
     const pendingCount = await Package.countDocuments({ status: "pending" });
     return pendingCount;
   } catch (error) {

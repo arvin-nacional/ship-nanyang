@@ -255,6 +255,7 @@ export async function getUserCount() {
     dbConnect();
 
     const userCount = await User.countDocuments();
+
     return userCount;
   } catch (error) {
     console.log(error);

@@ -13,7 +13,8 @@ interface MongooseCache {
 
 // For hot reload in development
 declare global {
-  var mongooseCache: MongooseCache | undefined;
+  var mongooseCache: MongooseCache;
+  // eslint-disable-next-line no-var, vars-on-top
 }
 
 const globalWithCache = global as typeof globalThis & {
@@ -31,6 +32,7 @@ if (!cached) {
 
 const dbConnect = async (): Promise<Mongoose> => {
   if (cached.conn) {
+    // Check if the connection is still open
     return cached.conn;
   }
 

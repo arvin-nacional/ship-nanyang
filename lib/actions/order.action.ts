@@ -125,7 +125,7 @@ export async function getAllOrders(params: FilterQueryParams) {
   try {
     dbConnect();
 
-    const { page = 1, pageSize = 7, filter, searchQuery } = params;
+    const { page = 1, pageSize = 6, filter, searchQuery } = params;
 
     // Calculcate the number of packages to skip based on the page number and page size
     const skipAmount = (page - 1) * pageSize;
