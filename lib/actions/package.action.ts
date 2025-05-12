@@ -28,7 +28,7 @@ import { FilterQuery } from "mongoose";
 // }
 
 export async function createPackage(params: createPackageParams) {
-  await dbConnect();
+  dbConnect();
   const session = await mongoose.startSession();
   session.startTransaction();
 
@@ -516,6 +516,7 @@ export async function removePackage(packageId: string, pathname: string) {
 }
 
 export async function getPackageById(packageId: string) {
+  dbConnect();
   try {
     const pkg = await Package.findById(packageId);
     if (!pkg) {
