@@ -7,7 +7,10 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { OrderFilters } from "@/constants/filters";
 import Filter from "@/components/shared/search/Filter";
 import PackageList from "@/components/ui/packageList";
-import { getOrdersByUserId } from "@/lib/actions/order.action";
+import {
+  getLastOrderName,
+  getOrdersByUserId,
+} from "@/lib/actions/order.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/search/Pagination";
 
@@ -45,6 +48,8 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
     clerkId: userId,
   });
+
+  const lastOrder = await getLastOrderName();
 
   return (
     <div className="flex w-full max-sm:flex-col">

@@ -121,6 +121,23 @@ export async function getOrderById(orderId: string) {
   }
 }
 
+export async function getLastOrderName() {
+  try {
+    dbConnect();
+
+    const lastOrder = await Order.findOne().sort({ createdAt: -1 });
+
+    if (!lastOrder) {
+      throw new Error("No orders found");
+    }
+
+    return lastOrder.name;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error fetching the last order name");
+  }
+}
+
 export async function getAllOrders(params: FilterQueryParams) {
   try {
     dbConnect();

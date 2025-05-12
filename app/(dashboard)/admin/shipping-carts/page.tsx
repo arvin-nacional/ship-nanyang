@@ -14,6 +14,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     filter: resolvedSearchParams.filter,
     page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
   });
+
   return (
     <div className="flex w-full">
       <div className="p-12 w-full max-sm:p-6" style={{ height: "90vh" }}>
