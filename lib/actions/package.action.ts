@@ -28,7 +28,7 @@ import { FilterQuery } from "mongoose";
 // }
 
 export async function createPackage(params: createPackageParams) {
-  dbConnect();
+  await dbConnect();
   const session = await mongoose.startSession();
   session.startTransaction();
 
