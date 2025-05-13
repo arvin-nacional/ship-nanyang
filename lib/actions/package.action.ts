@@ -28,11 +28,11 @@ import { FilterQuery } from "mongoose";
 // }
 
 export async function createPackage(params: createPackageParams) {
+  dbConnect();
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    dbConnect();
     const {
       clerkId,
       trackingNumber,
