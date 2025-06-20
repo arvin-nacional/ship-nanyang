@@ -49,8 +49,6 @@ const page = async ({ searchParams }: SearchParamsProps) => {
     clerkId: userId,
   });
 
-  const lastOrder = await getLastOrderName();
-  console.log("lastOrder", lastOrder);
 
   return (
     <div className="flex w-full max-sm:flex-col">
