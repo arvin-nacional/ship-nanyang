@@ -27,122 +27,203 @@ import { FilterQuery } from "mongoose";
 //   return counter.seq;
 // }
 
+/**
+ * Validates required fields for package creation
+ */
+function validatePackageParams(params: createPackageParams): void {
+  const { clerkId, trackingNumber, description, vendor, type, address, orderId } = params;
+  
+  if (!clerkId || !trackingNumber || !description || !vendor) {
+    throw new Error("Missing required fields");
+  }
+  
+  if (type === "singleOrder" && !address) {
+    throw new Error("Address is required for single order");
+  }
+  
+  if (type === "consolidation" && !orderId) {
+    throw new Error("Order ID is required for consolidation");
+  }
+}
+
+/**
+ * Finds a user by clerkId within a transaction
+ */
+async function findUserByClerkId(clerkId: string, session: mongoose.ClientSession) {
+  const user = await User.findOne({ clerkId }).session(session);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
+}
+
+/**
+ * Creates a package within a transaction
+ */
+async function createPackageDoc(params: {
+  trackingNumber: string;
+  description: string;
+  value?: string;
+  vendor: string;
+  userId: mongoose.Types.ObjectId;
+  session: mongoose.ClientSession;
+}) {
+  const { trackingNumber, description, value, vendor, userId, session } = params;
+  
+  const [newPackage] = await Package.create(
+    [{
+      trackingNumber,
+      description,
+      value,
+      vendor,
+      userId,
+    }],
+    { session }
+  );
+  
+  return newPackage;
+}
+
+/**
+ * Generates a new order number
+ */
+async function generateOrderNumber(session: mongoose.ClientSession): Promise<{ orderNumber: number, orderName: string }> {
+  const lastOrder = await Order.findOne({}, {}, { sort: { createdAt: -1 }, session });
+  const orderNumber = lastOrder ? parseInt(lastOrder.name.split("#")[1]) - 999 : 1;
+  const orderName = `SD-#${orderNumber + 1000}`;
+  
+  return { orderNumber, orderName };
+}
+
+/**
+ * Creates a new order with the package
+ */
+async function createOrderWithPackage(params: {
+  orderName: string;
+  userId: mongoose.Types.ObjectId;
+  packageId: mongoose.Types.ObjectId;
+  address: string;
+  session: mongoose.ClientSession;
+}) {
+  const { orderName, userId, packageId, address, session } = params;
+  
+  const [newOrder] = await Order.create(
+    [{
+      name: orderName,
+      user: userId,
+      status: "created",
+      packages: [packageId],
+      address,
+    }],
+    { session }
+  );
+  
+  return newOrder;
+}
+
+/**
+ * Links a package to an order by updating both documents
+ */
+async function linkPackageToOrder(params: {
+  packageId: mongoose.Types.ObjectId;
+  orderId: mongoose.Types.ObjectId;
+  session: mongoose.ClientSession;
+}) {
+  const { packageId, orderId, session } = params;
+  
+  await Package.findByIdAndUpdate(
+    packageId,
+    { orderId },
+    { session }
+  );
+  
+  await Order.findByIdAndUpdate(
+    orderId,
+    { $push: { packages: packageId } },
+    { session }
+  );
+}
+
+/**
+ * Verifies an order exists and returns it
+ */
+async function verifyOrderExists(orderId: string, session: mongoose.ClientSession) {
+  const existingOrder = await Order.findOne({ _id: orderId }).session(session);
+  
+  if (!existingOrder) {
+    throw new Error("Order not found or access denied");
+  }
+  
+  return existingOrder;
+}
+
+/**
+ * Main function to create a package with proper error handling and transaction management
+ */
 export async function createPackage(params: createPackageParams) {
   await dbConnect();
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const {
-      clerkId,
+    // Validate all required parameters first
+    validatePackageParams(params);
+    
+    const { clerkId, trackingNumber, address, description, value, vendor, type, orderId } = params;
+    
+    // Find the user making the request
+    const user = await findUserByClerkId(clerkId, session);
+    
+    // Create the package
+    const newPackage = await createPackageDoc({
       trackingNumber,
-      address,
       description,
       value,
       vendor,
-      type,
-      orderId,
-    } = params;
-
-    // Validate required fields
-    if (!clerkId || !trackingNumber || !description || !vendor) {
-      throw new Error("Missing required fields");
-    }
-
-    const user = await User.findOne({ clerkId }).session(session);
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    // Create the package within transaction
-    const [newPackage] = await Package.create(
-      [
-        {
-          trackingNumber,
-          description,
-          value,
-          vendor,
-          userId: user._id,
-        },
-      ],
-      { session }
-    );
-
+      userId: user._id,
+      session,
+    });
+    
+    // Handle different package creation types
     if (type === "singleOrder") {
-      if (!address) {
-        throw new Error("Address is required for single order");
-      }
-
-      // const orderNumber = await getNextSequence("orderNumber");
-      // if (!orderNumber) {
-      //   throw new Error("Failed to generate order number");
-      // }
-
-      // const orderName = `SD-#${orderNumber + 1000}`;
-
-      // Generate order number without separate counter collection
-      const lastOrder = await Order.findOne(
-        {},
-        {},
-        { sort: { createdAt: -1 }, session }
-      );
-      const orderNumber = lastOrder
-        ? parseInt(lastOrder.name.split("#")[1]) - 999
-        : 1;
-      const orderName = `SD-#${orderNumber + 1000}`;
-
-      // Create order within the same transaction
-      const [newOrder] = await Order.create(
-        [
-          {
-            name: orderName,
-            user: user._id,
-            status: "created",
-            packages: [newPackage._id],
-            address: address,
-          },
-        ],
-        { session }
-      );
-
-      // Update package with order reference
+      // Generate order number and name
+      const { orderName } = await generateOrderNumber(session);
+      
+      // Create a new order for this package
+      const newOrder = await createOrderWithPackage({
+        orderName,
+        userId: user._id,
+        packageId: newPackage._id,
+        address: address!,
+        session,
+      });
+      
+      // Link the package to the order
       await Package.findByIdAndUpdate(
         newPackage._id,
         { orderId: newOrder._id },
         { session }
       );
-
+      
       await session.commitTransaction();
-
+      
       return {
         order: formatOrder(newOrder),
         package: formatPackage(newPackage),
       };
     } else if (type === "consolidation") {
-      if (!orderId) {
-        throw new Error("Order ID is required for consolidation");
-      }
-
-      // Verify the order exists and belongs to the user
-      const existingOrder = await Order.findOne({
-        _id: orderId,
-      }).session(session);
-
-      if (!existingOrder) {
-        throw new Error("Order not found or access denied");
-      }
-
-      // Update both package and order within transaction
-      await Package.findByIdAndUpdate(newPackage._id, { orderId }, { session });
-
-      await Order.findByIdAndUpdate(
-        orderId,
-        { $push: { packages: newPackage._id } },
-        { session }
-      );
-
+      // Verify order exists
+      await verifyOrderExists(orderId!, session);
+      
+      // Link the package to the existing order
+      await linkPackageToOrder({
+        packageId: newPackage._id,
+        orderId: new mongoose.Types.ObjectId(orderId),
+        session,
+      });
+      
       await session.commitTransaction();
-
+      
       return {
         package: formatPackage(newPackage),
       };
