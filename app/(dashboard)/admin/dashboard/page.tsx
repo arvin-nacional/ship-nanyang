@@ -1,12 +1,10 @@
 import Summary from "@/components/charts/Summary";
 import RecentlyAddedPackage from "@/components/dashboard/RecentlyAddedPackage";
 import RecentlyAddedUsers from "@/components/dashboard/RecentlyAddedUsers";
-import { getLastOrderName } from "@/lib/actions/order.action";
+
 import React from "react";
 
 const page = async () => {
-  const lastOrder = await getLastOrderName();
-  console.log("lastOrder", lastOrder);
   return (
     <div className="flex flex-col w-full p-12 max-sm:p-6">
       <div className="w-full">

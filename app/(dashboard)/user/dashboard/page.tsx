@@ -7,10 +7,7 @@ import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { OrderFilters } from "@/constants/filters";
 import Filter from "@/components/shared/search/Filter";
 import PackageList from "@/components/ui/packageList";
-import {
-  getLastOrderName,
-  getOrdersByUserId,
-} from "@/lib/actions/order.action";
+import { getOrdersByUserId } from "@/lib/actions/order.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/search/Pagination";
 
