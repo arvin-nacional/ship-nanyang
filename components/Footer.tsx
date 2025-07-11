@@ -24,14 +24,14 @@ const Footer = () => {
               target="_blank"
             >
               <Image
-                src="/assets/icons/facebook.svg"
-                width={20}
-                height={20}
+                src="/assets/icons/facebook_icon.png"
+                width={80}
+                height={80}
                 alt="logo"
                 // className="invert-colors"
               />
             </a>
-            <a
+            {/* <a
               href="https://www.facebook.com/sdexpressinternational"
               target="_blank"
             >
@@ -54,7 +54,7 @@ const Footer = () => {
                 alt="logo"
                 // className="invert-colors"
               />
-            </a>
+            </a> */}
           </div>
         </div>
         <div className="text-dark400_light800 pb-12">
@@ -64,6 +64,7 @@ const Footer = () => {
             <Link href="/about">About</Link>
             <Link href="/shipping-calculator">Shipping Calculator</Link>
             <Link href="/locations">Location</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
           </div>
         </div>
         <div className="text-dark400_light800 pb-12 ">

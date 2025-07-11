@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +35,9 @@ const ShippingCalculatorForm = () => {
     totalFee: "",
     insurance: "",
   });
+  
+  // Reference to the total estimated cost section
+  const totalCostSectionRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof ShippingCalculatorFormSchema>>({
     resolver: zodResolver(ShippingCalculatorFormSchema),
@@ -53,14 +56,29 @@ const ShippingCalculatorForm = () => {
   const handleShippingCalculator = (
     data: z.infer<typeof ShippingCalculatorFormSchema>
   ) => {
-    const result = calculateShippingFee(data);
+    // Pass string values to calculateShippingFee which will parse them
+    const result = calculateShippingFee({
+      ...data,
+      value: data.value,
+      weight: data.weight,
+      length: data.length,
+      width: data.width,
+      height: data.height
+    });
     setCalculationResults({
       chargeableWeight: result.chargeableWeight,
       basicCharge: result.basicCharge,
       totalFee: result.totalFee,
       insurance: result.insuranceFee,
     });
-    window.scrollBy({ top: 300, behavior: "smooth" });
+    
+    // Scroll to the total estimated cost section
+    setTimeout(() => {
+      totalCostSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end"
+      });
+    }, 100); // Small delay to ensure the DOM has updated
   };
 
   const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -122,24 +140,38 @@ const ShippingCalculatorForm = () => {
             <FormField
               control={form.control}
               name="value"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Value (PHP)<span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Input
-                      className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                      {...field}
-                      placeholder="Write the value of the package in Peso."
-                    />
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                    Write the value of the package in Peso.
-                  </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+                  // Allow only numeric values and decimal points
+                  const value = e.target.value.replace(/[^0-9.]/g, '');
+                  // Prevent multiple decimal points
+                  if (value.split('.').length > 2) {
+                    return;
+                  }
+                  field.onChange(value);
+                };
+                
+                return (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Value (PHP)<span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <Input
+                        className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                        placeholder="Write the value of the package in Peso."
+                        value={field.value}
+                        onChange={handleChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                        inputMode="decimal"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                );
+              }}
             />
           </div>
           <div className="flex w-full flex-row gap-5">
@@ -147,56 +179,39 @@ const ShippingCalculatorForm = () => {
               <FormField
                 control={form.control}
                 name="weight"
-                render={({ field }) => (
-                  <FormItem className="flex w-full flex-col">
-                    <FormLabel className="paragraph-semibold text-dark400_light800">
-                      Weight (kg)<span className="text-primary-500">*</span>
-                    </FormLabel>
-                    <FormControl className="mt-3.5">
-                      <Input
-                        className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                        {...field}
-                        placeholder=" Write the Actual Weight in Kg."
-                      />
-                    </FormControl>
-                    {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                      Write the Actual Weight in Kg.
-                    </FormDescription> */}
-                    <FormMessage className="text-red-500" />
-                  </FormItem>
-                )}
-              />
-              {/* <div className="!w-[50%]"> */}
-              {/* <FormField
-                  control={form.control}
-                  name="unit"
-                  render={({ field }) => (
-                    <FormItem className="flex w-full flex-col ">
+                render={({ field }) => {
+                  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+                    // Allow only numeric values and decimal points
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    // Prevent multiple decimal points
+                    if (value.split('.').length > 2) {
+                      return;
+                    }
+                    field.onChange(value);
+                  };
+                  
+                  return (
+                    <FormItem className="flex w-full flex-col">
                       <FormLabel className="paragraph-semibold text-dark400_light800">
-                        Unit <span className="text-primary-500">*</span>
+                        Weight (kg)<span className="text-primary-500">*</span>
                       </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                            <SelectValue />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="cursor-pointer bg-light-900">
-                          <SelectItem value="kg">kg</SelectItem>
-                          <SelectItem value="lb">lb</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormDescription className="body-regular mt-2.5 text-light-500">
-                        Select unit of weight.
-                      </FormDescription>
+                      <FormControl className="mt-3.5">
+                        <Input
+                          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                          placeholder="Write the Actual Weight in Kg."
+                          value={field.value}
+                          onChange={handleChange}
+                          onBlur={field.onBlur}
+                          name={field.name}
+                          ref={field.ref}
+                          inputMode="decimal"
+                        />
+                      </FormControl>
                       <FormMessage className="text-red-500" />
                     </FormItem>
-                  )}
-                /> */}
-              {/* </div> */}
+                  );
+                }}
+              />
             </div>
             <div className="w-[50%]">
               <FormField
@@ -212,16 +227,14 @@ const ShippingCalculatorForm = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
+                        <SelectTrigger className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
                           <SelectValue placeholder="Select Package Type" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="cursor-pointer bg-light-900">
-                        <SelectItem value="general">General Goods</SelectItem>
-                        <SelectItem value="sensitive">
-                          Sensitive Goods
-                        </SelectItem>
-                        <SelectItem value="special">Special Goods</SelectItem>
+                      <SelectContent className="hover:cursor-pointer cursor-pointer bg-light-900">
+                        <SelectItem value="general" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">General Goods</SelectItem>
+                        <SelectItem value="sensitive" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">Sensitive Goods</SelectItem>
+                        <SelectItem value="special" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">Special Goods</SelectItem>
                       </SelectContent>
                     </Select>
                     {/* <FormDescription className="body-regular mt-2.5 text-light-500">
@@ -237,68 +250,110 @@ const ShippingCalculatorForm = () => {
             <FormField
               control={form.control}
               name="length"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Length (cm)<span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Input
-                      className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                      {...field}
-                      placeholder="Length in centimeters (cm)."
-                    />
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                    Length in centimeters (cm).
-                  </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+                  // Allow only numeric values and decimal points
+                  const value = e.target.value.replace(/[^0-9.]/g, '');
+                  // Prevent multiple decimal points
+                  if (value.split('.').length > 2) {
+                    return;
+                  }
+                  field.onChange(value);
+                };
+                
+                return (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Length (cm)<span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <Input
+                        className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                        placeholder="Length in centimeters (cm)."
+                        value={field.value}
+                        onChange={handleChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                        inputMode="decimal"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                );
+              }}
             />
             <FormField
               control={form.control}
               name="width"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Width (cm)<span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Input
-                      className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                      {...field}
-                      placeholder="Width in centimeters (cm)."
-                    />
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                    Width in centimeters (cm).
-                  </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+                  // Allow only numeric values and decimal points
+                  const value = e.target.value.replace(/[^0-9.]/g, '');
+                  // Prevent multiple decimal points
+                  if (value.split('.').length > 2) {
+                    return;
+                  }
+                  field.onChange(value);
+                };
+                
+                return (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Width (cm)<span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <Input
+                        className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                        placeholder="Width in centimeters (cm)."
+                        value={field.value}
+                        onChange={handleChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                        inputMode="decimal"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                );
+              }}
             />
             <FormField
               control={form.control}
               name="height"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Height (cm)<span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Input
-                      className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                      {...field}
-                      placeholder="Height in centimeters (cm)."
-                    />
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                    Height in centimeters (cm).
-                  </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+                  // Allow only numeric values and decimal points
+                  const value = e.target.value.replace(/[^0-9.]/g, '');
+                  // Prevent multiple decimal points
+                  if (value.split('.').length > 2) {
+                    return;
+                  }
+                  field.onChange(value);
+                };
+                
+                return (
+                  <FormItem className="flex w-full flex-col">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Height (cm)<span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <Input
+                        className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                        placeholder="Height in centimeters (cm)."
+                        value={field.value}
+                        onChange={handleChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                        inputMode="decimal"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                );
+              }}
             />
           </div>
           <FormField
@@ -356,13 +411,16 @@ const ShippingCalculatorForm = () => {
           <p className="base-semibold">Insurance</p>{" "}
           <p>{calculationResults.insurance}</p>
         </div>
-        <div className="flex flex-row justify-between p-2 text-white bg-primary-500 rounded-lg">
+        <div 
+          
+          className="flex flex-row justify-between p-2 text-white bg-primary-500 rounded-lg"
+        >
           <p className="base-semibold">Total Estimated Cost</p>{" "}
           <p>{calculationResults.totalFee}</p>
         </div>
       </div>
 
-      <div>
+      <div ref={totalCostSectionRef}>
         <p className="paragraph-regular mt-5">
           Prices are quoted per kilogram. The weight calculation is based on the
           greater of actual weight or volumetric weight (length x width x

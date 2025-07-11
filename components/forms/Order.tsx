@@ -238,10 +238,8 @@ const Order = ({
                       </SelectItem>
                     ))} */}
 
-                          <SelectItem value="singleOrder">New Order</SelectItem>
-                          <SelectItem value="consolidation">
-                            Consolidate to an Existing Order
-                          </SelectItem>
+                          <SelectItem value="singleOrder" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-300">New Order</SelectItem>
+                          <SelectItem value="consolidation" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-300">Consolidate to an Existing Order</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -406,10 +404,9 @@ const Order = ({
                         </FormControl>
                         <SelectContent className="bg-light-900">
                           {parsedAddress?.addresses.map((item: any) => (
-                            <SelectItem key={item._id} value={item._id}>
+                            <SelectItem key={item._id} value={item._id} className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-300 truncate overflow-hidden">
                               {item.name} - {item.contactNumber} -{" "}
                               {item.addressLine1}, {item.addressLine2},{" "}
-                              {item.city}, {item.province}, {item.postalCode}
                             </SelectItem>
                           ))}
                         </SelectContent>

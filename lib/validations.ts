@@ -2,12 +2,22 @@ import { z } from "zod";
 
 export const ShippingCalculatorFormSchema = z.object({
   destination: z.string().min(1, { message: "Please select a destination" }),
-  value: z.string().min(1, { message: "Please enter a value" }),
-  weight: z.string().min(1, { message: "Please enter a weight" }),
+  value: z.string()
+    .min(1, { message: "Please enter a value" })
+    .regex(/^\d+(\.\d+)?$/, { message: "Value must be a valid number" }),
+  weight: z.string()
+    .min(1, { message: "Please enter a weight" })
+    .regex(/^\d+(\.\d+)?$/, { message: "Weight must be a valid number" }),
   type: z.string().min(1, { message: "Please select a type" }),
-  length: z.string().min(1, { message: "Please enter a length" }),
-  width: z.string().min(1, { message: "Please enter a width" }),
-  height: z.string().min(1, { message: "Please enter a height" }),
+  length: z.string()
+    .min(1, { message: "Please enter a length" })
+    .regex(/^\d+(\.\d+)?$/, { message: "Length must be a valid number" }),
+  width: z.string()
+    .min(1, { message: "Please enter a width" })
+    .regex(/^\d+(\.\d+)?$/, { message: "Width must be a valid number" }),
+  height: z.string()
+    .min(1, { message: "Please enter a height" })
+    .regex(/^\d+(\.\d+)?$/, { message: "Height must be a valid number" }),
   insurance: z.boolean().default(false),
 });
 

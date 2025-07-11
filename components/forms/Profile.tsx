@@ -19,6 +19,7 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { updateUser } from "@/lib/actions/user.action";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   type?: string;
@@ -305,7 +306,7 @@ const Profile = ({ type, profileDetails }: Props) => {
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel>Privacy Policy</FormLabel>
+                  <FormLabel><Link href="/privacy-policy" target="_blank" className="text-blue-500">Privacy Policy</Link></FormLabel>
                   <FormDescription>
                     By checking this box, you agree to our Privacy Policy, which
                     outlines how we collect, use, and protect your personal
