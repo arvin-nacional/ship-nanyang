@@ -124,8 +124,8 @@ const ShippingCalculatorForm = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="cursor-pointer bg-light-900">
-                      <SelectItem value="Metro Manila">Metro Manila</SelectItem>
-                      <SelectItem value="Provincial">
+                      <SelectItem value="Metro Manila" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">Metro Manila</SelectItem>
+                      <SelectItem value="Provincial" className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">
                         Provincial Address
                       </SelectItem>
                     </SelectContent>
