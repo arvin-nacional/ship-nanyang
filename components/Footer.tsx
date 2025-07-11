@@ -24,11 +24,11 @@ const Footer = () => {
               target="_blank"
             >
               <Image
-                src="/assets/icons/facebook_icon.png"
-                width={80}
-                height={80}
+                src="/assets/icons/facebook_blue.svg"
+                width={20}
+                height={20}
                 alt="logo"
-                // className="invert-colors"
+                className="bg-[#1877F2] rounded-full"
               />
             </a>
             {/* <a
@@ -72,7 +72,7 @@ const Footer = () => {
           <div className="body-regular text-slate-300">
             <div className=" mt-3 flex gap-5 ">
               <Image
-                src="/assets/icons/telephone-call.png"
+                src="/assets/icons/telephone-call.svg"
                 width={20}
                 height={20}
                 alt="logo"

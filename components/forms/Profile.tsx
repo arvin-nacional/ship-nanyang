@@ -306,7 +306,7 @@ const Profile = ({ type, profileDetails }: Props) => {
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel><Link href="/privacy-policy" target="_blank" className="text-blue-500">Privacy Policy</Link></FormLabel>
+                  <FormLabel><Link href="/privacy-policy" target="_blank" className="text-blue-500 underline">Privacy Policy</Link></FormLabel>
                   <FormDescription>
                     By checking this box, you agree to our Privacy Policy, which
                     outlines how we collect, use, and protect your personal
