@@ -72,7 +72,7 @@ const Footer = () => {
           <div className="body-regular text-slate-300">
             <div className=" mt-3 flex gap-5 ">
               <Image
-                src="/assets/icons/telephone-call.svg"
+                src="/assets/icons/telephone-call.png"
                 width={20}
                 height={20}
                 alt="logo"

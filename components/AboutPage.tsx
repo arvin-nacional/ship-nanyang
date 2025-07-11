@@ -24,7 +24,7 @@ const AboutPage = () => {
             straight to your doorstep, we handle every step with care and
             precision.
           </p>
-          <Link href="https://m.me/sdexpressinternational">
+          <Link href="/signup">
             <Button className="mt-10 rounded-3xl bg-primary-500 px-10 text-light-900">
               Start Now
             </Button>
