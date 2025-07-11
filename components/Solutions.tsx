@@ -1,12 +1,39 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import SolutionsCard from "./ui/solutions-card";
 import { solutions } from "@/constants";
 
+
 const Solutions = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  
+  useEffect(() => {
+    // Function to handle hash change and scroll to section
+    const handleHashChange = () => {
+      if (window.location.hash === "#solutions" && sectionRef.current) {
+        sectionRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
+    // Check hash on initial load
+    handleHashChange();
+    
+    // Add event listener for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
+
   return (
     <>
       <section
+        ref={sectionRef}
         className="flex items-center justify-center bg-gray-100 px-16 pt-32 max-sm:pt-0 pb-20 max-sm:pb-0 max-md:px-5 max-sm:py-16 sm:px-14"
         id="solutions"
       >

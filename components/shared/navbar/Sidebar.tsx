@@ -90,7 +90,7 @@ const Sidebar = () => {
                 className="invert-colors"
               />
             </a>
-            <a href="https://www.instagram.com/rvinpaul" target="_blank">
+            {/* <a href="https://www.instagram.com/rvinpaul" target="_blank">
               <Image
                 src="/assets/icons/instagram.svg"
                 width={20}
@@ -107,7 +107,7 @@ const Sidebar = () => {
                 alt="logo"
                 className="invert-colors"
               />
-            </a>
+            </a> */}
           </div>
         </SheetFooter>
       </SheetContent>
