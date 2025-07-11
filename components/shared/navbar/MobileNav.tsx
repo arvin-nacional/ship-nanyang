@@ -118,7 +118,7 @@ const MobileNav = () => {
               alt="logo"
             />
           </a>
-          <a
+          {/* <a
             href="https://www.facebook.com/sdexpressinternational"
             target="_blank"
           >
@@ -139,7 +139,7 @@ const MobileNav = () => {
               height={20}
               alt="logo"
             />
-          </a>
+          </a> */}
         </div>
       </SheetContent>
     </Sheet>
