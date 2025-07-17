@@ -36,6 +36,7 @@ const Package = ({ packageDetails }: Props) => {
   const router = useRouter();
   const parsedPackageDetails = JSON.parse(packageDetails);
 
+
   const form = useForm<z.infer<typeof UpdatePackageSchema>>({
     resolver: zodResolver(UpdatePackageSchema),
     defaultValues: {
@@ -106,6 +107,9 @@ const Package = ({ packageDetails }: Props) => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
+                   type="number"
+                   step="0.01"
+                   min="0"
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                   {...field}
                   placeholder="Enter item value"
@@ -222,9 +226,12 @@ const Package = ({ packageDetails }: Props) => {
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
+                   type="number"
+                   step="0.01"
+                   min="0"
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                   {...field}
-                  placeholder="Enter tracking number"
+                  placeholder="Enter shipment price"
                 />
               </FormControl>
               {/* <FormDescription className="body-regular mt-2.5 text-light-500">
@@ -234,12 +241,21 @@ const Package = ({ packageDetails }: Props) => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
-        >
-          {isPending ? "Submitting" : "Submit"}
-        </Button>
+        <div className="flex items-center justify-start gap-4">
+          <Button
+            type="button"
+            className="border border-primary-500 w-fit !text-primary-500 hover:border-primary-400"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
+          >
+            {isPending ? "Submitting" : "Submit"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

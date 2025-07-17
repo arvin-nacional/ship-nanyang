@@ -88,8 +88,16 @@ const page = async ({ params }: { params: tParams }) => {
             <div className="flex flex-col">
               <p className="paragraph-regular text-dark-300">Total Price</p>
               <div className="flex gap-2 items-center">
-                <PhilippinePeso size={20} className="text-primary-500" />
-                <p className="h2-semibold text-primary-500">{totalPrice}</p>
+                {totalPrice == 0 ? (
+                  <p className="h2-semibold text-primary-500">Pending</p>
+                ) : (
+                  <>
+                    <PhilippinePeso size={20} className="text-primary-500" />
+                    <p className="h2-semibold text-primary-500">
+                      {totalPrice}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
             <Link href={"/admin/shipping-carts/update/" + id}>

@@ -216,6 +216,9 @@ const Cart = ({ shippingDetails }: Props) => {
               <FormControl className="mt-3.5">
                 <Input
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  type="number"
+                  step="0.01"
+                  min="0"
                   {...field}
                   placeholder="Enter insurance fee"
                 />
@@ -238,6 +241,9 @@ const Cart = ({ shippingDetails }: Props) => {
               <FormControl className="mt-3.5">
                 <Input
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  type="number"
+                  step="0.01"
+                  min="0"
                   {...field}
                   placeholder="Enter miscellaneous fee"
                 />
@@ -260,6 +266,9 @@ const Cart = ({ shippingDetails }: Props) => {
               <FormControl className="mt-3.5">
                 <Input
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  type="number"
+                  step="0.01"
+                  min="0"
                   {...field}
                   placeholder="Enter local Delivery Fee"
                 />
@@ -282,6 +291,9 @@ const Cart = ({ shippingDetails }: Props) => {
               <FormControl className="mt-3.5">
                 <Input
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  type="number"
+                  step="0.01"
+                  min="0"
                   {...field}
                   placeholder="Enter discount amount"
                 />
@@ -304,6 +316,9 @@ const Cart = ({ shippingDetails }: Props) => {
               <FormControl className="mt-3.5">
                 <Input
                   className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                  type="number"
+                  step="0.01"
+                  min="0"
                   {...field}
                   placeholder="Enter final amount"
                 />
@@ -315,12 +330,22 @@ const Cart = ({ shippingDetails }: Props) => {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
-        >
-          {isPending ? "Submitting" : "Submit"}
-        </Button>
+        <div className="flex items-center justify-start gap-4">
+          <Button
+            type="button"
+            className="border border-primary-500 w-fit !text-primary-500 hover:border-primary-400"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
+          >
+            {isPending ? "Submitting" : "Submit"}
+          </Button>
+        </div>
+      
       </form>
     </Form>
   );

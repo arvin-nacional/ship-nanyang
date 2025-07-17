@@ -323,6 +323,9 @@ const OrderForUser = ({
                 </FormLabel>
                 <FormControl className="mt-3.5">
                   <Input
+                    type="number"
+                    step="0.01"
+                    min="0"
                     className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                     {...field}
                     placeholder="Enter item value"
