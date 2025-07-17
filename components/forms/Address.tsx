@@ -40,6 +40,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useUser();
+ 
 
   const parsedAddressDetails = JSON.parse(addressDetails || "{}");
 
@@ -312,7 +313,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
             />
             <div className="w-full"></div>
           </div>
-          {parsedAddressDetails?.isDefault === false ||
+          {parsedAddressDetails?.isDefault !== false ||
             (!admin && (
               <FormField
                 control={form.control}
