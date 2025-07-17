@@ -15,7 +15,7 @@ const SummaryItem = ({ title, value, series, colors }: PieChartProps) => {
             {value}
           </div>
         </div>
-        <Donut series={series} colors={colors} />
+        <Donut series={series} colors={colors} labels={[`Goal`, title]} />
       </div>
     </div>
   );
