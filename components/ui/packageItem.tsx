@@ -83,11 +83,12 @@ const PackageItem = ({
         </div>
       </div>
 
-      <div className="w-[40px]">
+      <div className="w-[130px]">
         <AlertDialog>
           <AlertDialogTrigger>
-            <div className="text-dark100_light900 flex cursor-pointer items-center gap-4 px-2.5 py-2 dark:focus:bg-dark-400">
-              <PackageX className="text-primary-500" />
+            <div className="text-primary-500 flex cursor-pointer border border-primary-500 items-center gap-4 px-6 py-2 dark:focus:bg-dark-400 rounded-md hover:bg-primary-500 hover:text-light-900 transition-all group">
+            <PackageX className="text-primary-500 group-hover:text-white size-4" />
+            <p className="group-hover:text-white">Delete</p>
             </div>
           </AlertDialogTrigger>
           <AlertDialogContent className="background-light900_dark300 text-dark400_light700">

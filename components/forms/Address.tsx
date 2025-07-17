@@ -124,12 +124,12 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
         <div className="flex justify-between">
           <p className="h2-bold mb-5">Edit Address</p>
 
-          {parsedAddressDetails?.isDefault === false && (
-            <Button className="border border-gray-600" onClick={handleDelete}>
+          {parsedAddressDetails?.isDefault === false  || admin == true  ? (
+            <Button className="border border-gray-600 hover:border-primary-500 hover:bg-primary-500 hover:text-white" onClick={handleDelete}>
               <Trash2 />
               Delete Address
             </Button>
-          )}
+          ) : null}
         </div>
       )}
 
@@ -328,9 +328,14 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          className="data-[state=checked]:bg-primary-500 data-[state=unchecked]:bg-gray-300 dark:data-[state=unchecked]:bg-gray-600"
                         />
-                        <Label htmlFor="airplane-mode">
+                        <Label 
+                          htmlFor="default-address"
+                          className={`${field.value ? 'text-primary-500 font-semibold' : 'text-gray-500'}`}
+                        >
                           Set as Default Address
+                          {field.value && ' ✓'}
                         </Label>
                       </div>
                     </FormControl>

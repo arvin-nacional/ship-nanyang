@@ -40,7 +40,7 @@ const PackageListItem = ({
           }
         >
           {" "}
-          <p className="body-regular hover:text-primary-500">{packageName}</p>
+          <p className="body-regular text-primary-500 hover:underline">{packageName}</p>
         </Link>
       </div>
       <div className="flex flex-col gap-2 w-[95px] ">

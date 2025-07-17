@@ -1,4 +1,5 @@
 import AppSidebar from "@/components/AppSidebar";
+import RightSidebar from "@/components/RightSidebar";
 import MessengerBtn from "@/components/shared/MessengerBtn";
 
 import Topbar from "@/components/shared/navbar/Topbar";
@@ -28,7 +29,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
           <div className="flex flex-row ">
             {children}
-            {/* <RightSidebar /> */}
+            {/* {userType !== "admin" ? <RightSidebar /> : null} */}
           </div>
           <MessengerBtn />
         </main>
