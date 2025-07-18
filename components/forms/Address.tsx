@@ -26,6 +26,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { Trash2 } from "lucide-react";
 import { Label } from "../ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 interface Props {
   type?: string;
@@ -33,6 +34,22 @@ interface Props {
   addressId?: string;
   admin?: boolean;
 }
+
+// List of all provinces in the Philippines
+const philippineProvinces = [
+  "Abra", "Agusan del Norte", "Agusan del Sur", "Aklan", "Albay", "Antique", "Apayao", "Aurora", 
+  "Basilan", "Bataan", "Batanes", "Batangas", "Benguet", "Biliran", "Bohol", "Bukidnon", "Bulacan", 
+  "Cagayan", "Camarines Norte", "Camarines Sur", "Camiguin", "Capiz", "Catanduanes", "Cavite", "Cebu", 
+  "Cotabato", "Davao de Oro", "Davao del Norte", "Davao del Sur", "Davao Occidental", "Davao Oriental", 
+  "Dinagat Islands", "Eastern Samar", "Guimaras", "Ifugao", "Ilocos Norte", "Ilocos Sur", "Iloilo", 
+  "Isabela", "Kalinga", "La Union", "Laguna", "Lanao del Norte", "Lanao del Sur", "Leyte", 
+  "Maguindanao del Norte", "Maguindanao del Sur", "Marinduque", "Masbate", "Metro Manila", "Misamis Occidental", 
+  "Misamis Oriental", "Mountain Province", "Negros Occidental", "Negros Oriental", "Northern Samar", 
+  "Nueva Ecija", "Nueva Vizcaya", "Occidental Mindoro", "Oriental Mindoro", "Palawan", "Pampanga", 
+  "Pangasinan", "Quezon", "Quirino", "Rizal", "Romblon", "Samar", "Sarangani", "Siquijor", "Sorsogon", 
+  "South Cotabato", "Southern Leyte", "Sultan Kudarat", "Sulu", "Surigao del Norte", "Surigao del Sur", 
+  "Tarlac", "Tawi-Tawi", "Zambales", "Zamboanga del Norte", "Zamboanga del Sur", "Zamboanga Sibugay"
+];
 
 const Address = ({ type, addressDetails, addressId, admin }: Props) => {
   const [isPending, startTransition] = useTransition();
@@ -90,6 +107,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
             name: data.name,
             isDefault: data.isDefault,
           });
+          console.log(data.isDefault);
 
           if (admin) {
             router.push("/admin/receiver");
@@ -266,27 +284,34 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
               )}
             />
             <FormField
-              control={form.control}
-              name="province"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold text-dark400_light800">
-                    Province <span className="text-primary-500">*</span>
-                  </FormLabel>
-                  <FormControl className="mt-3.5">
-                    <Input
-                      className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                      {...field}
-                      placeholder="Metro Manila or Other Province"
-                    />
-                  </FormControl>
-                  {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Create a title for your post.
-              </FormDescription> */}
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
+            control={form.control}
+            name="province"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col">
+                <FormLabel className="paragraph-semibold text-dark400_light800">
+                  Province<span className="text-primary-500">*</span>
+                </FormLabel>
+                <FormControl className="mt-3.5">
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
+                      <SelectValue placeholder="Select a province" />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-[300px] overflow-y-auto background-light900_dark300">
+                      {philippineProvinces.map((province) => (
+                        <SelectItem key={province} value={province} className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">
+                          {province}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-red-500" />
+              </FormItem>
+            )}
+          />
           </div>
           <div className="flex flex-row gap-5 max-sm:flex-col">
             <FormField
@@ -327,7 +352,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
                       <div className="flex items-center space-x-2">
                         <Switch
                           checked={field.value}
-                          onCheckedChange={field.onChange}
+                          onCheckedChange={(checked) => field.onChange(checked)}
                           className="data-[state=checked]:bg-primary-500 data-[state=unchecked]:bg-gray-300 dark:data-[state=unchecked]:bg-gray-600"
                         />
                         <Label 

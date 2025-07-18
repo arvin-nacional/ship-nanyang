@@ -173,6 +173,7 @@ export async function updateUser(params: UpdateUserParams) {
     user.email = email;
     user.privacyPolicyAccepted = privacyPolicyAccepted;
     user.verified = true;
+    
 
     // Create or update address in the address collection
     const address = {
@@ -184,6 +185,7 @@ export async function updateUser(params: UpdateUserParams) {
       province,
       postalCode,
       contactNumber,
+      
     };
 
     let userAddress;
@@ -192,8 +194,7 @@ export async function updateUser(params: UpdateUserParams) {
         new: true,
       });
     } else {
-      userAddress = await Address.create(address);
-      userAddress.isDefault = true;
+      userAddress = await Address.create({address, isDefault: true});
     }
     user.address = userAddress._id;
     await user.save();
