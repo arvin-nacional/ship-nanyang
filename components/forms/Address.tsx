@@ -142,7 +142,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
         <div className="flex justify-between">
           <p className="h2-bold mb-5">Edit Address</p>
 
-          {parsedAddressDetails?.isDefault === false  || admin == true  ? (
+          {parsedAddressDetails?.isDefault === false || parsedAddressDetails?.isDefault === null || admin == true  ? (
             <Button className="border border-gray-600 hover:border-primary-500 hover:bg-primary-500 hover:text-white" onClick={handleDelete}>
               <Trash2 />
               Delete Address
@@ -338,7 +338,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
             />
             <div className="w-full"></div>
           </div>
-          {parsedAddressDetails?.isDefault !== false ||
+          {parsedAddressDetails?.isDefault !== false || parsedAddressDetails?.isDefault  === null ||
             (!admin && (
               <FormField
                 control={form.control}
