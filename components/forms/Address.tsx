@@ -136,7 +136,7 @@ const Address = ({ type, addressDetails, addressId, admin }: Props) => {
         admin ? (
           <p className="h2-bold mb-5">Add Receiver</p>
         ) : (
-          <p className="h2-bold mb-5">Add a Package</p>
+          <p className="h2-bold mb-5">Add Address</p>
         )
       ) : (
         <div className="flex justify-between">
