@@ -66,20 +66,20 @@ const Navbar = () => {
             alt="logo"
           />
         </Link>
-        <div className="flex gap-5 text-white max-md:hidden">
-          <Link href="/" className="base-regular">
+        <div className="flex gap-5 text-white max-md:hidden whitespace-nowrap">
+          <Link href="/" className="paragraph-regular">
             Home
           </Link>
-          <Link href="/about" className="base-regular">
+          <Link href="/about" className="paragraph-regular">
             About Us
           </Link>
-          <Link href="/#solutions" className="base-regular">
+          <Link href="/#solutions" className="paragraph-regular">
             Solutions
           </Link>
-          <Link href="/shipping-calculator" className="base-regular">
+          <Link href="/shipping-calculator" className="paragraph-regular">
             Shipping Calculator
           </Link>
-          <Link href="/locations" className="base-regular">
+          <Link href="/locations" className="paragraph-regular">
             Locations
           </Link>
         </div>
@@ -87,7 +87,7 @@ const Navbar = () => {
           <SignedOut>
             <Link href="/signin" className="max-lg:hidden">
               <Button className="rounded-3xl border-2 border-light-850 px-10 text-light-800">
-                Track Your Package
+                Log In
               </Button>
             </Link>
             <Link href="/signup">

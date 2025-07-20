@@ -14,7 +14,7 @@ import {
 
 export function Services() {
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex items-center justify-center px-16 max-md:px-5 max-sm:py-5 sm:px-14 ">
       <div className="flex flex-col items-start justify-center max-w-[1200px] pt-24 pb-20 max-md:px-8 max-sm:py-16">
         <p className="h1-bold text-dark-400 mb-5">Our Services</p>
         <p className="body-regular text-dark-400 mb-10">

@@ -5,13 +5,13 @@ import { Button } from "./ui/button";
 
 const CTA = () => {
   return (
-    <main className="flex flex-col items-center justify-center overflow-hidden py-14 max-md:py-0 max-md:pt-14">
+    <main className="flex flex-col items-center justify-center overflow-hidden py-14 max-md:py-0 max-md:pt-14 ">
       <section className="w-[1200px] max-w-full overflow-hidden max-sm:rounded-none rounded-3xl bg-white shadow-lg">
         <div className="flex gap-5 rounded-xl max-md:flex-col ">
           <article className="flex w-[41%] flex-col max-md:ml-0 max-md:w-full ">
             <div className="flex w-full flex-col items-start justify-center gap-5 max-md:mt-10 max-md:max-w-full h-full max-sm:ml-5 ml-20">
               <h4 className="base-medium">Ready to ship from China?</h4>
-              <h5 className="h1-bold drop-shadow-lg">
+              <h5 className="h1-bold drop-shadow-lg max-lg:h2-semibold max-lg:drop-shadow-none">
                 Create Your Account Now
               </h5>
               <Link href="/signup">
