@@ -59,11 +59,11 @@ export const sidebarLinks: SidebarLink[] = [
   //   label: "Blog",
   //   route: "/blog",
   // },
-  {
-    imgURL: "/assets/icons/services.svg",
-    label: "Solutions",
-    route: "/#solutions",
-  },
+  // {
+  //   imgURL: "/assets/icons/services.svg",
+  //   label: "Solutions",
+  //   route: "/#solutions",
+  // },
   {
     imgURL: "/assets/icons/services.svg",
     label: "Shipping Calculator",

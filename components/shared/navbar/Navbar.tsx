@@ -73,9 +73,9 @@ const Navbar = () => {
           <Link href="/about" className="paragraph-regular">
             About Us
           </Link>
-          <Link href="/#solutions" className="paragraph-regular">
+          {/* <Link href="/#solutions" className="paragraph-regular">
             Solutions
-          </Link>
+          </Link> */}
           {/* <Link href="/shipping-calculator" className="paragraph-regular">
             Shipping Calculator
           </Link> */}
