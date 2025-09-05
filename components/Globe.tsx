@@ -1,7 +1,24 @@
 "use client";
 import React from "react";
-import { World } from "./ui/globe";
+import dynamic from "next/dynamic";
 import type { GlobeConfig } from "./ui/globe";
+
+// Dynamically import the World component to prevent SSR issues
+const World = dynamic(() => import("./ui/globe").then(mod => ({ default: mod.World })), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-full">
+      <div className="text-center">
+        <div className="w-64 h-64 mx-auto mb-4 bg-gradient-to-br from-blue-900 to-blue-600 rounded-full flex items-center justify-center animate-pulse">
+          <div className="text-white text-6xl">🌍</div>
+        </div>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">
+          Loading Interactive Globe...
+        </p>
+      </div>
+    </div>
+  )
+});
 
 const Globe = () => {
   const globeConfig: GlobeConfig = {
