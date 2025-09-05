@@ -3,10 +3,10 @@ import React from "react";
 
 const PartnerLogos = () => {
   return (
-    <section className="flex items-center justify-center px-16 pt-16  max-md:px-8 max-sm:pt-16 sm:px-14 bg-light-900">
+    <section className="flex items-center justify-center px-16 py-16  max-md:px-8 max-sm:py-16 sm:px-14 bg-light-900">
       <div className=" flex w-[1200px] max-w-full  align-top  flex-col justify-center">
-        <p className="h1-bold text-dark-400 mb-5">Our Courier Partners</p>
-        <p className="body-regular text-dark-400 mb-12">
+        <p className="h1-bold text-dark-400 mb-5 pb-5 text-center">Our Courier Partners</p>
+        {/* <p className="body-regular text-dark-400 mb-12">
           At SD Express, we are proud to collaborate with globally renowned
           courier partners such as DHL, UPS, Aramex, and FedEx. These industry
           leaders share our commitment to providing reliable, efficient, and
@@ -15,7 +15,7 @@ const PartnerLogos = () => {
           swiftly and safely, whether across the country or around the world.
           Together, we empower businesses and connect communities through
           exceptional logistics solutions.
-        </p>
+        </p> */}
         <div className="flex flex-row gap-5 justify-evenly items-center w-full flex-wrap">
           <Image
             src="/assets/images/dhl.png"

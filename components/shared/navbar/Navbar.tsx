@@ -60,7 +60,7 @@ const Navbar = () => {
       <div className="flex-between gap-5 py-4 dark:shadow-none max-xl:w-full max-xl:p-6 max-sm:px-10 max-sm:py-6 xl:min-w-[1200px]">
         <Link href="/" className="flex items-center gap-1">
           <Image
-            src="/assets/icons/logo-white-2.png"
+            src="/assets/icons/new-logo.png"
             width={150}
             height={40}
             alt="logo"
@@ -76,9 +76,9 @@ const Navbar = () => {
           <Link href="/#solutions" className="paragraph-regular">
             Solutions
           </Link>
-          <Link href="/shipping-calculator" className="paragraph-regular">
+          {/* <Link href="/shipping-calculator" className="paragraph-regular">
             Shipping Calculator
-          </Link>
+          </Link> */}
           <Link href="/locations" className="paragraph-regular">
             Locations
           </Link>

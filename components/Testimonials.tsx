@@ -69,7 +69,7 @@ const Testimonials = () => {
           className="w-full"
         >
           <div className="flex-between mb-12 flex items-end max-sm:mb-6">
-            <div>
+            <div className="w-full text-center">
               <p className="h1-bold ">Testimonials</p>
             </div>
             <div className="flex items-end justify-end">

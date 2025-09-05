@@ -153,7 +153,7 @@ export const process: ProcessCardProps[] = [
   {
     id: 2,
     icon: "/assets/icons/process-2.svg",
-    title: "Shop from any China Store",
+    title: "Shop from any Store Globally",
     content: "Find the products you love and order as usual.",
   },
   {

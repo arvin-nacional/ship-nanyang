@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="mt-14 flex w-[1200px] flex-row  justify-between max-sm:mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-5 pb-12">
           <Image
-            src="/assets/icons/logo-primary.png"
+            src="/assets/icons/footer-logo.png"
             width={150}
             height={40}
             alt="logo"
@@ -86,7 +86,7 @@ const Footer = () => {
                 height={20}
                 alt="logo"
               />
-              <p>inquiries@sdexpress.ph</p>
+              <p>info@shipnanyang.com</p>
             </div>
             <div className="mt-3 flex gap-5 items-start">
               <Image

@@ -5,43 +5,21 @@ import { Button } from "./ui/button";
 const About = () => {
   return (
     <>
-      <section className="flex items-center justify-center bg-gray-100 px-16 pt-20 max-md:px-5 max-sm:pt-5 max-sm:pb-0 sm:px-14">
-        <div className="grid w-[1200px] max-w-full grid-cols-2 gap-10 px-2 pb-6 align-top max-md:mt-10 max-sm:grid-cols-1 ">
-          <div className="flex flex-col items-start justify-center">
-            <h2 className="h1-bold mb-2 text-dark-500">
-              Order with ease and let us handle the journey. Fast, reliable, and
-              secure logistics tailored to{" "}
-              <span className="text-primary-500">bring your products home</span>
-              .
-            </h2>
-            <p className="paragraph-regular mt-5 ">
-              We make global shopping effortless for customers in the
-              Philippines by bringing products from China right to your
-              doorstep. With our trusted and convenient logistics service, you
-              can enjoy access to China’s vast marketplace and have peace of
-              mind knowing your orders will be delivered securely to your home.
-              Whether it’s hard-to-find items or unique products, we’re here to
-              simplify the entire process, so you can focus on what
-              matters—enjoying your purchases.
-            </p>
-            <Link href="/signin">
-              <Button className="mt-10 rounded-3xl bg-primary-500 px-10 text-light-900">
-                Start Now
-              </Button>
-            </Link>
-          </div>
+      <section className="flex items-center justify-center px-16 pb-20 max-md:px-5 max-sm:pt-5 max-sm:pb-0 sm:px-14">
+        <div className="w-[1200px] max-w-full gap-10 px-2 pb-6 align-top max-md:mt-10 ">
+        
 
           {/* <div className="flex items-center justify-center"> */}
 
-          <div className="relative w-full h-full overflow-hidden rounded-lg max-sm:h-64">
+          <div className="w-[850px] h-full overflow-hidden rounded-lg max-sm:h-64 mx-auto">
             <video
               autoPlay
               loop
               muted
               playsInline
-              className="absolute inset-0 w-full h-full object-cover"
+              className="w-full h-full object-cover"
             >
-              <source src="/assets/videos/delivery2.mp4" type="video/mp4" />
+              <source src="/assets/videos/delivery5.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {/* <Image
