@@ -91,25 +91,25 @@ const Globe = () => {
   ];
 
   return (
-    <div className="flex flex-row items-center justify-center pb-12 h-screen md:h-auto dark:bg-black bg-white relative w-full mb-20">
-      <div className="max-w-7xl mx-auto w-full relative px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+    <div className="flex flex-row items-center justify-center pb-12 min-h-screen md:h-auto dark:bg-black bg-white relative w-full mb-20">
+      <div className="max-w-7xl mx-auto w-full relative px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 items-center">
           {/* Left Column - Global Shipping Destinations */}
-          <div className="lg:col-span-2 space-y-6 z-20 relative sm:ml-36">
-            <div className="mt-10">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">Global Shipping Destination</h2>
+          <div className="lg:col-span-2 space-y-6 z-20 relative order-2 lg:order-1 text-center lg:text-left lg:ml-36">
+            <div className="mt-0 lg:mt-10">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4 lg:mb-6">Global Shipping Destination</h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4 lg:space-y-6">
                 <div>
-                  <h3 className="text-xl font-semibold text-red-600 mb-3">Specialised in South East Asia</h3>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                  <h3 className="text-lg md:text-xl font-semibold text-red-600 mb-2 lg:mb-3">Specialised in South East Asia</h3>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base lg:text-lg">
                     Brunei, Cambodia, Indonesia, Malaysia, the Philippines, Singapore, Thailand, and Vietnam.
                   </p>
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-semibold text-red-600 mb-3">Specialised in UAE</h3>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                  <h3 className="text-lg md:text-xl font-semibold text-red-600 mb-2 lg:mb-3">Specialised in UAE</h3>
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base lg:text-lg">
                     Dubai, Saudi Arabia, Abu Dhabi
                   </p>
                 </div>
@@ -117,10 +117,10 @@ const Globe = () => {
             </div>
           </div>
 
-          {/* Right Column - Globe (More Space) */}
-          <div className="lg:col-span-3 relative overflow-hidden h-[35rem] mb-12">
-            <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
-            <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
+          {/* Right Column - Globe */}
+          <div className="lg:col-span-3 relative overflow-hidden h-[400px] sm:h-[500px] md:h-[600px] lg:h-[35rem] mb-6 lg:mb-12 order-1 lg:order-2">
+            <div className="absolute w-full bottom-0 inset-x-0 h-20 lg:h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
+            <div className="absolute w-full -bottom-10 lg:-bottom-20 h-full z-10">
               <World data={sampleArcs} globeConfig={globeConfig} />
             </div>
           </div>

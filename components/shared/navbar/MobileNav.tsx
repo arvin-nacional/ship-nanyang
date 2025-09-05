@@ -75,7 +75,7 @@ const MobileNav = () => {
         <div>
           <div className="my-5 p-3">
             <Image
-              src="/assets/icons/logo-primary.png"
+              src="/assets/icons/full-color-logo.png"
               width={150}
               height={40}
               alt="logo"
