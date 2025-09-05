@@ -16,7 +16,7 @@ export function Services() {
   return (
     <div className="flex items-center justify-center max-md:px-5 max-sm:py-5 bg-gray-100">
       <div className="flex flex-col items-start justify-center max-w-[1200px] pt-20 pb-20 max-md:px-8 max-sm:py-16">
-        <p className="h1-bold text-dark-400 mb-12 text-center w-full">Our Services</p>
+      <p className="h1-bold text-dark-400 mb-5 pb-5 text-center">Our Courier Partners</p>
         {/* <p className="body-regular text-dark-400 mb-10">
           At SD Express, we take pride in offering a diverse range of logistics
           solutions tailored to meet the unique needs of businesses and
