@@ -49,6 +49,11 @@ export const sidebarLinks: SidebarLink[] = [
     label: "About",
     route: "/about",
   },
+  {
+    imgURL: "/assets/icons/quote.svg",
+    label: "Request Quote",
+    route: "/request-quote",
+  },
   // {
   //   imgURL: "/assets/icons/portfolio.svg",
   //   label: "Portfolio",

@@ -100,14 +100,14 @@ const AppSidebar = ({ userType }: SidebarProps) => {
               <div className="flex flex-row items-center justify-between w-full">
                 {state === "expanded" ? (
                   <Image
-                    src="/assets/icons/logo-primary.png"
+                    src="/assets/icons/full-color-logo.png"
                     height={50}
                     width={120}
                     alt="sidebar logo"
                   />
                 ) : (
                   <Image
-                    src="/assets/icons/logo-secondary.png"
+                    src="/assets/icons/logo-emblem2.png"
                     height={50}
                     width={50}
                     alt="sidebar logo"

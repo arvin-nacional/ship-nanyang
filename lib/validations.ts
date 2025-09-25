@@ -104,3 +104,27 @@ export const UpdatePackageSchema = z.object({
   shipmentPrice: z.string(),
   status: z.string().min(1, { message: "Please select a status" }),
 });
+
+export const RequestQuoteFormSchema = z.object({
+  // Personal Information
+  firstName: z.string().min(1, { message: "Please enter your first name" }),
+  lastName: z.string().min(1, { message: "Please enter your last name" }),
+  companyName: z.string().min(1, { message: "Please enter your company name" }),
+  position: z.string().min(1, { message: "Please enter your position" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  contactNumber: z.string().min(1, { message: "Please enter your contact number" }),
+  
+  // Cargo Information
+  incoterms: z.string().min(1, { message: "Please select INCOTERMS" }),
+  cargoDescription: z.string().min(1, { message: "Please enter cargo description" }),
+  expectedShippingDate: z.string().min(1, { message: "Please select expected shipping date" }),
+  cityPortOrigin: z.string().min(1, { message: "Please enter city/port of origin" }),
+  destination: z.string().min(1, { message: "Please enter destination" }),
+  shipmentType: z.string().min(1, { message: "Please select shipment type" }),
+  
+  // Files (optional)
+  files: z.array(z.any()).optional(),
+  
+  // Comments/Questions (optional)
+  comments: z.string().optional(),
+});

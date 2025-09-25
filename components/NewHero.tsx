@@ -31,7 +31,7 @@ const NewHero = () => {
               and air freight solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/shipping-calculator"><Button size="lg" className="text-lg px-8 bg-white text-primary-500 hover:bg-gray-200 hover:text-primary-500">
+              <Link href="/request-quote"><Button size="lg" className="text-lg px-8 bg-white text-primary-500 hover:bg-gray-200 hover:text-primary-500">
                 Get Instant Quote
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button></Link>

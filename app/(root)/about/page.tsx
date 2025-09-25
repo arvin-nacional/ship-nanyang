@@ -1,6 +1,7 @@
 import AboutPage from "@/components/AboutPage";
 import CTA from "@/components/CTA";
 import Employees from "@/components/Employees";
+import RequestQuoteSection from "@/components/RequestQuoteSection";
 import ShipmentProcess from "@/components/ShipmentProcess";
 import Testimonials from "@/components/Testimonials";
 import WhyUs from "@/components/WhyUs";
@@ -14,6 +15,7 @@ const page = () => {
       <Employees />
       <ShipmentProcess />
       <Testimonials />
+      <RequestQuoteSection variant="compact" />
       <CTA />
     </div>
   );

@@ -5,10 +5,11 @@ import NewHero from "@/components/NewHero";
 import PartnerLogos from "@/components/PartnerLogos";
 import { Services } from "@/components/Services";
 import ShipmentProcess from "@/components/ShipmentProcess";
-import Solutions from "@/components/Solutions";
 import Testimonials from "@/components/Testimonials";
 import React from "react";
 import Globe from "@/components/Globe";
+import RequestQuoteSection from "@/components/RequestQuoteSection";
+
 const Page = () => {
   return (
     <section className="background-light850_dark100">
@@ -20,7 +21,8 @@ const Page = () => {
       <Globe />
       <ShipmentProcess />
       <Testimonials />
-      <CTA />
+      {/* <CTA /> */}
+      <RequestQuoteSection variant="default" />
     </section>
   );
 };

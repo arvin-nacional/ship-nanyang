@@ -1,11 +1,14 @@
 import CTA from "@/components/CTA";
+import FeaturesGrid from "@/components/FeaturesGrid";
 import Location from "@/components/Location";
 import React from "react";
+
 
 const page = () => {
   return (
     <div className="max-sm:pt-20">
-      <Location />
+      <FeaturesGrid />
+      {/* <Location /> */}
       <CTA />
     </div>
   );
