@@ -15,8 +15,7 @@ const page = () => {
       <Employees />
       <ShipmentProcess />
       <Testimonials />
-      <RequestQuoteSection variant="compact" />
-      <CTA />
+      <RequestQuoteSection variant="default" />
     </div>
   );
 };

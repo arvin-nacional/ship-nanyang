@@ -1,6 +1,7 @@
 import CTA from "@/components/CTA";
 import FeaturesGrid from "@/components/FeaturesGrid";
-import Location from "@/components/Location";
+// import Location from "@/components/Location";
+import RequestQuoteSection from "@/components/RequestQuoteSection";
 import React from "react";
 
 
@@ -9,7 +10,7 @@ const page = () => {
     <div className="max-sm:pt-20">
       <FeaturesGrid />
       {/* <Location /> */}
-      <CTA />
+      <RequestQuoteSection variant="default" />
     </div>
   );
 };

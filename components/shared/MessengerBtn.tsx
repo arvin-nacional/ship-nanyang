@@ -5,7 +5,7 @@ import React from "react";
 const MessengerBtn = () => {
   return (
     <div className="fixed bottom-4 right-4">
-      <Link href="https://m.me/sdexpressinternational" target="_blank">
+      <Link href="https://www.facebook.com/messages/t/752099247989837" target="_blank">
         <Image
           src="/assets/icons/messenger.svg"
           alt="messengerButton"
