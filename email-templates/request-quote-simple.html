@@ -1,0 +1,108 @@
+<div style="font-family: system-ui, sans-serif, Arial; font-size: 12px">
+  <div>A new quote request has been received from {{firstName}} {{lastName}}. Please review and respond at your earliest convenience.</div>
+  
+  <div
+    style="
+      margin-top: 20px;
+      padding: 15px 0;
+      border-width: 1px 0;
+      border-style: dashed;
+      border-color: lightgrey;
+    "
+  >
+    <table role="presentation">
+      <tr>
+        <td style="vertical-align: top">
+          <div
+            style="
+              padding: 6px 10px;
+              margin: 0 10px;
+              background-color: #fff3e0;
+              border-radius: 5px;
+              font-size: 26px;
+            "
+            role="img"
+          >
+            📦
+          </div>
+        </td>
+        <td style="vertical-align: top">
+          <div style="color: #2c3e50; font-size: 16px">
+            <strong>{{firstName}} {{lastName}}</strong>
+          </div>
+          <div style="color: #cccccc; font-size: 13px">{{requestDate}} at {{requestTime}}</div>
+          <div style="color: #666; font-size: 14px; margin-top: 5px">{{companyName}} - {{position}}</div>
+          <div style="color: #666; font-size: 14px">📧 {{email}} | 📱 {{contactNumber}}</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Cargo Details -->
+  <div
+    style="
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #ff7000;
+    "
+  >
+    <div style="font-size: 16px; font-weight: bold; color: #ff7000; margin-bottom: 10px">Cargo Information</div>
+    <div style="margin-bottom: 8px"><strong>INCOTERMS:</strong> {{incoterms}}</div>
+    <div style="margin-bottom: 8px"><strong>Shipment Type:</strong> {{shipmentType}}</div>
+    <div style="margin-bottom: 8px"><strong>Expected Shipping Date:</strong> {{expectedShippingDate}}</div>
+    <div style="margin-bottom: 8px"><strong>Origin:</strong> {{cityPortOrigin}}</div>
+    <div style="margin-bottom: 8px"><strong>Destination:</strong> {{destination}}</div>
+    <div style="margin-top: 15px">
+      <strong>Cargo Description:</strong>
+      <div style="margin-top: 5px; padding: 10px; background-color: white; border-radius: 4px; font-style: italic">
+        {{cargoDescription}}
+      </div>
+    </div>
+  </div>
+
+  <!-- Comments (if provided) -->
+  {{#if comments}}
+  <div
+    style="
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #e8f4fd;
+      border-radius: 8px;
+      border-left: 4px solid #007bff;
+    "
+  >
+    <div style="font-size: 16px; font-weight: bold; color: #007bff; margin-bottom: 10px">Additional Comments</div>
+    <div style="font-style: italic">{{comments}}</div>
+  </div>
+  {{/if}}
+
+  <!-- Files with downloadable links -->
+  <div
+    style="
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #f0f8f0;
+      border-radius: 8px;
+      border-left: 4px solid #28a745;
+    "
+  >
+    <div style="font-size: 16px; font-weight: bold; color: #28a745; margin-bottom: 10px">📎 Attached Files</div>
+    <div style="white-space: pre-line; line-height: 1.8; font-family: monospace; font-size: 13px;">{{files}}</div>
+    <div style="margin-top: 15px; padding: 10px; background-color: #e8f5e8; border-radius: 4px; font-size: 11px; color: #2d5a2d;">
+      <strong>📥 Download Instructions:</strong><br>
+      • Click on any link above to download the file directly<br>
+      • Files are securely stored in cloud storage<br>
+      • Links are valid and accessible immediately<br>
+      • If you have trouble accessing files, please contact the customer directly
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 11px">
+    <div><strong>SD Express International Shipping</strong></div>
+    <div>This is an automated message from the quote request system.</div>
+    <div style="margin-top: 5px;">For urgent matters, please contact us directly at your earliest convenience.</div>
+  </div>
+</div>
