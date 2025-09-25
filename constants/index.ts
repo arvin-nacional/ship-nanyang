@@ -50,9 +50,9 @@ export const sidebarLinks: SidebarLink[] = [
     route: "/about",
   },
   {
-    imgURL: "/assets/icons/quote.svg",
-    label: "Request Quote",
-    route: "/request-quote",
+    imgURL: "/assets/icons/services.svg",
+    label: "Locations",
+    route: "/locations",
   },
   // {
   //   imgURL: "/assets/icons/portfolio.svg",
@@ -69,15 +69,15 @@ export const sidebarLinks: SidebarLink[] = [
   //   label: "Solutions",
   //   route: "/#solutions",
   // },
-  {
-    imgURL: "/assets/icons/services.svg",
-    label: "Shipping Calculator",
-    route: "/shipping-calculator",
-  },
+  // {
+  //   imgURL: "/assets/icons/services.svg",
+  //   label: "Shipping Calculator",
+  //   route: "/shipping-calculator",
+  // },
   {
     imgURL: "/assets/icons/send-2.svg",
-    label: "Contact",
-    route: "https://m.me/sdexpressinternational",
+    label: "Request Quote",
+    route: "/request-quote",
   },
   {
     imgURL: "/assets/icons/package2.svg",

@@ -62,8 +62,9 @@ const Footer = () => {
           <div className="body-regular mt-2 flex flex-col gap-2 text-slate-300">
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
-            <Link href="/shipping-calculator">Shipping Calculator</Link>
+            {/* <Link href="/shipping-calculator">Shipping Calculator</Link> */}
             <Link href="/locations">Location</Link>
+            <Link href="/request-quote">Request Quote</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>
           </div>
         </div>
