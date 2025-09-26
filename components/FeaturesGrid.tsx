@@ -10,8 +10,8 @@ import {
 
 const FeaturesGrid = () => {
   return (
-    <div className="flex items-center justify-center max-md:px-5 max-sm:py-5 bg-gray-50 mt-12">
-      <div className="flex flex-col items-start justify-center max-w-[1200px] pt-20 pb-20 max-md:px-8 max-sm:py-16">
+    <div className="flex items-center justify-center max-md:px-2 max-sm:py-5 bg-gray-50 mt-12">
+      <div className="flex flex-col items-start justify-center max-w-[1200px] pt-20 pb-20 max-md:px-4 max-sm:py-16">
         <div className="text-center w-full mb-16">
           <h2 className="h1-bold text-dark-400 mb-5">Our Warehouse Network</h2>
           <p className="body-regular text-dark-400 max-w-3xl mx-auto">
