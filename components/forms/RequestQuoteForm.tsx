@@ -85,8 +85,20 @@ const RequestQuoteForm = ({ type }: Props) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
+
     if (files) {
       const fileArray = Array.from(files);
+
+    // Check for .exe files
+    if (fileArray.some(f => f.name.toLowerCase().endsWith('.exe'))) {
+      toast({
+        title: "File Upload Error",
+        description: "Executable files (.exe) are not allowed for security reasons.",
+        variant: "destructive",
+      });
+      event.target.value = '';
+      return;
+    }
       setSelectedFiles(fileArray);
       form.setValue("files", fileArray);
     }
