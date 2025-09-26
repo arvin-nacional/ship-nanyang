@@ -103,7 +103,7 @@ const Globe = () => {
                 <div>
                   <h3 className="text-lg md:text-xl font-semibold text-red-600 mb-2 lg:mb-3">Specialised in South East Asia</h3>
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base lg:text-lg">
-                    Brunei, Cambodia, Indonesia, Malaysia, the Philippines, Singapore, Thailand, and Vietnam.
+                    Brunei, Cambodia, Indonesia, Malaysia, Philippines, Singapore, Thailand, and Vietnam.
                   </p>
                 </div>
                 
