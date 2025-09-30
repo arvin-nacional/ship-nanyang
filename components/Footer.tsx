@@ -20,7 +20,7 @@ const Footer = () => {
           </p>
           <div className="flex gap-5">
             <a
-              href="https://www.facebook.com/sdexpressinternational"
+              href="https://www.facebook.com/profile.php?id=61580578587759"
               target="_blank"
             >
               <Image
