@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="mt-14 flex w-[1200px] flex-row  justify-between max-sm:mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-5 pb-12">
           <Image
-            src="/assets/icons/footer-logo.png"
+            src="/assets/icons/final-half.png"
             width={150}
             height={40}
             alt="logo"
