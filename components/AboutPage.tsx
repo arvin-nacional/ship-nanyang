@@ -156,7 +156,7 @@ const AboutPage = () => {
             </Card>
           </div>
 
-          <div className="mt-16 text-center">
+          {/* <div className="mt-16 text-center">
             <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary mb-2">99.9%</div>
@@ -175,7 +175,7 @@ const AboutPage = () => {
                 <p className="text-muted-foreground">Secure Packaging</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </>

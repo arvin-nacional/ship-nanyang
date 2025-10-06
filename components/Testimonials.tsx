@@ -15,7 +15,7 @@ const Testimonials = () => {
       testimonialThumb: "/assets/images/testimonial-4.svg",
       title: "A Game-Changer for My Business!",
       testimonialText:
-        "SD Express has made importing products seamless for my business. Their efficient shipping and excellent support allow me to focus on scaling, knowing my deliveries are in good hands.",
+        "Ship Nanyang has made importing products seamless for my business. Their efficient shipping and excellent support allow me to focus on scaling, knowing my deliveries are in good hands.",
       avatarName: "Clara S.",
       avatarDesignation: "Online Store Owner",
       ratings: "5",
@@ -24,7 +24,7 @@ const Testimonials = () => {
       testimonialThumb: "/assets/images/testimonial-1.svg",
 
       testimonialText:
-        "Since we started shipping with SDExpress on 2022, we are very satisfied with their fast and reliable reliable. There are some challenges with some of my products coming in the PH, but they really helped us with all the requirements in the clearing process and logistics.  SDExpress is perfect fit for our fast paced operations.",
+        "Since we started shipping with Ship Nanyang on 2022, we are very satisfied with their fast and reliable reliable. There are some challenges with some of my products coming in the PH, but they really helped us with all the requirements in the clearing process and logistics.  SDExpress is perfect fit for our fast paced operations.",
       avatarName: "DARIV",
       avatarDesignation: "DARIV Concrete Polishing",
       ratings: "5",
@@ -33,7 +33,7 @@ const Testimonials = () => {
       testimonialThumb: "/assets/images/testimonial-2.svg",
       title: "My Secret to Success!",
       testimonialText:
-        "I’ve been using SD Express for months, and they never disappoint! Their reliable delivery service has helped me keep my customers happy and my inventory stocked effortlessly.",
+        "I’ve been using Ship Nanyang for months, and they never disappoint! Their reliable delivery service has helped me keep my customers happy and my inventory stocked effortlessly.",
       avatarName: "Jenny L.",
       avatarDesignation: "Importer",
       ratings: "5",
@@ -52,7 +52,7 @@ const Testimonials = () => {
       testimonialThumb: "/assets/images/testimonial-5.svg",
       title: "Helping My Business Thrive!",
       testimonialText:
-        "Thanks to SD Express, I’ve expanded my product line and improved customer satisfaction. They handle the shipping while I focus on growing my brand. Highly recommend!",
+        "Thanks to Ship Nanyang, I’ve expanded my product line and improved customer satisfaction. They handle the shipping while I focus on growing my brand. Highly recommend!",
       avatarName: "Katherine P.",
       avatarDesignation: "Beauty Products Seller",
       ratings: "5",
