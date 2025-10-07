@@ -15,7 +15,7 @@ const Page = () => {
           {/* Introduction */}
           <div className="prose max-w-none">
             <p className="text-lg">
-              At <span className="font-semibold">SD Express</span>,
+              At <span className="font-semibold">Ship Nanyang</span>,
               we are committed to protecting your privacy and ensuring that your personal data is handled responsibly and securely.
             </p>
           </div>
@@ -93,7 +93,7 @@ const Page = () => {
             </ul>
             
             <p className="mt-4">
-              To exercise any of these rights, please contact us at <a href="mailto:support@sdexpress.ph" className="text-primary hover:underline">support@sdexpress.ph</a>.
+              To exercise any of these rights, please contact us at <a href="mailto:support@shipnanyang.com" className="text-primary hover:underline">support@shipnanyang.com</a>.
             </p>
           </section>
 
@@ -116,7 +116,7 @@ const Page = () => {
           <section className=" p-6 rounded-lg">
             <h2 className="text-2xl font-semibold text-primary mb-4">7. Children's Privacy</h2>
             <p className="text-gray-700">
-              SD Express does not knowingly collect personal data from individuals under the age of 13. 
+              Ship Nanyang does not knowingly collect personal data from individuals under the age of 13. 
               If we learn we have collected data from a child, we will delete it promptly.
             </p>
           </section>
@@ -135,9 +135,9 @@ const Page = () => {
             <p className="mb-4">For any questions or concerns about this Privacy Policy, please contact:</p>
             
             <div className="flex flex-col space-y-2">
-              <p className="font-semibold">SD Express</p>
-              <p>Email: <a href="mailto:inquiries@sdexpress.ph" className="text-primary hover:underline">support@sdexpress.ph</a></p>
-              <p>Website: <a href="https://sdexpress.ph" className="text-primary hover:underline">https://sdexpress.ph</a></p>
+              <p className="font-semibold">Ship Nanyang</p>
+              <p>Email: <a href="mailto:inquiries@shipnanyang.com" className="text-primary hover:underline">support@shipnanyang.com</a></p>
+              <p>Website: <a href="https://shipnanyang.com" className="text-primary hover:underline">https://shipnanyang.com</a></p>
             </div>
           </section>
         </div>
