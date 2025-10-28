@@ -8,9 +8,9 @@ const Footer = () => {
       <div className="mt-14 flex w-[1200px] flex-row  justify-between max-sm:mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-5 pb-12">
           <Image
-            src="/assets/icons/final-half.png"
-            width={150}
-            height={40}
+            src="/assets/icons/new-logo-english-half.png"
+            width={100}
+            height={50}
             alt="logo"
           />
           <p className="w-[350px] text-slate-300">

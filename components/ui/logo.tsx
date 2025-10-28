@@ -13,7 +13,7 @@ const Logo = () => {
       {mode === "light" ? (
         <Link href="/user/dashboard">
           <Image
-            src="/assets/icons/final-white.png"
+            src="/assets/icons/new-logo-english-white2.png"
             width={150}
             height={40}
             alt="logo"
@@ -21,7 +21,7 @@ const Logo = () => {
         </Link>
       ) : (
         <Image
-          src="/assets/images/final-full.png"
+          src="/assets/images/new-logo-english-colored.png"
           width={150}
           height={40}
           alt="logo"

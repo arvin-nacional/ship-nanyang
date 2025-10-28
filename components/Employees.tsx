@@ -6,8 +6,8 @@ const Employees = () => {
       quote:
         "Daniel ensures smooth coordination between sales and shipping operations. They oversee order processing, manage logistics strategies, and guarantee timely deliveries, all while optimizing costs and ensuring customer satisfaction. With a focus on efficiency and reliability, he helps drive our commitment to seamless shipping solutions.",
       name: "Daniel Loke",
-      designation: "Sales Logistic Manager",
-      src: "/assets/images/daniel-3.png",
+      designation: "Founder / CEO",
+      src: "/assets/images/daniel-new.jpg",
     },
     {
       quote:
