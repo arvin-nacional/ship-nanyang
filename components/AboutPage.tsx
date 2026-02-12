@@ -43,7 +43,7 @@ const AboutPage = () => {
       </section> */}
 
       {/* Core Values & Principles Section */}
-      <section className="py-20 bg-white pt-32">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="h1-bold mb-4 text-dark-500">Core Values & Principles</h2>

@@ -70,14 +70,14 @@ const CompanyOverview = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-white md:pt-32">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 bg-primary-500/10 text-primary-500 text-sm font-semibold rounded-full mb-4">
+          {/* <span className="inline-block px-4 py-1.5 bg-primary-500/10 text-primary-500 text-sm font-semibold rounded-full mb-4">
             About Ship Nanyang
-          </span>
-          <h2 className="h1-bold mb-4 text-dark-500">
+          </span> */}
+          <h2 className="h1-bold mb-4 text-dark-500 max-sm:pt-12">
             Your Trusted Global Logistics Partner
           </h2>
           <p className="paragraph-regular text-dark-400 max-w-3xl mx-auto">
