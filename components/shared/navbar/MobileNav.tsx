@@ -118,28 +118,17 @@ const MobileNav = () => {
               alt="logo"
             />
           </a>
-          {/* <a
-            href="https://www.facebook.com/sdexpressinternational"
+          <a
+            href="https://www.instagram.com/shipnanyang/"
             target="_blank"
           >
             <Image
               src="/assets/icons/instagram.svg"
               width={20}
               height={20}
-              alt="logo"
+              alt="Instagram"
             />
           </a>
-          <a
-            href="https://www.facebook.com/sdexpressinternational"
-            target="_blank"
-          >
-            <Image
-              src="/assets/icons/linkedin.svg"
-              width={20}
-              height={20}
-              alt="logo"
-            />
-          </a> */}
         </div>
       </SheetContent>
     </Sheet>

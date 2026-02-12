@@ -24,37 +24,24 @@ const Footer = () => {
               target="_blank"
             >
               <Image
-                src="/assets/icons/facebook_blue.svg"
+                src="/assets/icons/facebook.svg"
                 width={20}
                 height={20}
                 alt="logo"
                 className="bg-[#1877F2] rounded-full"
               />
             </a>
-            {/* <a
-              href="https://www.facebook.com/sdexpressinternational"
+            <a
+              href="https://www.instagram.com/shipnanyang/"
               target="_blank"
             >
               <Image
                 src="/assets/icons/instagram.svg"
                 width={20}
                 height={20}
-                alt="logo"
-                // className="invert-colors"
+                alt="Instagram"
               />
             </a>
-            <a
-              href="https://www.facebook.com/sdexpressinternational"
-              target="_blank"
-            >
-              <Image
-                src="/assets/icons/linkedin.svg"
-                width={20}
-                height={20}
-                alt="logo"
-                // className="invert-colors"
-              />
-            </a> */}
           </div>
         </div>
         <div className="text-dark400_light800 pb-12">
