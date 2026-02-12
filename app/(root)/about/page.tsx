@@ -1,4 +1,5 @@
 import AboutPage from "@/components/AboutPage";
+import CompanyOverview from "@/components/CompanyOverview";
 import CTA from "@/components/CTA";
 import Employees from "@/components/Employees";
 import RequestQuoteSection from "@/components/RequestQuoteSection";
@@ -11,6 +12,7 @@ const page = () => {
   return (
     <div className="max-sm:pt-20">
       <AboutPage />
+      <CompanyOverview />
       {/* <WhyUs /> */}
       <Employees />
       <ShipmentProcess />

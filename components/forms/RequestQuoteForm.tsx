@@ -144,6 +144,7 @@ const RequestQuoteForm = ({ type }: Props) => {
             
             console.log('Files uploaded successfully:', uploadResult.uploadedFiles);
           } else if (uploadResult.failedFiles.length > 0) {
+            
             // Some files failed to upload
             const failedFileNames = uploadResult.failedFiles.map(f => f.name).join(', ');
             toast({
