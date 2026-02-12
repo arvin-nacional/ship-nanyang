@@ -7,7 +7,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="max-sm:pt-20">
+    <div>
       <FeaturesGrid />
       {/* <Location /> */}
       <RequestQuoteSection variant="default" />

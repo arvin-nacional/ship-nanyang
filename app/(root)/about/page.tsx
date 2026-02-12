@@ -10,7 +10,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="max-sm:pt-20">
+    <div>
       <AboutPage />
       <CompanyOverview />
       {/* <WhyUs /> */}

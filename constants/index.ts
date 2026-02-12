@@ -80,6 +80,11 @@ export const sidebarLinks: SidebarLink[] = [
     route: "/request-quote",
   },
   {
+    imgURL: "/assets/icons/messenger.svg",
+    label: "Contact",
+    route: "/contact",
+  },
+  {
     imgURL: "/assets/icons/package2.svg",
     label: "Track Your Package",
     route: "/signin",

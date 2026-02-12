@@ -86,6 +86,9 @@ const Navbar = () => {
           <Link href="/request-quote" className="paragraph-regular">
             Request Quote
           </Link>
+          <Link href="/contact" className="paragraph-regular">
+            Contact
+          </Link>
         </div>
         <div className="flex-between gap-5">
           <SignedOut>
