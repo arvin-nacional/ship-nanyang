@@ -66,7 +66,9 @@ const CompanyOverview = () => {
     "Hong Kong (China)", 
     "Southeast Asia",
     "Europe",
-    "North America"
+    "North America",
+    "UAE (Dubai , Saudi Arabia)"
+
   ];
 
   return (
