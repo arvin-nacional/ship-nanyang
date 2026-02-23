@@ -4,106 +4,98 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <section className="background-light850_dark100 flex items-center justify-center bg-dark-300 px-16 py-10 max-md:px-5">
-      <div className="mt-14 flex w-[1200px] flex-row  justify-between max-sm:mt-5 max-sm:flex-col">
-        <div className="flex flex-col gap-5 pb-12">
-          <Image
-            src="/assets/icons/new-logo-english-half.png"
-            width={100}
-            height={50}
-            alt="logo"
-          />
-          <p className="w-[350px] text-slate-300">
-            Forget the hassle of international shipping—order from China with
-            ease, and we&apos;ll handle the rest, delivering directly to your
-            home.
-          </p>
-          <div className="flex gap-5">
-            <a
-              href="https://www.facebook.com/profile.php?id=61580578587759"
-              target="_blank"
-            >
-              <Image
-                src="/assets/icons/facebook.svg"
-                width={20}
-                height={20}
-                alt="logo"
-                className="bg-[#1877F2] rounded-full"
-              />
-            </a>
-            <a
-              href="https://www.instagram.com/shipnanyang/"
-              target="_blank"
-            >
-              <Image
-                src="/assets/icons/instagram.svg"
-                width={20}
-                height={20}
-                alt="Instagram"
-              />
-            </a>
-          </div>
-        </div>
-        <div className="text-dark400_light800 pb-12">
-          <p className="h3-bold text-white">Quick Links</p>
-          <div className="body-regular mt-2 flex flex-col gap-2 text-slate-300">
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            {/* <Link href="/shipping-calculator">Shipping Calculator</Link> */}
-            <Link href="/locations">Location</Link>
-            <Link href="/request-quote">Request Quote</Link>
-            <Link href="/privacy-policy">Privacy Policy</Link>
-          </div>
-        </div>
-        <div className="text-dark400_light800 pb-12 ">
-          <p className="h3-bold text-white">Contact</p>
-          <div className="body-regular text-slate-300">
-            <div className=" mt-3 flex gap-5 ">
-              <Image
-                src="/assets/icons/telephone-call.png"
-                width={20}
-                height={20}
-                alt="logo"
-              />
-              <p>+63 966 401 6784</p>
+    <section className="flex items-center justify-center bg-dark-300 px-16 py-12 max-md:px-6">
+      <div className="w-full max-w-[1200px]">
+        {/* Top row */}
+        <div className="grid gap-10 [grid-template-columns:2fr_1fr_2fr_2fr] max-lg:grid-cols-2 max-sm:grid-cols-1">
+          {/* Brand */}
+          <div className="flex flex-col gap-4">
+            <Image
+              src="/assets/icons/new-logo-english-half.png"
+              width={100}
+              height={50}
+              alt="logo"
+            />
+            <p className="text-sm text-slate-400 leading-relaxed">
+              Forget the hassle of international shipping—order from China with
+              ease, and we&apos;ll handle the rest.
+            </p>
+            <div className="flex gap-4 mt-1">
+              <a href="https://www.facebook.com/profile.php?id=61580578587759" target="_blank">
+                <Image src="/assets/icons/facebook.svg" width={20} height={20} alt="Facebook" className="bg-[#1877F2] rounded-full" />
+              </a>
+              <a href="https://www.instagram.com/shipnanyang/" target="_blank">
+                <Image src="/assets/icons/instagram.svg" width={20} height={20} alt="Instagram" />
+              </a>
             </div>
-            <div className="mt-3 flex gap-5 ">
-              <Image
-                src="/assets/icons/paper-plane.png"
-                width={20}
-                height={20}
-                alt="logo"
-              />
-              <p>info@shipnanyang.com</p>
+          </div>
+
+          {/* Quick Links */}
+          <div className="flex flex-col gap-2">
+            <p className="text-white font-semibold mb-2">Quick Links</p>
+            <Link href="/" className="text-sm text-slate-400 hover:text-white transition-colors">Home</Link>
+            <Link href="/about" className="text-sm text-slate-400 hover:text-white transition-colors">About</Link>
+            <Link href="/locations" className="text-sm text-slate-400 hover:text-white transition-colors">Locations</Link>
+            <Link href="/request-quote" className="text-sm text-slate-400 hover:text-white transition-colors">Request Quote</Link>
+            <Link href="/contact" className="text-sm text-slate-400 hover:text-white transition-colors">Contact</Link>
+            <Link href="/privacy-policy" className="text-sm text-slate-400 hover:text-white transition-colors">Privacy Policy</Link>
+          </div>
+
+          {/* Head Office */} 
+          <div className="flex flex-col gap-3">
+            <p className="text-white font-semibold mb-2">Contact</p>
+            <div className="flex gap-3 items-center">
+              <Image src="/assets/icons/telephone-call.png" width={16} height={16} alt="phone" className="shrink-0" />
+              <p className="text-sm text-slate-400">+852 6091 1394</p>
             </div>
-            <div className="mt-3 flex gap-5 items-start">
-              <Image
-                src="/assets/icons/pin.png"
-                sizes="20"
-                alt="locatin pin"
-                width={20}
-                height={20}
-                objectFit="cover"
-              />
-              <p className="text-wrap">
-                26th and 27th Floors The Podium, <br />
-                Lower, Ortigas Center, Mandaluyong, <br />
-                1605 Metro Manila, Philippines
+            <div className="flex gap-3 items-center">
+              <Image src="/assets/icons/paper-plane.png" width={16} height={16} alt="email" className="shrink-0" />
+              <p className="text-sm text-slate-400">info@shipnanyang.com</p>
+            </div>
+            <div className="flex gap-3 items-start">
+              <Image src="/assets/icons/pin.png" width={16} height={16} alt="pin" className="shrink-0 mt-0.5" />
+             
+              <p className="text-sm text-slate-400 leading-relaxed">
+                 <span className="text-white text-xs font-medium">Hong Kong Head Office</span><br />
+                RX Nanyang Ltd<br />
+                Room 1601, 16/F Workington Tower<br />
+                78 Bonham Strand, Sheung Wan, <br/>Hong Kong
+              </p>
+            </div>
+          </div>
+
+          {/* Branches */}
+          <div className="flex flex-col gap-3">
+            <p className="text-white font-semibold mb-2">Branches</p>
+            <div className="flex gap-3 items-start">
+              <Image src="/assets/icons/pin.png" width={16} height={16} alt="pin" className="shrink-0 mt-0.5" />
+              <p className="text-sm text-slate-400 leading-relaxed">
+                <span className="text-white text-xs font-medium">Philippines, Manila</span><br />
+                26th & 27th Floors The Podium<br />
+                Ortigas Center, Mandaluyong<br />
+                +63 966 401 6784
+              </p>
+            </div>
+            <div className="flex gap-3 items-start">
+              <Image src="/assets/icons/pin.png" width={16} height={16} alt="pin" className="shrink-0 mt-0.5" />
+              <p className="text-sm text-slate-400 leading-relaxed">
+                <span className="text-white text-xs font-medium">Malaysia, Kuala Lumpur</span><br />
+                Suite 9-08, 9th Floor<br />
+                Wisma Warisan, 33 Jalan Yap Ah Shak<br />
+                50300 Kuala Lumpur
               </p>
             </div>
           </div>
         </div>
 
-        {/* <div className="pb-12">
-          <p className="h3-bold text-white">Subscribe</p>
-          <p className="small-regular mb-3 py-2 text-slate-300">
-            Subscribe to get our latest news and updates.
-          </p>
-          <Subscriber type="" />
-        </div> */}
+        {/* Divider + copyright */}
+        <div className="mt-10 border-t border-white/10 pt-6 text-center">
+          <p className="text-xs text-slate-500">© {new Date().getFullYear()} RX Nanyang Ltd. All rights reserved.</p>
+        </div>
       </div>
     </section>
   );
 };
 
 export default Footer;
+

@@ -61,8 +61,9 @@ const ContactPage = () => {
                   <div>
                     <h3 className="font-semibold text-dark-500 mb-1">Address</h3>
                     <p className="text-dark-400 text-sm">
-                      Ship Nanyang Headquarters<br />
-                      Mandaluyong, Philippines
+                      Room 1601, 16/F Workington Tower <br />
+                      78 Bonham Strand <br />
+                      Sheung Wan, Hong Kong
                     </p>
                   </div>
                 </div>
