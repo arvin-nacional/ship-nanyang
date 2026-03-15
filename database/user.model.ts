@@ -16,11 +16,11 @@ export interface IUser extends Document {
 
 const UserSchema = new Schema({
   clerkId: { type: String, required: true },
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: { type: String, required: false },
+  lastName: { type: String, required: false },
   email: { type: String, required: true },
   password: { type: String },
-  picture: { type: String, required: true },
+  picture: { type: String, required: false },
   role: { type: String, default: "user" },
   address: { type: Schema.Types.ObjectId, ref: "Address" },
   joinedAt: { type: Date, default: Date.now },
