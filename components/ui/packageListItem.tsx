@@ -66,7 +66,7 @@ const PackageListItem = ({
       <div className="flex flex-col gap-2 w-[100px] ">
         <p className="small-regular text-primary-400">Amount</p>
         <p className="body-regular">
-          {finalAmount ? `${finalAmount} PHP` : "pending"}
+          {finalAmount ? `$${finalAmount}` : "pending"}
         </p>
       </div>
       {/* <div className="flex flex-col gap-2 w-[100px] ">

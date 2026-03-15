@@ -13,7 +13,7 @@ import {
   AlertDialogTrigger,
 } from "./alert-dialog";
 
-import { FilePenLine, PackageX, PhilippinePeso } from "lucide-react";
+import { FilePenLine, PackageX, DollarSign } from "lucide-react";
 import { removePackage } from "@/lib/actions/package.action";
 import { usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
@@ -72,7 +72,7 @@ const PackageItem = ({
       <div className="flex flex-col gap-2 w-[100px] max-sm:w-full">
         <p className="small-regular text-primary-500">Shipment Price</p>
         <div className="flex gap-1 items-center">
-          <PhilippinePeso size={16} />{" "}
+          <DollarSign size={16} />{" "}
           <p className="body-regular ">{finalAmount}</p>
         </div>
       </div>

@@ -92,11 +92,11 @@ export const calculateShippingFee = ({
 
   // Create result object
   const result = {
-    totalFee: `${parseFloat(shippingFee.toFixed(2)) + parseFloat(insuranceFee.toFixed(2))} PHP`,
-    basicCharge: `${parseFloat(shippingFee.toFixed(2)) + parseFloat(insuranceFee.toFixed(2))} PHP`,
+    totalFee: `$${(parseFloat(shippingFee.toFixed(2)) + parseFloat(insuranceFee.toFixed(2))).toFixed(2)}`,
+    basicCharge: `$${(parseFloat(shippingFee.toFixed(2)) + parseFloat(insuranceFee.toFixed(2))).toFixed(2)}`,
     // surcharge: parseFloat(surcharge.toFixed(2)).toString(),
     // handlingFee: parseFloat(handlingFee.toFixed(2)),
-    insuranceFee: `${parseFloat(insuranceFee.toFixed(2))} PHP`,
+    insuranceFee: `$${parseFloat(insuranceFee.toFixed(2)).toFixed(2)}`,
     chargeableWeight: `${chargeableWeight} Kg`,
   };
 

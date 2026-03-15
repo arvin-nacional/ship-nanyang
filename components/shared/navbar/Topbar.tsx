@@ -11,23 +11,25 @@ interface Props {
 }
 
 const Topbar = ({ userName, userType }: Props) => {
-  const [currencyRate, setCurrencyRate] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchCurrencyRate = async () => {
-      try {
-        const response = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/USD"
-        );
-        const data = await response.json();
-        setCurrencyRate(data.rates.PHP);
-      } catch (error) {
-        console.error("Error fetching currency rate:", error);
-      }
-    };
+  // get usd to php conversion
+  // const [currencyRate, setCurrencyRate] = useState<number | null>(null);
 
-    fetchCurrencyRate();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCurrencyRate = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "https://api.exchangerate-api.com/v4/latest/USD"
+  //       );
+  //       const data = await response.json();
+  //       setCurrencyRate(data.rates.PHP);
+  //     } catch (error) {
+  //       console.error("Error fetching currency rate:", error);
+  //     }
+  //   };
+
+  //   fetchCurrencyRate();
+  // }, []);
   return (
     <div className="z-50 w-full">
       <div className="py-4 bg-light-800 flex justify-between px-6  ">
@@ -37,12 +39,12 @@ const Topbar = ({ userName, userType }: Props) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="small-regular">Currency Rate:</span>
             <span className="paragraph-regular max-sm:small-regular">
               {currencyRate} PHP
             </span>
-          </div>
+          </div> */}
 
           <Link
             href={

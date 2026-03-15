@@ -12,7 +12,7 @@ import {
   getTotalPrice,
 } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { PackagePlus, PhilippinePeso } from "lucide-react";
+import { PackagePlus, DollarSign } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 type tParams = Promise<{ id: string }>;
@@ -92,7 +92,7 @@ const page = async ({ params }: { params: tParams }) => {
                   <p className="h2-semibold text-primary-500">Pending</p>
                 ) : (
                   <>
-                    <PhilippinePeso size={20} className="text-primary-500" />
+                    <DollarSign size={20} className="text-primary-500" />
                     <p className="h2-semibold text-primary-500">
                       {totalPrice}
                     </p>
@@ -174,7 +174,7 @@ const page = async ({ params }: { params: tParams }) => {
                 Total Shipment Price
               </p>
               <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-400" />
+                <DollarSign size={16} className="text-dark-400" />
                 <p className="paragraph-regular text-dark-400">
                   {totalFinalAmount}
                 </p>
@@ -183,7 +183,7 @@ const page = async ({ params }: { params: tParams }) => {
             <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center ">
               <p className="body-regular text-primary-500">Insurance</p>
               <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-400" />
+                <DollarSign size={16} className="text-dark-400" />
                 <p className="paragraph-regular text-dark-400">
                   {result?.order.insurance}
                 </p>
@@ -194,7 +194,7 @@ const page = async ({ params }: { params: tParams }) => {
                 Miscellaneous fees
               </p>
               <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-4000" />
+                <DollarSign size={16} className="text-dark-4000" />
                 <p className="paragraph-regular text-dark-400">
                   {result?.order.miscellaneousFee}
                 </p>
@@ -206,7 +206,7 @@ const page = async ({ params }: { params: tParams }) => {
                 Local Delivery Fees
               </p>
               <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-400" />
+                <DollarSign size={16} className="text-dark-400" />
                 <p className="paragraph-regular text-dark-400">
                   {result?.order.localDeliveryFee}
                 </p>
@@ -215,7 +215,7 @@ const page = async ({ params }: { params: tParams }) => {
             <div className="w-full border-b-2 border-red-500 flex justify-between p-1 items-center">
               <p className="body-regular text-primary-500">Discount</p>
               <div className="flex gap-2 items-center w-[80px]">
-                <PhilippinePeso size={16} className="text-dark-400" />
+                <DollarSign size={16} className="text-dark-400" />
                 <p className="paragraph-regular text-dark-400">
                   {result?.order.discount}
                 </p>

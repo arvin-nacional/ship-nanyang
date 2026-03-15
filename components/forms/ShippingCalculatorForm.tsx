@@ -154,12 +154,12 @@ const ShippingCalculatorForm = () => {
                 return (
                   <FormItem className="flex w-full flex-col">
                     <FormLabel className="paragraph-semibold text-dark400_light800">
-                      Value (PHP)<span className="text-primary-500">*</span>
+                      Value (USD)<span className="text-primary-500">*</span>
                     </FormLabel>
                     <FormControl className="mt-3.5">
                       <Input
                         className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                        placeholder="Write the value of the package in Peso."
+                        placeholder="Write the value of the package in USD."
                         value={field.value}
                         onChange={handleChange}
                         onBlur={field.onBlur}

@@ -103,7 +103,7 @@ const Package = ({ packageDetails }: Props) => {
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
               <FormLabel className="paragraph-semibold text-dark400_light800">
-                Value (PHP) <span className="text-primary-500">*</span>
+                Value (USD) <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
                 <Input
