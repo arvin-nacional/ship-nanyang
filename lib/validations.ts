@@ -105,6 +105,18 @@ export const UpdatePackageSchema = z.object({
   status: z.string().min(1, { message: "Please select a status" }),
 });
 
+export const BlogSchema = z.object({
+  title: z.string().min(3, { message: "Title must be at least 3 characters" }),
+  content: z.string().min(10, { message: "Content must be at least 10 characters" }),
+  excerpt: z.string().max(300, { message: "Excerpt must be under 300 characters" }).optional().or(z.literal("")),
+  category: z.string().min(1, { message: "Please select a category" }),
+  tags: z.string().optional(),
+  coverImage: z.string().url({ message: "Please enter a valid URL" }).optional().or(z.literal("")),
+  coverImagePosition: z.string().optional(),
+  author: z.string().min(1, { message: "Please enter an author name" }),
+  status: z.enum(["draft", "published"]),
+});
+
 export const RequestQuoteFormSchema = z.object({
   // Personal Information
   firstName: z.string().min(1, { message: "Please enter your first name" }),

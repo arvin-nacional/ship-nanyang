@@ -13,6 +13,7 @@ import {
   Users,
   Boxes,
   Combine,
+  BookText,
 } from "lucide-react";
 import {
   Sidebar,
@@ -65,6 +66,7 @@ const AppSidebar = ({ userType }: SidebarProps) => {
       icon: MapPinHouse,
     },
     { title: "Add Package", url: "/admin/add-package", icon: PackagePlus },
+    { title: "Blogs", url: "/admin/blogs", icon: BookText },
   ];
 
   const userLinks: SidebarLink[] = [
