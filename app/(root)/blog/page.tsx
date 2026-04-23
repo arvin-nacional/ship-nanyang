@@ -37,15 +37,19 @@ const page = async ({ searchParams }: SearchParamsProps) => {
       <section className="py-16 px-5 bg-gray-50 min-h-[60vh]">
         <div className="max-w-[1200px] mx-auto">
           {/* Search + Filter */}
-          <div className="flex flex-col gap-4 mb-10">
-            <LocalSearchbar
-              route="/blog"
-              iconPosition="left"
-              imgSrc="/assets/icons/search.svg"
-              placeholder="Search articles..."
-              otherClasses="max-w-xl bg-white"
-            />
-            <BlogCategoryFilter categories={BLOG_CATEGORIES} />
+          <div className="flex flex-col items-center gap-5 mb-10">
+            <div className="w-full max-w-2xl">
+              <LocalSearchbar
+                route="/blog"
+                iconPosition="left"
+                imgSrc="/assets/icons/search.svg"
+                placeholder="Search articles..."
+                otherClasses="w-full bg-white"
+              />
+            </div>
+            <div className="flex justify-center w-full">
+              <BlogCategoryFilter categories={BLOG_CATEGORIES} />
+            </div>
           </div>
 
           {/* Results count */}
