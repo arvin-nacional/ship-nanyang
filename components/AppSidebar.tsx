@@ -14,6 +14,7 @@ import {
   Boxes,
   Combine,
   BookText,
+  CalendarCheck,
 } from "lucide-react";
 import {
   Sidebar,
@@ -67,6 +68,7 @@ const AppSidebar = ({ userType }: SidebarProps) => {
     },
     { title: "Add Package", url: "/admin/add-package", icon: PackagePlus },
     { title: "Blogs", url: "/admin/blogs", icon: BookText },
+    { title: "Bookings", url: "/admin/bookings", icon: CalendarCheck },
   ];
 
   const userLinks: SidebarLink[] = [

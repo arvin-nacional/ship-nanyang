@@ -81,6 +81,11 @@ export const sidebarLinks: SidebarLink[] = [
   },
   {
     imgURL: "/assets/icons/writing.svg",
+    label: "Book a Meeting",
+    route: "/book-meeting",
+  },
+  {
+    imgURL: "/assets/icons/writing.svg",
     label: "Contact",
     route: "/contact",
   },

@@ -100,7 +100,12 @@ const Navbar = () => {
                 Log In
               </Button>
             </Link>
-            <Link href="/signup">
+            <Link href="/book-meeting" className="max-md:hidden">
+              <Button className="rounded-3xl bg-white px-8 text-primary-500 font-semibold hover:bg-gray-100">
+                Book a Meeting
+              </Button>
+            </Link>
+            <Link href="/signup" className="max-md:hidden">
               <Button className="rounded-3xl bg-slate-50 px-10 text-primary-500">
                 Register Now
               </Button>

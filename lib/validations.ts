@@ -105,6 +105,18 @@ export const UpdatePackageSchema = z.object({
   status: z.string().min(1, { message: "Please select a status" }),
 });
 
+export const BookingSchema = z.object({
+  firstName: z.string().min(1, { message: "Please enter your first name" }),
+  lastName: z.string().min(1, { message: "Please enter your last name" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  phone: z.string().min(5, { message: "Please enter your contact number" }),
+  company: z.string().optional(),
+  shippingNeed: z.string().optional(),
+  preferredDate: z.string().min(1, { message: "Please select a preferred date" }),
+  preferredTime: z.string().min(1, { message: "Please select a preferred time" }),
+  message: z.string().optional(),
+});
+
 export const BlogSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters" }),
   content: z.string().min(10, { message: "Content must be at least 10 characters" }),
