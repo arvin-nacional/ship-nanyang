@@ -58,7 +58,7 @@ const page = async ({ params }: { params: tParams }) => {
         <div
           className={`absolute inset-0 ${
             blog.coverImage
-              ? "bg-black/60"
+              ? "bg-primary-500/70"
               : "bg-primary-500"
           }`}
         />
