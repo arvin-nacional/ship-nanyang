@@ -45,41 +45,43 @@ const BlogCard = ({
   return (
     <div className="group flex flex-col rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-sm hover:shadow-md transition-all duration-200">
       {/* Cover Image */}
-      <div className="relative h-48 w-full bg-gradient-to-br from-red-50 to-slate-100 overflow-hidden">
-        {coverImage ? (
-          <Image
-            src={coverImage}
-            alt={title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="flex items-center justify-center h-full">
+      <Link href={showActions ? `/admin/blogs/${_id}/edit` : `/blog/${slug}`}>
+        <div className="relative h-48 w-full bg-gradient-to-br from-red-50 to-slate-100 overflow-hidden cursor-pointer">
+          {coverImage ? (
             <Image
-              src="/assets/icons/new-logo-english-colored.png"
-              width={120}
-              height={48}
-              alt="SD Express"
-              className="opacity-30"
+              src={coverImage}
+              alt={title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
-          </div>
-        )}
-        {/* Category badge */}
-        <span className="absolute top-3 left-3 bg-primary-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
-          {category}
-        </span>
-        {showActions && (
-          <span
-            className={`absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full ${
-              status === "published"
-                ? "bg-green-500 text-white"
-                : "bg-yellow-400 text-dark-500"
-            }`}
-          >
-            {status === "published" ? "Published" : "Draft"}
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <Image
+                src="/assets/icons/new-logo-english-colored.png"
+                width={120}
+                height={48}
+                alt="SD Express"
+                className="opacity-30"
+              />
+            </div>
+          )}
+          {/* Category badge */}
+          <span className="absolute top-3 left-3 bg-primary-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+            {category}
           </span>
-        )}
-      </div>
+          {showActions && (
+            <span
+              className={`absolute top-3 right-3 text-xs font-semibold px-3 py-1 rounded-full ${
+                status === "published"
+                  ? "bg-green-500 text-white"
+                  : "bg-yellow-400 text-dark-500"
+              }`}
+            >
+              {status === "published" ? "Published" : "Draft"}
+            </span>
+          )}
+        </div>
+      </Link>
 
       {/* Body */}
       <div className="flex flex-col flex-1 p-5 gap-3">
