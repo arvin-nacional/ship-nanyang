@@ -27,7 +27,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
             <h1 className="h1-bold mb-4 text-dark-500">Blog</h1>
             <p className="paragraph-regular text-dark-400">
               Stay informed with the latest news, shipping tips, and industry
-              insights from the SD Express team.
+              insights from the Ship Nanyang Team.
             </p>
           </div>
         </div>
