@@ -5,7 +5,7 @@ import PackageList from "@/components/ui/packageList";
 import { OrderFilters } from "@/constants/filters";
 import { getOrdersByUserId } from "@/lib/actions/order.action";
 import { getUserById } from "@/lib/actions/user.action";
-import { Mail, MapPinHouse, PackagePlus, PhoneCallIcon } from "lucide-react";
+import { Mail, MapPinHouse, PackagePlus, PhoneCallIcon, UserCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -22,60 +22,79 @@ const page = async ({ params, searchParams }: PageProps) => {
   const resolvedSearchParams = await searchParams;
 
   const result = await getUserById({ userId: id });
+  const user = result?.user;
+  const hasAddress = user?.address && Object.keys(user.address).length > 0;
+  
   const orders = await getOrdersByUserId({
     searchQuery: resolvedSearchParams.q,
     filter: resolvedSearchParams.filter,
     page: resolvedSearchParams.page ? +resolvedSearchParams.page : 1,
-    clerkId: result.user.clerkId,
+    clerkId: user?.clerkId,
   });
   return (
     <div className="w-full p-12 max-sm:p-6">
       {/* <p className="h2-bold text-primary-500 mb-5">User Profile</p> */}
       <div className="flex gap-5 bg-light-800 p-6 rounded-md shadow-md max-sm:flex-col justify-between items-center">
         <div className="flex gap-5  max-sm:flex-col">
-          <Image
-            src={result.user.picture}
-            alt="user photo"
-            height={100}
-            width={100}
-            className="rounded-md"
-          />
+          {user?.picture ? (
+            <Image
+              src={user.picture}
+              alt="user photo"
+              height={100}
+              width={100}
+              className="rounded-md"
+            />
+          ) : (
+            <div className="w-[100px] h-[100px] rounded-md bg-gray-100 flex items-center justify-center">
+              <UserCircle size={60} className="text-gray-400" />
+            </div>
+          )}
           <div>
             <p className="h2-semibold text-dark-200">
-              {result.user.firstName + " " + result.user.lastName}
+              {(user?.firstName || "") + " " + (user?.lastName || "")}
             </p>
             <div className="flex gap-2 items-center">
               <Mail size={16} className="inline-block text-primary-500" />
               <p className="paragraph-medium text-dark-500">
-                {result.user.email}
+                {user?.email || "No email provided"}
               </p>
             </div>
-            <div className="flex gap-2 items-center">
-              <PhoneCallIcon
-                size={16}
-                className="inline-block text-primary-500"
-              />
-              <p className="paragraph-medium text-dark-500">
-                {result.user.address.contactNumber}
-              </p>
-            </div>
-            <div className="flex gap-2 items-center">
-              <MapPinHouse
-                size={16}
-                className="inline-block text-primary-500"
-              />
-              <p>
-                {result.user.address.addressLine1 +
-                  " " +
-                  result.user.address.addressLine2 +
-                  " " +
-                  result.user.address.city +
-                  " " +
-                  result.user.address.province +
-                  " " +
-                  result.user.address.postalCode}
-              </p>
-            </div>
+            {hasAddress ? (
+              <>
+                <div className="flex gap-2 items-center">
+                  <PhoneCallIcon
+                    size={16}
+                    className="inline-block text-primary-500"
+                  />
+                  <p className="paragraph-medium text-dark-500">
+                    {user.address.contactNumber || "No contact number"}
+                  </p>
+                </div>
+                <div className="flex gap-2 items-center">
+                  <MapPinHouse
+                    size={16}
+                    className="inline-block text-primary-500"
+                  />
+                  <p>
+                    {[
+                      user.address.addressLine1,
+                      user.address.addressLine2,
+                      user.address.city,
+                      user.address.province,
+                      user.address.postalCode,
+                    ]
+                      .filter(Boolean)
+                      .join(" ") || "No address provided"}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <div className="mt-2 px-3 py-2 bg-yellow-50 border border-yellow-200 rounded-md">
+                <p className="text-sm text-yellow-700">
+                  ⚠️ This user has not completed their profile setup.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
