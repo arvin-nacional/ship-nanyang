@@ -14,7 +14,7 @@ const FreightCTA = () => {
           our logistics coordinators for free, custom bulk quote arrangements.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/sign-up">
+          <Link href="/signup">
             <Button
               size="lg"
               className="px-8 rounded-3xl bg-white text-primary-500 hover:bg-gray-100 font-semibold"

@@ -77,10 +77,10 @@ const FreightHero = () => {
           <span className="inline-block text-xs font-semibold text-white/90 uppercase tracking-widest bg-white/20 rounded-md px-3 py-1 mb-6">
             Secure &amp; Fast Cross-Border Cargo
           </span>
-          <h1 className="text-4xl lg:text-6xl text-white font-[800] mb-6 leading-tight">
+          <h1 className="text-4xl lg:text-[56px] text-white font-[800] mb-6 leading-[1.05]">
             Freight Forwarding from China to the Philippines
           </h1>
-          <p className="text-white/80 text-base mb-8 max-w-md leading-relaxed">
+          <p className="text-white/80 text-[18px] mb-8 max-w-lg leading-relaxed">
             ShipNanyang is one of the top freight forwarders in the Philippines
             that provides logistics services and solutions to all kinds of
             businesses. Get instant pricing, clear custom gates effortlessly,
