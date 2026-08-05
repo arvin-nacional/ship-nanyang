@@ -77,7 +77,7 @@ const FreightHero = () => {
           <span className="inline-block text-xs font-semibold text-white/90 uppercase tracking-widest bg-white/20 rounded-md px-3 py-1 mb-6">
             Secure &amp; Fast Cross-Border Cargo
           </span>
-          <h1 className="text-4xl lg:text-5xl text-white font-extrabold mb-6 leading-tight">
+          <h1 className="text-4xl lg:text-6xl text-white font-[800] mb-6 leading-tight">
             Freight Forwarding from China to the Philippines
           </h1>
           <p className="text-white/80 text-base mb-8 max-w-md leading-relaxed">
