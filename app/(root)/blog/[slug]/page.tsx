@@ -138,7 +138,7 @@ const page = async ({ params }: { params: tParams }) => {
                   </div>
                   <div>
                     <p className="font-semibold text-dark-500">{blog.author}</p>
-                    <p className="text-xs text-slate-400">SD Express Team</p>
+                    <p className="text-xs text-slate-400">ShipNanyang Team</p>
                   </div>
                 </div>
               </div>

@@ -9,7 +9,7 @@ import MerchantTestimonials from "@/components/landing/MerchantTestimonials";
 import FreightCTA from "@/components/landing/FreightCTA";
 
 export const metadata = {
-  title: "Freight Forwarding from China to the Philippines | SD Express",
+  title: "Freight Forwarding from China to the Philippines | ShipNanyang",
   description:
     "Air and sea freight forwarding from China to the Philippines. Door-to-door delivery, customs clearance, and instant shipping cost estimates.",
 };
