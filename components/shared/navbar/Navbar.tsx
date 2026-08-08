@@ -73,13 +73,9 @@ const Navbar = () => {
           <Link href="/about" className="paragraph-regular">
             About Us
           </Link>
-          
-          {/* <Link href="/#solutions" className="paragraph-regular">
-            Solutions
-          </Link> */}
-          {/* <Link href="/shipping-calculator" className="paragraph-regular">
+          <Link href="/freight-forwarding" className="paragraph-regular">
             Shipping Calculator
-          </Link> */}
+          </Link>
           <Link href="/locations" className="paragraph-regular">
             Locations
           </Link>

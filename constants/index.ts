@@ -51,6 +51,11 @@ export const sidebarLinks: SidebarLink[] = [
   },
   {
     imgURL: "/assets/icons/services.svg",
+    label: "Shipping Calculator",
+    route: "/freight-forwarding",
+  },
+  {
+    imgURL: "/assets/icons/services.svg",
     label: "Locations",
     route: "/locations",
   },
