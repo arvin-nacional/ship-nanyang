@@ -15,9 +15,9 @@ const AIR_RATE_PER_KG = 320;
 const SEA_RATE_PER_CBM = 8000;
 
 const DESTINATIONS = [
-  { label: "Manila (MNL)", value: "Manila (MNL)", days: "4 - 7 Business Days" },
-  { label: "Cebu (CEB)", value: "Cebu (CEB)", days: "5 - 8 Business Days" },
-  { label: "Davao (DVO)", value: "Davao (DVO)", days: "6 - 9 Business Days" },
+  { label: "Manila (MNL)", value: "Manila (MNL)", days: "20 - 25 Business Days" },
+  { label: "Cebu (CEB)", value: "Cebu (CEB)", days: "20 - 25 Business Days" },
+  { label: "Davao (DVO)", value: "Davao (DVO)", days: "20 - 25 Business Days" },
 ];
 
 const FreightHero = () => {
@@ -64,7 +64,7 @@ const FreightHero = () => {
       setResult({
         fee: `₱${fee.toLocaleString("en-PH", { minimumFractionDigits: 0 })} PHP`,
         label: "Air Freight Estimate",
-        days: "3 - 5 Business Days",
+        days: "4 - 7 Business Days",
       });
     }
   };
