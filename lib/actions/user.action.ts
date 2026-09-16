@@ -3,7 +3,6 @@
 import User from "@/database/user.model";
 import dbConnect from "../mongoose";
 import {
-  CreateUserParams,
   DeleteUserParams,
   FilterQueryParams,
   GetUserByClerkIdParams,
@@ -13,19 +12,10 @@ import {
 import { revalidatePath } from "next/cache";
 import Address from "@/database/address.model";
 import { FilterQuery } from "mongoose";
-import { clerkClient } from "@clerk/nextjs/server";
-
-export async function createUser(userData: CreateUserParams) {
-  try {
-    dbConnect();
-
-    const newUser = await User.create(userData);
-    return newUser;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error creating user");
-  }
-}
+import { auth, clerkClient, currentUser } from "@clerk/nextjs/server";
+import { ensureUserRecord } from "../user-provisioning";
+import { isOnboardingComplete } from "../onboarding";
+import { ProfileSchema } from "../validations";
 
 export async function deleteUser(params: DeleteUserParams) {
   try {
@@ -92,163 +82,107 @@ export async function getUserByClerkId(params: GetUserByClerkIdParams) {
   }
 }
 
-export async function getUserByClerkIdFromCreate(
-  params: GetUserByClerkIdParams
-) {
-  try {
-    dbConnect();
+export async function getUserByClerkIdFromCreate(params: GetUserByClerkIdParams) {
+  const { userId } = await auth();
+  if (!userId || userId !== params.clerkId) throw new Error("Unauthorized");
 
-    const { clerkId } = params;
+  await dbConnect();
+  let user = await User.findOne({ clerkId: userId });
+  if (!user) {
+    const clerkUser = await currentUser();
+    if (!clerkUser || clerkUser.id !== userId) throw new Error("Unauthorized");
+    const email = clerkUser.emailAddresses.find(
+      (address) => address.id === clerkUser.primaryEmailAddressId
+    )?.emailAddress || clerkUser.emailAddresses[0]?.emailAddress;
+    if (!email) throw new Error("Your account needs an email address to continue.");
 
-    // Retry logic to wait for the user to be created
-    const maxRetries = 60; // Maximum number of retries
-    const retryInterval = 1000; // Interval between retries in milliseconds
-
-    let user = null;
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      user = await User.findOne({ clerkId }).populate("address");
-      if (user) {
-        break; // Exit loop if the user exists
-      }
-
-      if (attempt < maxRetries) {
-        await new Promise((resolve) => setTimeout(resolve, retryInterval));
-      } else {
-        throw new Error("User not found after maximum retries");
-      }
-    }
-
-    const userWithFormattedDate = {
-      ...user.toObject(),
-      _id: user._id.toString(), // Convert ObjectId to string
-      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
-    };
-
-    return { user: userWithFormattedDate };
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error fetching user");
+    user = await ensureUserRecord({
+      clerkId: userId,
+      firstName: clerkUser.firstName || "",
+      lastName: clerkUser.lastName || "",
+      email,
+      picture: clerkUser.imageUrl,
+    });
   }
+
+  await user.populate({ path: "address", model: Address });
+  return {
+    user: {
+      ...user.toObject(),
+      _id: user._id.toString(),
+      joinedAt: user.joinedAt.toISOString(),
+    },
+  };
 }
 
 export async function updateUser(params: UpdateUserParams) {
+  const { userId } = await auth();
+  if (!userId || userId !== params.clerkId) throw new Error("Unauthorized");
+
+  // Validate on the server as well as in the browser before any writes.
+  const profile = ProfileSchema.parse(params);
+  await dbConnect();
+  const user = await User.findOne({ clerkId: userId });
+  if (!user) throw new Error("User not found");
+
+  const address = {
+    name: profile.firstName + " " + profile.lastName,
+    userId: user._id,
+    addressLine1: profile.addressLine1,
+    addressLine2: profile.addressLine2,
+    city: profile.city,
+    province: profile.province,
+    postalCode: profile.postalCode,
+    contactNumber: profile.contactNumber,
+  };
+
+  // Use the saved address, never an address ID supplied by the browser.
+  // A stable ID for the first address also makes retries safe if user.save fails.
+  const userAddress = await Address.findOneAndUpdate(
+    { _id: user.address || user._id, userId: user._id },
+    { $set: address, $setOnInsert: { isDefault: true } },
+    { upsert: true, new: true, runValidators: true }
+  );
+
+  user.firstName = profile.firstName;
+  user.lastName = profile.lastName;
+  user.privacyPolicyAccepted = profile.privacyPolicyAccepted;
+  user.address = userAddress._id;
+  user.verified = true;
+  await user.save();
+
+  // MongoDB is authoritative. Clerk metadata is a mirror; a failed sync must
+  // not make a successfully saved form look like a failure or block access.
   try {
-    dbConnect();
-
-    const {
-      clerkId,
-      firstName,
-      lastName,
-      contactNumber,
-      email,
-      addressLine1,
-      addressLine2,
-      city,
-      province,
-      postalCode,
-      privacyPolicyAccepted,
-      path,
-      addressId,
-      formType,
-    } = params;
-
-    if (formType === "Create") {
-      const client = await clerkClient();
-
-      await client.users.updateUserMetadata(clerkId, {
-        publicMetadata: {
-          verified: true,
-        },
-      });
-    }
-
-    const user = await User.findOne({ clerkId });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.email = email;
-    user.privacyPolicyAccepted = privacyPolicyAccepted;
-    user.verified = true;
-    
-
-    // Create or update address in the address collection
-    const address = {
-      name: `${firstName} ${lastName}`,
-      userId: user._id,
-      addressLine1,
-      addressLine2,
-      city,
-      province,
-      postalCode,
-      contactNumber,
-      
-    };
-
-    let userAddress;
-    if (addressId) {
-      userAddress = await Address.findByIdAndUpdate(addressId, address, {
-        new: true,
-      });
-    } else {
-      userAddress = await Address.create({...address, isDefault: true});
-    }
-    user.address = userAddress._id;
-    await user.save();
-
-    const userWithFormattedDate = {
-      ...user.toObject(),
-      _id: user._id.toString(), // Convert ObjectId to string
-      joinedAt: user.joinedAt.toISOString(), // Format Date to ISO string
-      address: user.address.toString(),
-    };
-    revalidatePath(path);
-
-    return { user: userWithFormattedDate };
+    const client = await clerkClient();
+    await client.users.updateUserMetadata(userId, {
+      publicMetadata: { verified: true },
+    });
   } catch (error) {
-    console.log(error);
-    throw new Error("Error updating user");
+    console.error("Profile saved, but Clerk metadata sync failed:", error);
   }
+
+  revalidatePath("/", "layout");
+  return {
+    user: {
+      ...user.toObject(),
+      _id: user._id.toString(),
+      joinedAt: user.joinedAt.toISOString(),
+      address: user.address.toString(),
+    },
+  };
 }
 
 export async function isUserVerified(params: GetUserByClerkIdParams) {
-  try {
-    // Ensure the database connection is established
-    await dbConnect();
+  const { userId } = await auth();
+  if (!userId || userId !== params.clerkId) throw new Error("Unauthorized");
 
-    const { clerkId } = params;
-
-    // Log the clerkId being searched
-    console.log("Checking verification status for Clerk ID:", clerkId);
-
-    // Query the user from the database
-    const user = await User.findOne({ clerkId });
-
-    // Log the user data for debugging
-    console.log("User found:", user);
-
-    if (!user) {
-      // Log and throw an error if user is not found
-      console.error(`User not found for Clerk ID: ${clerkId}`);
-      return { verified: false }; // Return default verified status as false
-    }
-
-    // Ensure `user.verified` is a Boolean and return it
-    const isVerified = Boolean(user.verified);
-    console.log(
-      `User verification status for Clerk ID ${clerkId}:`,
-      isVerified
-    );
-
-    return { verified: isVerified };
-  } catch (error) {
-    // Log the error for debugging
-    console.error("Error in isUserVerified:", error);
-    return { verified: false }; // Return a default fallback
-  }
+  await dbConnect();
+  const user = await User.findOne({ clerkId: userId }).populate({
+    path: "address",
+    model: Address,
+  });
+  return { verified: isOnboardingComplete(user) };
 }
 
 export async function getUserCount() {

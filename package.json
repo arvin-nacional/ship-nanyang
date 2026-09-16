@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:onboarding": "node --preserve-symlinks --preserve-symlinks-main --test tests/onboarding.test.cjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.896.0",

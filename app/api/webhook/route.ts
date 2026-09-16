@@ -2,8 +2,9 @@
 
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import { createUser, deleteUser } from "@/lib/actions/user.action";
-import { WebhookEvent, clerkClient } from "@clerk/nextjs/server";
+import { deleteUser } from "@/lib/actions/user.action";
+import { ensureUserRecord } from "@/lib/user-provisioning";
+import { WebhookEvent } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -32,8 +33,7 @@ export async function POST(req: Request) {
   }
 
   // Get body
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  const body = await req.text();
 
   let evt: WebhookEvent;
 
@@ -56,33 +56,20 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
-  console.log("Webhook payload:", body);
 
   if (eventType === "user.created") {
-    const { id, email_addresses, first_name, last_name, image_url } = evt.data;
-
-    // const client = await clerkClient();
-
-    // await client.users.updateUserMetadata(id, {
-    //   publicMetadata: {
-    //     userType: "user",
-    //   },
-    // });
-
-    const client = await clerkClient();
-
-    await client.users.updateUserMetadata(id, {
-      publicMetadata: {
-        userType: "user",
-      },
-    });
+    const { id, email_addresses, primary_email_address_id, first_name, last_name, image_url } = evt.data;
+    const email = email_addresses.find(
+      (address) => address.id === primary_email_address_id
+    )?.email_address || email_addresses[0]?.email_address;
+    if (!email) return new Response("User email is missing", { status: 400 });
 
     // Create user in database
-    const mongoUser = await createUser({
+    const mongoUser = await ensureUserRecord({
       clerkId: id,
       firstName: `${first_name || ""}`,
       lastName: `${last_name || ""}`,
-      email: email_addresses[0].email_address,
+      email,
       picture: image_url,
     });
 

@@ -37,8 +37,12 @@ const Navbar = () => {
   useEffect(() => {
     const fetchVerificationStatus = async () => {
       if (user) {
-        const { verified } = await isUserVerified({ clerkId: user.id });
-        setIsVerified(verified);
+        try {
+          const { verified } = await isUserVerified({ clerkId: user.id });
+          setIsVerified(verified);
+        } catch {
+          setIsVerified(false);
+        }
       } else {
         setIsVerified(null);
       }

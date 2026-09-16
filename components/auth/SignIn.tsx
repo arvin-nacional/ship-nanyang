@@ -1,23 +1,9 @@
 "use client";
 
-import { SignIn, useUser } from "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 import React from "react";
 
 const SignInComponent = () => {
-  const { user } = useUser();
-
-  const getRedirectUrl = () => {
-    const userType = user?.publicMetadata?.userType as string;
-    const isVerified = user?.publicMetadata?.verified as boolean;
-
-    if (userType === "admin") {
-      return "/admin/dashboard";
-    } else if (userType === "user" && !isVerified) {
-      return "/create-account";
-    }
-
-    return "/user/dashboard";
-  };
   return (
     <div>
       <SignIn
@@ -35,7 +21,8 @@ const SignInComponent = () => {
           },
         }}
         signUpUrl="/signup"
-        forceRedirectUrl={getRedirectUrl()}
+        forceRedirectUrl="/create-account"
+        signUpForceRedirectUrl="/create-account"
         routing="hash"
         afterSignOutUrl={"/"}
       />

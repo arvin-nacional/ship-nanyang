@@ -7,14 +7,6 @@ const isAdminRoute = createRouteMatcher("/admin/(.*)");
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
 
-  // Debug logging
-  // console.log("=== MIDDLEWARE DEBUG ===");
-  // console.log("URL:", req.url);
-  // console.log("Session claims:", JSON.stringify(sessionClaims, null, 2));
-  // console.log("UserType from claims:", sessionClaims?.userType);
-
-  // const isVerified = sessionClaims?.verified || false;
-
   // Check if it's a user route
   if (isUserRoute(req)) {
     console.log(" User route detected");
@@ -33,10 +25,7 @@ export default clerkMiddleware(async (auth, req) => {
       return NextResponse.redirect(adminDashboardUrl);
     }
 
-    // if (!isVerified) {
-    //   const createAccountUrl = new URL("/create-account", req.url);
-    //   return NextResponse.redirect(createAccountUrl);
-    // }
+    // Profile completion is checked against MongoDB in the dashboard layout.
   }
 
   // Check if it's an admin route

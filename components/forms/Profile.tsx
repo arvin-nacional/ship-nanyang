@@ -55,7 +55,7 @@ const Profile = ({ type, profileDetails }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const parsedProfileDetails = JSON.parse(profileDetails || "");
+  const parsedProfileDetails = JSON.parse(profileDetails || "{}");
 
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
@@ -77,6 +77,7 @@ const Profile = ({ type, profileDetails }: Props) => {
   });
 
   async function onSubmit(data: z.infer<typeof ProfileSchema>) {
+    form.clearErrors("root");
     startTransition(async () => {
       try {
         await updateUser({
@@ -96,12 +97,16 @@ const Profile = ({ type, profileDetails }: Props) => {
           formType: type,
         });
         if (type === "Edit") {
-          router.push("/user/profile");
+          router.replace("/user/profile");
         } else if (type === "Create") {
-          router.push("/user/dashboard");
+          router.replace("/user/dashboard");
         }
+        router.refresh();
       } catch (error) {
-        console.log(error);
+        console.error("Unable to save profile:", error);
+        form.setError("root", {
+          message: "We couldn't save your profile. Please try again. Your entries are still here.",
+        });
       }
     });
   }
@@ -323,7 +328,7 @@ const Profile = ({ type, profileDetails }: Props) => {
           <div className="w-full"></div>
         </div>
 
-        {type === "Create" && (
+        {(type === "Create" || !parsedProfileDetails.privacyPolicyAccepted) && (
           <FormField
             control={form.control}
             name="privacyPolicyAccepted"
@@ -342,10 +347,17 @@ const Profile = ({ type, profileDetails }: Props) => {
                     outlines how we collect, use, and protect your personal
                     information.
                   </FormDescription>
+                  <FormMessage className="text-red-500" />
                 </div>
               </FormItem>
             )}
           />
+        )}
+
+        {form.formState.errors.root && (
+          <p role="alert" className="text-red-500">
+            {form.formState.errors.root.message}
+          </p>
         )}
 
         <Button

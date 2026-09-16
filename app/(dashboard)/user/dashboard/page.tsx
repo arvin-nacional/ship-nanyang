@@ -1,4 +1,3 @@
-// import { getUserIdByClerkId, isUserVerified } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 import { redirect } from "next/navigation";
@@ -18,22 +17,6 @@ const page = async ({ searchParams }: SearchParamsProps) => {
   if (!userId) {
     redirect("/signin");
   }
-
-  // // Start the verification and order fetch in parallel
-  // const [user, verificationResult] = await Promise.all([
-  //   getUserIdByClerkId({ clerkId: userId }), // Check if user exists in the database
-  //   isUserVerified({ clerkId: userId }), // Check if user is verified
-  // ]);
-
-  // // Redirect if user is not found
-  // if (!user) {
-  //   redirect("/create-account");
-  // }
-
-  // // Redirect if the user is not verified
-  // if (!verificationResult?.verified) {
-  //   redirect("/create-account");
-  // }
 
   // Safely resolve searchParams
   const resolvedSearchParams = await searchParams;

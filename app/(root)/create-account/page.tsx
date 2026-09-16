@@ -1,15 +1,20 @@
 import Profile from "@/components/forms/Profile";
 import { getUserByClerkIdFromCreate } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { isOnboardingComplete } from "@/lib/onboarding";
 import React from "react";
 
 const Page = async () => {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
 
   if (!userId) {
-    throw new Error("User ID is null");
+    redirect("/signin");
   }
+  if (sessionClaims?.userType === "admin") redirect("/admin/dashboard");
+
   const result = await getUserByClerkIdFromCreate({ clerkId: userId });
+  if (isOnboardingComplete(result.user)) redirect("/user/dashboard");
 
   return (
     <div className="w-full p-12 min-h-[90vh] max-sm:p-6 max-sm:mt-8">

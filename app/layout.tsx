@@ -43,7 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider dynamic>
+    <ClerkProvider
+      dynamic
+      signInForceRedirectUrl="/create-account"
+      signUpForceRedirectUrl="/create-account"
+    >
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}

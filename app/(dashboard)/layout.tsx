@@ -1,20 +1,28 @@
 import AppSidebar from "@/components/AppSidebar";
-import RightSidebar from "@/components/RightSidebar";
 import MessengerBtn from "@/components/shared/MessengerBtn";
 
 import Topbar from "@/components/shared/navbar/Topbar";
 import Logo from "@/components/ui/logo";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { isUserVerified } from "@/lib/actions/user.action";
 import React from "react";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const { sessionClaims } = await auth();
+  const { userId, sessionClaims } = await auth();
+  if (!userId) redirect("/signin");
+
+  const userType = (sessionClaims?.userType as string) || "user";
+  if (userType !== "admin") {
+    const { verified } = await isUserVerified({ clerkId: userId });
+    if (!verified) redirect("/create-account");
+  }
+
   const user = await currentUser();
 
   const userName = user?.firstName || "Guest";
 
-  const userType = (sessionClaims?.userType as string) || "user";
   return (
     <div>
       <SidebarProvider className="w-full ">
