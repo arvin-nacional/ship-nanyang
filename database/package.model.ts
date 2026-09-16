@@ -1,6 +1,7 @@
 import { Schema, models, model, Document } from "mongoose";
 
 export interface IPackage extends Document {
+  creationFingerprint?: string;
   createdAt: Date;
   updatedAt: Date;
   estimatedAmount: number;
@@ -16,6 +17,7 @@ export interface IPackage extends Document {
 }
 
 const PackageSchema = new Schema({
+  creationFingerprint: { type: String },
   description: { type: String, required: true },
   value: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
@@ -31,4 +33,10 @@ const PackageSchema = new Schema({
 });
 
 const Package = models.Package || model<IPackage>("Package", PackageSchema);
+// Next.js hot reload keeps compiled models alive across schema edits. Upgrade
+// the cached model too, or strict mode silently drops the idempotency field.
+if (!Package.schema.path("creationFingerprint")) {
+  Package.schema.add({ creationFingerprint: { type: String } });
+  Package.recompileSchema();
+}
 export default Package;

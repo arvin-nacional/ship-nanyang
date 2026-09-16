@@ -77,15 +77,20 @@ export const PaymentSchema = z.object({
 });
 
 export const CreateOrderSchema = z.object({
-  vendor: z.string().min(1, { message: "Please select a vendor" }),
-  trackingNumber: z
-    .string()
-    .min(1, { message: "Please enter a tracking number" }),
-  value: z.string().min(1, { message: "Please enter an item value" }),
-  description: z.string(),
-  address: z.string().min(1, { message: "Please select an address" }),
-  type: z.string().min(1, { message: "Please select a type" }),
+  vendor: z.string().trim().min(1, "Please enter a vendor"),
+  trackingNumber: z.string().trim().min(1, "Please enter a tracking number"),
+  value: z.string().trim().min(1, "Please enter an item value")
+    .refine((value) => /^\d+(\.\d+)?$/.test(value) && Number.isFinite(Number(value)), "Please enter a valid non-negative item value"),
+  description: z.string().trim().min(1, "Please enter an item description"),
+  address: z.string().default(""),
+  type: z.enum(["singleOrder", "consolidation"], { message: "Please select an order type" }),
   orderId: z.string().optional(),
+}).superRefine((data, context) => {
+  const field = data.type === "singleOrder" ? "address" : "orderId";
+  if (!/^[a-f\d]{24}$/i.test(data[field] || "")) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: [field],
+      message: field === "address" ? "Please select an address" : "Please select a cart" });
+  }
 });
 
 export const UpdateOrderSchema = z.object({

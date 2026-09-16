@@ -1,6 +1,5 @@
 "use client";
 
-import { getCountryName } from "@/constants/countries";
 import React, { useTransition } from "react";
 
 import { useForm } from "react-hook-form";
@@ -57,6 +56,7 @@ const Cart = ({ shippingDetails }: Props) => {
   });
 
   async function onSubmit(data: z.infer<typeof UpdateOrderSchema>) {
+    form.clearErrors("root");
     startTransition(async () => {
       try {
         await updateOrder({
@@ -74,6 +74,7 @@ const Cart = ({ shippingDetails }: Props) => {
         router.push(`/admin/shipping-carts/${parsedShippingDetails._id}`);
       } catch (error) {
         console.error(error);
+        form.setError("root", { message: "We couldn't save these changes. Please try again." });
       }
     });
   }
@@ -332,6 +333,9 @@ const Cart = ({ shippingDetails }: Props) => {
             </FormItem>
           )}
         />
+        {form.formState.errors.root && (
+          <p role="alert" className="text-red-500">{form.formState.errors.root.message}</p>
+        )}
         <div className="flex items-center justify-start gap-4">
           <Button
             type="button"
@@ -342,6 +346,7 @@ const Cart = ({ shippingDetails }: Props) => {
           </Button>
           <Button
             type="submit"
+            disabled={isPending}
             className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
           >
             {isPending ? "Submitting" : "Submit"}

@@ -21,6 +21,7 @@ export interface createAddressParams {
 }
 
 export interface createPackageParams {
+  requestId?: string;
   clerkId: string;
   trackingNumber: string;
   address: string;

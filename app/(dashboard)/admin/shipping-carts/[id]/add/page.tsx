@@ -9,7 +9,7 @@ const page = async ({ params }: { params: tParams }) => {
 
   const result = await getOrderById(id);
 
-  const orderAddressId = result?.order.address._id;
+  const orderAddressId = result?.order.address?._id;
 
   const { sessionClaims } = await auth();
 

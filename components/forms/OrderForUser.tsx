@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { createPackage } from "@/lib/actions/package.action";
+import { useShipmentSubmission } from "@/hooks/use-shipment-submission";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/nextjs";
 // import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -60,11 +61,12 @@ const OrderForUser = ({
   orders,
   addressId,
   orderId,
-  userType,
   user,
 }: Props) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const submission = useShipmentSubmission();
+  const { isLoaded, isSignedIn } = useUser();
 
   const { toast } = useToast();
 
@@ -83,117 +85,36 @@ const OrderForUser = ({
       value: "",
       description: "",
       address: parsedAddressId || "",
-      type: type === "consolidation" ? "consolidation" : "",
+      type: type === "consolidation" ? "consolidation" : "singleOrder",
       orderId: orderId || "",
     },
   });
 
-  React.useEffect(() => {
-    const selectedOrderId = form.watch("orderId");
-    if (selectedOrderId) {
-      const selectedOrder = parsedOrders?.orders?.find(
-        (order: any) => order._id === selectedOrderId
-      );
-      if (selectedOrder) {
-        form.setValue("address", selectedOrder.address);
-      }
-    }
-  }, [form.watch("orderId")]);
-
   async function onSubmit(data: z.infer<typeof CreateOrderSchema>) {
+    form.clearErrors("root");
+    const clerkId = parsedUser.clerkId;
+    if (!isLoaded || !isSignedIn || !clerkId) {
+      form.setError("root", { message: "Your session is unavailable. Please sign in again." });
+      return;
+    }
+    const payload = { ...data, clerkId, orderId: data.orderId || "" };
+    const requestId = submission.begin(payload);
+    if (!requestId) return;
     startTransition(async () => {
-      const templateParams = {
-        name: parsedUser?.firstName + " " + parsedUser?.lastName,
-        vendor: data.vendor,
-        trackingNumber: data.trackingNumber,
-        value: data.value,
-        description: data.description,
-      };
-
-      // await emailjs.send(
-      //   "service_1bcie1i",
-      //   "template_2n6x7ol",
-      //   templateParams,
-      //   "fDv2DYRFGmAq1kj7y"
-      // );
-
-      if (type === "consolidation" && data.orderId) {
-        try {
-          if (user) {
-            await createPackage({
-              clerkId: parsedUser.clerkId,
-              vendor: data.vendor,
-              trackingNumber: data.trackingNumber,
-              value: data.value,
-              description: data.description,
-              address: data.address,
-              type: "consolidation",
-              orderId: data.orderId,
-            });
-          } else {
-            console.error("User is not authenticated");
-          }
-
-          toast({
-            title: "Package Created",
-            description: "Package has been created successfully.",
-          });
-        } catch (error) {
-          toast({
-            title: "Error",
-            description:
-              "An error occurred while creating the package. Please try again.",
-            action: (
-              <Button
-                variant="outline"
-                onClick={() => window.location.reload()}
-              >
-                Refresh
-              </Button>
-            ),
-            variant: "destructive",
-          });
-          console.log(error);
+      try {
+        const result = await createPackage({ ...payload, requestId });
+        if (!result.success) {
+          const message = result.error + (result.reference ? " Reference: " + result.reference : "");
+          form.setError("root", { message });
+          toast({ title: "Shipment not saved", description: message, variant: "destructive" });
+          return;
         }
-      } else {
-        try {
-          if (user) {
-            await createPackage({
-              clerkId: parsedUser.clerkId,
-              vendor: data.vendor,
-              trackingNumber: data.trackingNumber,
-              value: data.value,
-              description: data.description,
-              address: data.address,
-              type: data.type,
-              orderId: data.orderId || "",
-            });
-          } else {
-            console.error("User is not authenticated");
-          }
-
-          toast({
-            title: "Package Created",
-            description: "Package has been created successfully.",
-          });
-          router.push(`/admin/users/${parsedUser._id}`);
-        } catch (error) {
-          toast({
-            title: "Error",
-            description:
-              "An error occurred while creating the package. Please try again.",
-            action: (
-              <Button
-                variant="outline"
-                onClick={() => window.location.reload()}
-              >
-                Refresh
-              </Button>
-            ),
-            variant: "destructive",
-          });
-          console.log(error);
-        }
+        toast({ title: "Shipment saved", description: "Your shipment has been added to the cart." });
+        router.push(`/admin/shipping-carts/${result.orderId}`);
+      } catch {
+        form.setError("root", { message: "We couldn't confirm the save. Please retry without refreshing; your entries are still here. Reference: " + requestId });
+      } finally {
+        submission.finish();
       }
     });
   }
@@ -226,7 +147,7 @@ const OrderForUser = ({
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="bg-light-900">
-                          {/* {parsedAddress?.addresses.map((item: any) => (
+                          {/* {parsedAddress?.addresses?.map((item: any) => (
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
@@ -268,7 +189,7 @@ const OrderForUser = ({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="bg-light-900">
-                            {parsedOrders?.orders.map((item: any) => (
+                            {parsedOrders?.orders?.map((item: any) => (
                               <SelectItem key={item._id} value={item._id}>
                                 {item.name}
                               </SelectItem>
@@ -403,7 +324,7 @@ const OrderForUser = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="bg-light-900">
-                        {parsedAddress?.addresses.map((item: any) => (
+                        {parsedAddress?.addresses?.map((item: any) => (
                           <SelectItem key={item._id} value={item._id}>
                             {item.name} - {item.contactNumber} -{" "}
                             {item.addressLine1}, {item.addressLine2},{" "}
@@ -419,13 +340,16 @@ const OrderForUser = ({
             />
           )}
         </div>
+        {form.formState.errors.root && (
+          <p role="alert" className="text-red-500">{form.formState.errors.root.message}</p>
+        )}
         <Button
           type="submit"
           className="bg-primary-500 w-fit !text-light-900 hover:bg-primary-400"
           disabled={
             (form.watch("type") === "consolidation" &&
               !form.watch("orderId")) ||
-            isPending
+            isPending || !isLoaded || !isSignedIn
           }
         >
           {isPending ? (

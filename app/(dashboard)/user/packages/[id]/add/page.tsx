@@ -7,7 +7,7 @@ const page = async ({ params }: { params: tParams }) => {
   const { id } = await params;
 
   const result = await getOrderById(id);
-  const orderAddressId = result?.order.address._id;
+  const orderAddressId = result?.order.address?._id;
 
   return (
     <div className="p-12 w-full" style={{ minHeight: "90vh" }}>

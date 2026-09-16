@@ -3,7 +3,11 @@
 "use server";
 
 import User from "@/database/user.model";
-import mongoose from "mongoose";
+import { randomUUID } from "node:crypto";
+import { auth } from "@clerk/nextjs/server";
+import { z } from "zod";
+import { CreateOrderSchema } from "../validations";
+import { persistShipment, ShipmentInputError } from "../shipment-creation";
 import dbConnect from "../mongoose";
 import {
   createPackageParams,
@@ -13,261 +17,58 @@ import {
 } from "./shared.types";
 import Package from "@/database/package.model";
 import Order from "@/database/order.model";
-// import Counter from "@/database/counter.model";
 import Address from "@/database/address.model";
 import { revalidatePath } from "next/cache";
 import { FilterQuery } from "mongoose";
 
-// async function getNextSequence(name: string): Promise<number> {
-//   const counter = await Counter.findOneAndUpdate(
-//     { name },
-//     { $inc: { seq: 1 } },
-//     { new: true, upsert: true }
-//   );
-//   return counter.seq;
-// }
-
-/**
- * Validates required fields for package creation
- */
-function validatePackageParams(params: createPackageParams): void {
-  const { clerkId, trackingNumber, description, vendor, type, address, orderId } = params;
-  
-  if (!clerkId || !trackingNumber || !description || !vendor) {
-    throw new Error("Missing required fields");
-  }
-  
-  if (type === "singleOrder" && !address) {
-    throw new Error("Address is required for single order");
-  }
-  
-  if (type === "consolidation" && !orderId) {
-    throw new Error("Order ID is required for consolidation");
-  }
-}
-
-/**
- * Finds a user by clerkId within a transaction
- */
-async function findUserByClerkId(clerkId: string, session: mongoose.ClientSession) {
-  const user = await User.findOne({ clerkId }).session(session);
-  if (!user) {
-    throw new Error("User not found");
-  }
-  return user;
-}
-
-/**
- * Creates a package within a transaction
- */
-async function createPackageDoc(params: {
-  trackingNumber: string;
-  description: string;
-  value?: string;
-  vendor: string;
-  userId: mongoose.Types.ObjectId;
-  session: mongoose.ClientSession;
-}) {
-  const { trackingNumber, description, value, vendor, userId, session } = params;
-  
-  const [newPackage] = await Package.create(
-    [{
-      trackingNumber,
-      description,
-      value,
-      vendor,
-      userId,
-    }],
-    { session }
-  );
-  
-  return newPackage;
-}
-
-/**
- * Generates a new order number
- */
-async function generateOrderNumber(session: mongoose.ClientSession): Promise<{ orderNumber: number, orderName: string }> {
-  const lastOrder = await Order.findOne({}, {}, { sort: { createdAt: -1 }, session });
-  const orderNumber = lastOrder ? parseInt(lastOrder.name.split("#")[1]) - 999 : 1;
-  const orderName = `SD-#${orderNumber + 1000}`;
-  
-  return { orderNumber, orderName };
-}
-
-/**
- * Creates a new order with the package
- */
-async function createOrderWithPackage(params: {
-  orderName: string;
-  userId: mongoose.Types.ObjectId;
-  packageId: mongoose.Types.ObjectId;
-  address: string;
-  session: mongoose.ClientSession;
-}) {
-  const { orderName, userId, packageId, address, session } = params;
-  
-  const [newOrder] = await Order.create(
-    [{
-      name: orderName,
-      user: userId,
-      status: "created",
-      packages: [packageId],
-      address,
-    }],
-    { session }
-  );
-  
-  return newOrder;
-}
-
-/**
- * Links a package to an order by updating both documents
- */
-async function linkPackageToOrder(params: {
-  packageId: mongoose.Types.ObjectId;
-  orderId: mongoose.Types.ObjectId;
-  session: mongoose.ClientSession;
-}) {
-  const { packageId, orderId, session } = params;
-  
-  await Package.findByIdAndUpdate(
-    packageId,
-    { orderId },
-    { session }
-  );
-  
-  await Order.findByIdAndUpdate(
-    orderId,
-    { $push: { packages: packageId } },
-    { session }
-  );
-}
-
-/**
- * Verifies an order exists and returns it
- */
-async function verifyOrderExists(orderId: string, session: mongoose.ClientSession) {
-  const existingOrder = await Order.findOne({ _id: orderId }).session(session);
-  
-  if (!existingOrder) {
-    throw new Error("Order not found or access denied");
-  }
-  
-  return existingOrder;
-}
-
-/**
- * Main function to create a package with proper error handling and transaction management
- */
 export async function createPackage(params: createPackageParams) {
-  await dbConnect();
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
+  const startedAt = Date.now();
+  const reference = params?.requestId || randomUUID();
   try {
-    // Validate all required parameters first
-    validatePackageParams(params);
-    
-    const { clerkId, trackingNumber, address, description, value, vendor, type, orderId } = params;
-    
-    // Find the user making the request
-    const user = await findUserByClerkId(clerkId, session);
-    
-    // Create the package
-    const newPackage = await createPackageDoc({
-      trackingNumber,
-      description,
-      value,
-      vendor,
-      userId: user._id,
-      session,
-    });
-    
-    // Handle different package creation types
-    if (type === "singleOrder") {
-      // Generate order number and name
-      const { orderName } = await generateOrderNumber(session);
-      
-      // Create a new order for this package
-      const newOrder = await createOrderWithPackage({
-        orderName,
-        userId: user._id,
-        packageId: newPackage._id,
-        address: address!,
-        session,
-      });
-      
-      // Link the package to the order
-      await Package.findByIdAndUpdate(
-        newPackage._id,
-        { orderId: newOrder._id },
-        { session }
-      );
-      
-      await session.commitTransaction();
-      
-      return {
-        order: formatOrder(newOrder),
-        package: formatPackage(newPackage),
-      };
-    } else if (type === "consolidation") {
-      // Verify order exists
-      await verifyOrderExists(orderId!, session);
-      
-      // Link the package to the existing order
-      await linkPackageToOrder({
-        packageId: newPackage._id,
-        orderId: new mongoose.Types.ObjectId(orderId),
-        session,
-      });
-      
-      await session.commitTransaction();
-      
-      return {
-        package: formatPackage(newPackage),
-      };
-    } else {
-      throw new Error("Invalid package type");
+    const { userId, sessionClaims } = await auth();
+    if (!userId) return { success: false as const, error: "Your session expired. Please sign in again." };
+    const isAdmin = sessionClaims?.userType === "admin";
+    if (!isAdmin && params.clerkId !== userId) {
+      return { success: false as const, error: "You cannot create a shipment for another account." };
     }
+    if (!z.string().uuid().safeParse(reference).success) {
+      return { success: false as const, error: "Invalid submission reference. Please reopen the form." };
+    }
+    const validated = CreateOrderSchema.safeParse(params);
+    if (!validated.success) return { success: false as const, error: validated.error.issues[0].message };
+    console.info("shipment.create.started", { reference, type: validated.data.type });
+    const result = await persistShipment({ ...validated.data, clerkId: params.clerkId }, userId, isAdmin, reference);
+    console.info("shipment.create.completed", { reference, ...result, elapsedMs: Date.now() - startedAt });
+    // A refresh failure must not turn a committed write into a failed submission.
+    try {
+      // Refresh shipment data without re-rendering the submitting form and
+      // both dashboard layouts before the action response can navigate.
+      for (const path of [
+        "/user/dashboard", "/user/packages",
+        "/admin/dashboard", "/admin/packages", "/admin/shipping-carts",
+        `/user/packages/${result.orderId}`,
+        `/admin/shipping-carts/${result.orderId}`,
+      ]) revalidatePath(path);
+    } catch {
+      console.error("shipment.refresh.failed", { reference });
+    }
+    return { success: true as const, ...result };
   } catch (error) {
-    await session.abortTransaction();
-    console.error("Transaction aborted:", error);
-    throw new Error(
-      error instanceof Error
-        ? error.message
-        : "Failed to complete package creation"
-    );
-  } finally {
-    await session.endSession();
+    if (error instanceof ShipmentInputError) return { success: false as const, error: error.message };
+    const failure = error as { name?: string; code?: number; codeName?: string; errorLabels?: string[] };
+    console.error("shipment.create.failed", {
+      reference, name: failure?.name, code: failure?.code,
+      codeName: failure?.codeName, labels: failure?.errorLabels, elapsedMs: Date.now() - startedAt,
+    });
+    return { success: false as const, error: "We couldn't confirm the save. Please retry with the same details; the same submission will not create a duplicate.", reference };
   }
-}
-
-// Helper functions
-function formatOrder(order: any) {
-  return {
-    ...order.toObject(),
-    _id: order._id.toString(),
-    user: order.user.toString(),
-    packages: order.packages.map((p: any) => p.toString()),
-    address: order.address.toString(),
-  };
-}
-
-function formatPackage(pkg: any) {
-  return {
-    ...pkg.toObject(),
-    _id: pkg._id.toString(),
-    orderId: pkg.orderId?.toString(),
-    userId: pkg.userId.toString(),
-  };
 }
 
 export async function getPackagesWithAddressDetails(
   params: userPackagesParams
 ) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { searchQuery, filter, page = 1, pageSize = 10, clerkId } = params;
 
@@ -366,7 +167,7 @@ export async function getPackagesWithAddressDetails(
 
 export async function getPackagesByUserId(params: userPackagesParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { searchQuery, filter, page = 1, pageSize = 10, clerkId } = params;
 
@@ -468,7 +269,7 @@ export async function getAllPackagesWithAddressDetails(
   params: FilterQueryParams
 ) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { searchQuery, filter, page = 1, pageSize = 6 } = params;
 
@@ -568,6 +369,7 @@ export async function getAllPackagesWithAddressDetails(
 
 export async function removePackage(packageId: string, pathname: string) {
   try {
+    await dbConnect();
     // Find the package by ID
     const pkg = await Package.findById(packageId);
     if (!pkg) {
@@ -597,7 +399,7 @@ export async function removePackage(packageId: string, pathname: string) {
 }
 
 export async function getPackageById(packageId: string) {
-  dbConnect();
+  await dbConnect();
   try {
     const pkg = await Package.findById(packageId);
     if (!pkg) {
@@ -618,7 +420,7 @@ export async function getPackageById(packageId: string) {
 
 export async function updatePackage(params: UpdatePackageParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const {
       packageId,
@@ -642,7 +444,7 @@ export async function updatePackage(params: UpdatePackageParams) {
 
     await pkg.save();
 
-    revalidatePath(`/admin/shipping-carts/${pkg.orderId} `);
+    revalidatePath(`/admin/shipping-carts/${pkg.orderId}`);
 
     return { message: "Package updated successfully" };
   } catch (error) {
@@ -653,7 +455,7 @@ export async function updatePackage(params: UpdatePackageParams) {
 
 export async function getPendingPackageCount() {
   try {
-    dbConnect();
+    await dbConnect();
     const pendingCount = await Package.countDocuments({ status: "pending" });
     return pendingCount;
   } catch (error) {
@@ -663,6 +465,7 @@ export async function getPendingPackageCount() {
 }
 export async function getRecentlyAddedPackages(limit: number = 5) {
   try {
+    await dbConnect();
     const recentPackages = await Package.find()
       .populate({ path: "orderId", model: Order })
       .sort({ createdAt: -1 })

@@ -23,7 +23,7 @@ cloudinary.config({
 
 export async function getOrdersByUserId(params: GetUserOrderParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { page = 1, pageSize = 6, filter, searchQuery, clerkId } = params;
 
@@ -99,7 +99,7 @@ export async function getOrdersByUserId(params: GetUserOrderParams) {
 
 export async function getOrderById(orderId: string) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const order = await Order.findById(orderId)
       .populate({ path: "packages", model: Package })
@@ -123,7 +123,7 @@ export async function getOrderById(orderId: string) {
 
 export async function getLastOrderName() {
   try {
-    dbConnect();
+    await dbConnect();
 
     const lastOrder = await Order.findOne().sort({ createdAt: -1 });
 
@@ -140,7 +140,7 @@ export async function getLastOrderName() {
 
 export async function getAllOrders(params: FilterQueryParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { page = 1, pageSize = 6, filter, searchQuery } = params;
 
@@ -219,7 +219,7 @@ export async function getAllOrders(params: FilterQueryParams) {
 
 export async function updateOrder(params: UpdateOrderParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const {
       orderId,
@@ -250,7 +250,8 @@ export async function updateOrder(params: UpdateOrderParams) {
     order.discount = discount;
     order.airwayBillNumber = airwayBillNumber;
 
-    order.save();
+    await order.save();
+    revalidatePath("/admin", "layout");
   } catch (error) {
     console.log(error);
     throw new Error("Error updating order status");
@@ -259,7 +260,7 @@ export async function updateOrder(params: UpdateOrderParams) {
 
 export async function submitPayment(params: SubmitPaymentParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { orderId, paymentImages, path } = params;
 
@@ -308,7 +309,7 @@ export async function submitPayment(params: SubmitPaymentParams) {
 
 export async function getOrderCount() {
   try {
-    dbConnect();
+    await dbConnect();
 
     const count = await Order.countDocuments();
 
@@ -321,7 +322,7 @@ export async function getOrderCount() {
 
 export async function getOutForDeliveryOrderCount() {
   try {
-    dbConnect();
+    await dbConnect();
 
     const count = await Order.countDocuments({ status: "out-for-delivery" });
 
@@ -334,7 +335,7 @@ export async function getOutForDeliveryOrderCount() {
 
 export async function deleteCart(orderId: string) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const order = await Order.findById(orderId);
 

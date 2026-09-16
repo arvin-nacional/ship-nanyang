@@ -19,7 +19,7 @@ import { ProfileSchema } from "../validations";
 
 export async function deleteUser(params: DeleteUserParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { clerkId } = params;
 
@@ -41,7 +41,7 @@ export async function deleteUser(params: DeleteUserParams) {
 
 export async function getUserIdByClerkId(params: GetUserByClerkIdParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { clerkId } = params;
 
@@ -59,7 +59,7 @@ export async function getUserIdByClerkId(params: GetUserByClerkIdParams) {
 
 export async function getUserByClerkId(params: GetUserByClerkIdParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { clerkId } = params;
 
@@ -188,7 +188,7 @@ export async function isUserVerified(params: GetUserByClerkIdParams) {
 
 export async function getUserCount() {
   try {
-    dbConnect();
+    await dbConnect();
 
     const userCount = await User.countDocuments();
 
@@ -201,7 +201,7 @@ export async function getUserCount() {
 
 export async function getRecentUsers() {
   try {
-    dbConnect();
+    await dbConnect();
 
     const recentUsers = await User.find()
       .sort({ joinedAt: -1 })
@@ -223,7 +223,7 @@ export async function getRecentUsers() {
 
 export async function getAllUsers(params: FilterQueryParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { searchQuery, page = 1, pageSize = 7 } = params;
 
@@ -262,7 +262,7 @@ export async function getAllUsers(params: FilterQueryParams) {
 
 export async function getUserById(params: GetUserByIdParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { userId } = params;
 
