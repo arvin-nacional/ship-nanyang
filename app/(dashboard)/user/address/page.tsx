@@ -62,6 +62,7 @@ const page = async () => {
               province={item.province}
               contactNumber={item.contactNumber}
               postalCode={item.postalCode}
+              country={item.country}
               addressId={item._id}
               isDefault={item.isDefault}
             />

@@ -13,6 +13,7 @@ interface OnboardingProfile {
     city?: string;
     province?: string;
     postalCode?: string;
+    country?: string;
   } | null;
 }
 
@@ -27,10 +28,11 @@ export function isOnboardingComplete(user: OnboardingProfile | null): boolean {
         privacyPolicyAccepted: user.privacyPolicyAccepted,
         contactNumber: user.address?.contactNumber,
         addressLine1: user.address?.addressLine1,
-        addressLine2: user.address?.addressLine2,
+        addressLine2: user.address?.addressLine2 || "",
         city: user.address?.city,
-        province: user.address?.province,
-        postalCode: user.address?.postalCode,
+        province: user.address?.province || "",
+        postalCode: user.address?.postalCode || "",
+        country: user.address?.country || "PH",
       }).success
   );
 }

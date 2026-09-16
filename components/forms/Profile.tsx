@@ -1,5 +1,7 @@
 "use client";
 
+import InternationalAddressFields from "./InternationalAddressFields";
+
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,13 +19,6 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { updateUser } from "@/lib/actions/user.action";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -33,21 +28,6 @@ interface Props {
   profileDetails?: string;
 }
 
-// List of all provinces in the Philippines
-const philippineProvinces = [
-  "Abra", "Agusan del Norte", "Agusan del Sur", "Aklan", "Albay", "Antique", "Apayao", "Aurora", 
-  "Basilan", "Bataan", "Batanes", "Batangas", "Benguet", "Biliran", "Bohol", "Bukidnon", "Bulacan", 
-  "Cagayan", "Camarines Norte", "Camarines Sur", "Camiguin", "Capiz", "Catanduanes", "Cavite", "Cebu", 
-  "Cotabato", "Davao de Oro", "Davao del Norte", "Davao del Sur", "Davao Occidental", "Davao Oriental", 
-  "Dinagat Islands", "Eastern Samar", "Guimaras", "Ifugao", "Ilocos Norte", "Ilocos Sur", "Iloilo", 
-  "Isabela", "Kalinga", "La Union", "Laguna", "Lanao del Norte", "Lanao del Sur", "Leyte", 
-  "Maguindanao del Norte", "Maguindanao del Sur", "Marinduque", "Masbate", "Metro Manila", "Misamis Occidental", 
-  "Misamis Oriental", "Mountain Province", "Negros Occidental", "Negros Oriental", "Northern Samar", 
-  "Nueva Ecija", "Nueva Vizcaya", "Occidental Mindoro", "Oriental Mindoro", "Palawan", "Pampanga", 
-  "Pangasinan", "Quezon", "Quirino", "Rizal", "Romblon", "Samar", "Sarangani", "Siquijor", "Sorsogon", 
-  "South Cotabato", "Southern Leyte", "Sultan Kudarat", "Sulu", "Surigao del Norte", "Surigao del Sur", 
-  "Tarlac", "Tawi-Tawi", "Zambales", "Zamboanga del Norte", "Zamboanga del Sur", "Zamboanga Sibugay"
-];
 
 const Profile = ({ type, profileDetails }: Props) => {
   const [isPending, startTransition] = useTransition();
@@ -69,7 +49,7 @@ const Profile = ({ type, profileDetails }: Props) => {
       city: parsedProfileDetails?.address?.city || "",
       province: parsedProfileDetails?.address?.province || "",
       postalCode: parsedProfileDetails?.address?.postalCode || "",
-      // country: parsedProfileDetails?.country || "",
+      country: parsedProfileDetails?.address?.country || (parsedProfileDetails?.address ? "PH" : ""),
       privacyPolicyAccepted:
         parsedProfileDetails.privacyPolicyAccepted || false,
       // clerkId: parsedProfileDetails?.clerkId,
@@ -91,6 +71,7 @@ const Profile = ({ type, profileDetails }: Props) => {
           city: data.city,
           province: data.province,
           postalCode: data.postalCode,
+          country: data.country,
           privacyPolicyAccepted: data.privacyPolicyAccepted,
           addressId: parsedProfileDetails?.address?._id,
           path: pathname,
@@ -191,10 +172,12 @@ const Profile = ({ type, profileDetails }: Props) => {
             render={({ field }) => (
               <FormItem className="flex w-full flex-col">
                 <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Contact Number <span className="text-primary-500">*</span>
+                  Phone number (include country code) <span className="text-primary-500">*</span>
                 </FormLabel>
                 <FormControl className="mt-3.5">
                   <Input
+                      type="tel"
+                      autoComplete="tel"
                     className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
                     {...field}
                   />
@@ -207,127 +190,7 @@ const Profile = ({ type, profileDetails }: Props) => {
             )}
           />
         </div>
-        <div className="flex flex-row gap-5 max-sm:flex-col">
-          <FormField
-            control={form.control}
-            name="addressLine1"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Address Line 1 <span className="text-primary-500">*</span>
-                </FormLabel>
-                <FormControl className="mt-3.5">
-                  <Input
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                    {...field}
-                  />
-                </FormControl>
-                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Enter the first line of your address.
-              </FormDescription> */}
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="addressLine2"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Address Line 2 <span className="text-primary-500">*</span>
-                </FormLabel>
-                <FormControl className="mt-3.5">
-                  <Input
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                    {...field}
-                  />
-                </FormControl>
-                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Enter the second line for your address.
-              </FormDescription> */}
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-row gap-5 max-sm:flex-col">
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800">
-                  City <span className="text-primary-500">*</span>
-                </FormLabel>
-                <FormControl className="mt-3.5">
-                  <Input
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                    {...field}
-                  />
-                </FormControl>
-                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Enter the city for your address.
-              </FormDescription> */}
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="province"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Province<span className="text-primary-500">*</span>
-                </FormLabel>
-                <FormControl className="mt-3.5">
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border">
-                      <SelectValue placeholder="Select a province" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[300px] overflow-y-auto background-light900_dark300">
-                      {philippineProvinces.map((province) => (
-                        <SelectItem key={province} value={province} className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-400">
-                          {province}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-row gap-5 max-sm:flex-col">
-          <FormField
-            control={form.control}
-            name="postalCode"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col">
-                <FormLabel className="paragraph-semibold text-dark400_light800">
-                  Postal Code<span className="text-primary-500">*</span>
-                </FormLabel>
-                <FormControl className="mt-3.5">
-                  <Input
-                    className="no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                    {...field}
-                  />
-                </FormControl>
-                {/* <FormDescription className="body-regular mt-2.5 text-light-500">
-                Enter the postal code for your address.
-              </FormDescription> */}
-                <FormMessage className="text-red-500" />
-              </FormItem>
-            )}
-          />
-          <div className="w-full"></div>
-        </div>
-
+        <InternationalAddressFields />
         {(type === "Create" || !parsedProfileDetails.privacyPolicyAccepted) && (
           <FormField
             control={form.control}

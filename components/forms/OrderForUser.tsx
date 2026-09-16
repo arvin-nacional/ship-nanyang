@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { getCountryName } from "@/constants/countries";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -229,7 +230,7 @@ const OrderForUser = ({
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
-                        {item.postalCode}
+                        {item.postalCode} {getCountryName(item.country)}
                       </SelectItem>
                     ))} */}
 
@@ -406,7 +407,7 @@ const OrderForUser = ({
                           <SelectItem key={item._id} value={item._id}>
                             {item.name} - {item.contactNumber} -{" "}
                             {item.addressLine1}, {item.addressLine2},{" "}
-                            {item.city}, {item.province}, {item.postalCode}
+                            {item.city}, {item.province}, {item.postalCode} {getCountryName(item.country)}
                           </SelectItem>
                         ))}
                       </SelectContent>

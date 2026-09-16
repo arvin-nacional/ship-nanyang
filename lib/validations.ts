@@ -1,4 +1,25 @@
 import { z } from "zod";
+import { countryCodes } from "@/constants/countries";
+
+const internationalAddressFields = {
+  country: z.string().refine((code) => countryCodes.includes(code), { message: "Please select a country / region" }),
+  addressLine1: z.string().trim().min(1, "Please enter a street address"),
+  addressLine2: z.string().trim(),
+  city: z.string().trim().min(1, "Please enter a city / locality"),
+  province: z.string().trim(),
+  postalCode: z.string().trim(),
+};
+
+function validateAddressRegion(
+  address: { country: string; province: string; postalCode: string },
+  context: z.RefinementCtx
+) {
+  if (address.country === "PH") {
+    if (!address.province) context.addIssue({ code: z.ZodIssueCode.custom, path: ["province"], message: "Please select a province" });
+    if (!address.postalCode) context.addIssue({ code: z.ZodIssueCode.custom, path: ["postalCode"], message: "Please enter a postal code" });
+  }
+}
+
 
 export const ShippingCalculatorFormSchema = z.object({
   destination: z.string().min(1, { message: "Please select a destination" }),
@@ -22,40 +43,23 @@ export const ShippingCalculatorFormSchema = z.object({
 });
 
 export const ProfileSchema = z.object({
-  // clerkId: z.string().min(1, { message: "Please enter a clerk ID" }),
-
-  lastName: z.string().trim().min(1, { message: "Please enter a last name" }),
-
-  firstName: z.string().trim().min(1, { message: "Please enter a first name" }),
-  contactNumber: z
-    .string()
-    .trim()
-    .min(1, { message: "Please enter a contact number" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  addressLine1: z.string().trim().min(1, { message: "Please enter an address" }),
-  addressLine2: z.string().trim().min(1, { message: "Please enter an address" }),
-  city: z.string().trim().min(1, { message: "Please enter a city" }),
-  province: z.string().trim().min(1, { message: "Please enter a province" }),
-  postalCode: z.string().trim().min(1, { message: "Please enter a postal code" }),
-  // country: z.string().min(1, { message: "Please enter a country" }),
+  ...internationalAddressFields,
+  lastName: z.string().trim().min(1, "Please enter a last name"),
+  firstName: z.string().trim().min(1, "Please enter a first name"),
+  contactNumber: z.string().trim().min(1, "Please enter a contact number"),
+  email: z.string().email("Please enter a valid email address"),
   privacyPolicyAccepted: z.boolean().refine((accepted) => accepted, {
     message: "Please accept the Privacy Policy to continue",
   }),
   addressId: z.string().optional(),
-});
+}).superRefine(validateAddressRegion);
 
 export const AddressSchema = z.object({
-  addressLine1: z.string().min(1, { message: "Please enter an address" }),
-  addressLine2: z.string().min(1, { message: "Please enter an address" }),
-  city: z.string().min(1, { message: "Please enter a city" }),
-  province: z.string().min(1, { message: "Please enter a province" }),
-  postalCode: z.string().min(1, { message: "Please enter a postal code" }),
-  contactNumber: z
-    .string()
-    .min(1, { message: "Please enter a contact number" }),
-  name: z.string().min(1, { message: "Please enter a name" }),
+  ...internationalAddressFields,
+  contactNumber: z.string().trim().min(1, "Please enter a contact number"),
+  name: z.string().trim().min(1, "Please enter a name"),
   isDefault: z.boolean(),
-});
+}).superRefine(validateAddressRegion);
 export const ImageSchema = z.object({
   src: z.string().url(),
   alt: z.string().min(1, { message: "Please enter an alt text" }),

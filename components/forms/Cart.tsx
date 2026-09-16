@@ -1,4 +1,6 @@
 "use client";
+
+import { getCountryName } from "@/constants/countries";
 import React, { useTransition } from "react";
 
 import { useForm } from "react-hook-form";
@@ -112,7 +114,7 @@ const Cart = ({ shippingDetails }: Props) => {
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
-                        {item.postalCode}
+                        {item.postalCode} {getCountryName(item.country)}
                       </SelectItem>
                     ))} */}
 
@@ -162,7 +164,7 @@ const Cart = ({ shippingDetails }: Props) => {
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
-                        {item.postalCode}
+                        {item.postalCode} {getCountryName(item.country)}
                       </SelectItem>
                     ))} */}
                     <SelectItem value="pending">Pending</SelectItem>

@@ -13,6 +13,7 @@ export interface createAddressParams {
   city: string;
   province: string;
   postalCode: string;
+  country: string;
   contactNumber: string;
   path: string;
   name: string;
@@ -52,6 +53,7 @@ export interface UpdateUserParams {
   city: string;
   province: string;
   postalCode: string;
+  country: string;
   privacyPolicyAccepted: boolean;
   path: string;
   addressId?: string;

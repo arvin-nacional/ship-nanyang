@@ -1,3 +1,4 @@
+import { getCountryName } from "@/constants/countries";
 import Filter from "@/components/shared/search/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import { Button } from "@/components/ui/button";
@@ -82,6 +83,7 @@ const page = async ({ params, searchParams }: PageProps) => {
                       user.address.city,
                       user.address.province,
                       user.address.postalCode,
+                      getCountryName(user.address.country),
                     ]
                       .filter(Boolean)
                       .join(" ") || "No address provided"}

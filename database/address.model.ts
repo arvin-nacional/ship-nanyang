@@ -1,4 +1,5 @@
 import { Schema, model, models, Document } from "mongoose";
+import { countryCodes } from "@/constants/countries";
 
 export interface IAddress extends Document {
   userId: Schema.Types.ObjectId;
@@ -18,8 +19,10 @@ const AddressSchema = new Schema({
   addressLine1: { type: String, required: true },
   addressLine2: { type: String },
   city: { type: String, required: true },
-  province: { type: String, required: true },
-  postalCode: { type: String, required: true },
+  province: { type: String },
+  postalCode: { type: String },
+  // Legacy records came from the Philippines-only form. New submissions require a country.
+  country: { type: String, required: true, enum: countryCodes, default: "PH" },
   contactNumber: { type: String, required: true },
   name: { type: String, required: true },
   isDefault: { type: Boolean },

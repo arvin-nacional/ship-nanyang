@@ -1,5 +1,7 @@
 "use client";
 
+import { getCountryName } from "@/constants/countries";
+
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -189,7 +191,7 @@ const Package = ({ packageDetails }: Props) => {
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
-                        {item.postalCode}
+                        {item.postalCode} {getCountryName(item.country)}
                       </SelectItem>
                     ))} */}
 

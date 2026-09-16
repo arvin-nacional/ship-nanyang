@@ -21,9 +21,9 @@
 
 ## Verification and deployment notes
 
-- `npm run test:onboarding`: 15 isolated regression tests pass. They exercise the actual TypeScript modules with mocked Clerk, MongoDB, and Next adapters, including missing/delayed user creation, absent/stale claims, routing, invalid submissions, ownership, save ordering/failures, retries, raw webhook bodies, and duplicate-key recovery. They do not replace a real browser signup or MongoDB concurrency test.
+- `npm run test:onboarding`: 22 isolated regression tests pass. They exercise the actual TypeScript modules with mocked Clerk, MongoDB, and Next adapters, including missing/delayed user creation, absent/stale claims, routing, invalid submissions, ownership, save ordering/failures, retries, raw webhook bodies, duplicate-key recovery, international addresses, country switching, and legacy Philippine profiles. The address schema is also validated without a database connection. These do not replace a real browser signup or MongoDB concurrency test.
 - TypeScript: `node --preserve-symlinks --preserve-symlinks-main node_modules/typescript/bin/tsc --noEmit --incremental false` passes.
-- Production build: completes successfully (exit 0), including compilation and type checking. It logs MongoDB DNS/buffering errors while collecting existing page data, plus the existing missing `metadataBase` warning. This is not evidence of working live database access.
+- The earlier onboarding-reliability build completed (exit 0), with MongoDB DNS/buffering errors and the existing missing `metadataBase` warning. The subsequent international-address build caught two misplaced client directives, which were corrected. Its retry stalled because Windows denies access to `.next/trace` while an existing Next.js development server is running. Only the verification build was stopped; the development server was left running. A final production build of the international changes remains unverified. TypeScript, 22 regression tests, and focused lint pass.
 - The repository ESLint configuration cannot load because the installed dependencies are missing `eslint-plugin-n` (required by `eslint-config-standard`).
 - A focused lint pass using the installed `next/core-web-vitals` and `next/typescript` rules passes for the onboarding actions, provisioning/completion helpers, auth components, webhook, dashboard layout, and onboarding page/error screen.
 - The read-only database audit (`node scripts/check-onboarding.cjs`) cannot connect from this environment: DNS resolution returns `ENOTFOUND`. No database records were changed. Duplicate counts and deployed indexes remain unverified.
@@ -31,3 +31,11 @@
 Before deployment, run the read-only audit against the intended database. Resolve any duplicate/missing Clerk IDs with a reviewed data migration, preserving referenced addresses/orders. Ensure the `users` collection has a unique `{ clerkId: 1 }` index. The schema creates this index when Mongoose auto-indexing is enabled; environments with auto-indexing disabled must install it explicitly. Conflicting existing indexes or duplicate data must be resolved first. Do not delete user records blindly.
 
 In a Clerk test environment, verify email signup and social signup, signin after abandoning onboarding, direct dashboard navigation before completion, successful completion followed by refresh, and one forced save failure followed by retry. Delay/replay the creation webhook to confirm that the form still loads and that completed details remain intact. Live Clerk browser flows have not been exercised here.
+
+## International addresses
+
+Onboarding and address-book forms now share country-first address fields with 249 country/region choices. New addresses require an explicit country. Philippine addresses keep the province dropdown and required province/postal code. Other countries use free-text state/region and postal fields that may be left blank when not applicable. Address line 2 is optional, and phone inputs accept international numbers with a country-code prompt.
+
+The selected country is validated and stored on the address, included in completion checks, and displayed in profiles, saved addresses, shipment selectors, and administrative shipment views. Country changes clear the previous province and postal code. Legacy records from the Philippines-only form use `PH` when no country was stored; no bulk database migration has been run.
+
+International validation is intentionally permissive for regional/postal fields; this version does not certify carrier deliverability or apply every country's postal rules. Accepting a customer's address does not establish route availability or pricing.

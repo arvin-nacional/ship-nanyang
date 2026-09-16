@@ -133,6 +133,7 @@ export async function updateUser(params: UpdateUserParams) {
     city: profile.city,
     province: profile.province,
     postalCode: profile.postalCode,
+    country: profile.country,
     contactNumber: profile.contactNumber,
   };
 

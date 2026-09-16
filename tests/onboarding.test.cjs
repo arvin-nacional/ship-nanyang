@@ -56,6 +56,7 @@ const validProfile = {
   city: "Manila",
   province: "Metro Manila",
   postalCode: "1000",
+  country: "PH",
   privacyPolicyAccepted: true,
   path: "/create-account",
   formType: "Create",
@@ -150,10 +151,11 @@ function actionFixture(options = {}) {
   const mocks = {
     "@/database/user.model": { findOne: async () => options.missing ? null : user },
     "@/database/address.model": {
-      findOneAndUpdate: async (filter) => {
+      findOneAndUpdate: async (filter, update) => {
         calls.push("address");
         assert.equal(filter.userId, user._id);
         assert.equal(filter._id, user.address || user._id);
+        assert.equal(update.$set.country, options.country || "PH");
         if (options.addressFails) throw new Error("Address write failed");
         return { _id: filter._id };
       },
@@ -310,4 +312,104 @@ test("webhook verifies the unchanged raw body and safely handles replayed creati
     if (originalSecret === undefined) delete process.env.SIGNING_SECRET;
     else process.env.SIGNING_SECRET = originalSecret;
   }
+});
+
+test("international onboarding accepts optional address fields and alphanumeric postal codes", () => {
+  const { ProfileSchema, AddressSchema } = loadModule("lib/validations.ts");
+  for (const address of [
+    { country: "AE", city: "Dubai", province: "", postalCode: "" },
+    { country: "HK", city: "Kowloon", province: "", postalCode: "" },
+    { country: "SG", city: "Singapore", province: "", postalCode: "018956" },
+    { country: "GB", city: "London", province: "", postalCode: "SW1A 1AA" },
+    { country: "CA", city: "Toronto", province: "Ontario", postalCode: "M5V 3L9" },
+  ]) {
+    const profile = { ...validProfile, ...address, addressLine2: "" };
+    assert.equal(ProfileSchema.safeParse(profile).success, true);
+    assert.equal(AddressSchema.safeParse({ ...profile, name: "Test Customer", isDefault: true }).success, true);
+    assert.equal(isOnboardingComplete({ ...profile, verified: true, address: profile }), true);
+  }
+});
+
+test("new addresses require a real country; Philippine addresses still require province and postal code", () => {
+  const { ProfileSchema } = loadModule("lib/validations.ts");
+  for (const changes of [{ country: "" }, { country: "ZZ" }, { country: undefined },
+    { province: "" }, { postalCode: "" }]) {
+    assert.equal(ProfileSchema.safeParse({ ...validProfile, ...changes }).success, false);
+  }
+});
+
+test("existing Philippine users without stored countries remain onboarded", () => {
+  const legacyAddress = { ...completeUser.address };
+  delete legacyAddress.country;
+  assert.equal(isOnboardingComplete({ ...completeUser, address: legacyAddress }), true);
+});
+
+test("an international submission persists its country instead of silently becoming Philippine", async () => {
+  const { actions } = actionFixture({ country: "AE" });
+  const result = await actions.updateUser({
+    ...validProfile, country: "AE", city: "Dubai", province: "", postalCode: "", addressLine2: "",
+  });
+  assert.equal(result.user.verified, true);
+});
+
+test("country switching clears the old province/postal values and changes province control", () => {
+  const calls = [];
+  const component = (country) => loadModule("components/forms/InternationalAddressFields.tsx", {
+    "react-hook-form": { useFormContext: () => ({
+      watch: () => country, control: {},
+      setValue: (name, value) => calls.push([name, value]),
+      clearErrors: () => {},
+    }) },
+    "../ui/form": { FormField: "field", FormItem: "item", FormControl: "control", FormLabel: "label", FormMessage: "message" },
+    "../ui/input": { Input: "input" },
+  }).default();
+  const philippines = component("PH");
+  const countryField = philippines.props.children[0];
+  const countrySelect = countryField.props.render({ field: { value: "PH", onChange: () => {} } }).props.children[1].props.children;
+  assert.equal(countrySelect.props.children[1].length, 249);
+  countrySelect.props.onChange({ target: { value: "AE" } });
+  assert.deepEqual(calls, [["province", ""], ["postalCode", ""]]);
+  for (const [country, expectedControl] of [["PH", "select"], ["AE", "input"]]) {
+    const provinceField = component(country).props.children[1].find((element) => element.props.name === "province");
+    const control = provinceField.props.render({ field: { value: "" } }).props.children[1].props.children;
+    assert.equal(control.type, expectedControl);
+  }
+});
+
+test("address-book creation and editing persist validated international addresses", async () => {
+  const writes = [];
+  const document = (data) => ({ ...data, _id: "address", userId: "mongo-user", toObject() { return { ...this }; } });
+  const existing = document({ ...validProfile, name: "Test Customer", isDefault: false });
+  const actions = loadModule("lib/actions/address.action.ts", {
+    "../mongoose": async () => {},
+    "@/database/user.model": { findOne: async () => ({ _id: "mongo-user" }) },
+    "next/cache": { revalidatePath: () => {} },
+    "@/database/address.model": {
+      create: async (data) => { writes.push(data); return document(data); },
+      findById: async () => existing,
+      findByIdAndUpdate: async (id, data, options) => {
+        assert.equal(options.runValidators, true);
+        writes.push(data);
+        return document(data);
+      },
+    },
+  });
+  const data = { ...validProfile, name: "Test Customer", isDefault: false,
+    country: "AE", city: " Dubai ", province: "", postalCode: "", addressLine2: "" };
+  await actions.createAddress({ ...data });
+  await actions.updateAddress("address", { ...data });
+  assert.equal(writes.length, 2);
+  for (const saved of writes) {
+    assert.equal(saved.country, "AE");
+    assert.equal(saved.city, "Dubai");
+    assert.equal(saved.postalCode, "");
+  }
+});
+
+test("MongoDB address schema accepts international records without province or postal code", () => {
+  const Address = loadModule("database/address.model.ts").default;
+  const address = new Address({ ...validProfile, userId: "0123456789abcdef01234567",
+    name: "Test Customer", country: "AE", city: "Dubai", province: "", postalCode: "", addressLine2: "" });
+  assert.equal(address.validateSync(), undefined);
+  assert.equal(address.country, "AE");
 });

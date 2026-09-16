@@ -1,3 +1,4 @@
+import { getCountryName } from "@/constants/countries";
 import { Button } from "@/components/ui/button";
 import { getUserByClerkId } from "@/lib/actions/user.action";
 import { Edit } from "lucide-react";
@@ -93,7 +94,7 @@ const Page = async () => {
       </div>
       <div className="flex gap-5 w-full mt-5 max-sm:flex-col">
         <div className="flex flex-col gap-2 w-full">
-          <span className="paragraph-regular">Province</span>
+          <span className="paragraph-regular">State / province / region</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">
             {result?.user.address?.province}
           </p>
@@ -113,10 +114,10 @@ const Page = async () => {
           </p>
         </div>
         <div className="flex flex-col gap-2 w-full">
-          {/* <span className="paragraph-regular">City</span>
+          <span className="paragraph-regular">Country / region</span>
           <p className="w-full py-3 border px-5 border-light-100 rounded-xl paragraph-regular text-dark-500">
-            City
-          </p> */}
+            {getCountryName(result?.user.address?.country)}
+          </p>
         </div>
       </div>
     </div>

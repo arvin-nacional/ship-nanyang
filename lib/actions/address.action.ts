@@ -1,5 +1,6 @@
 "use server";
 
+import { AddressSchema } from "../validations";
 import Address from "@/database/address.model";
 import dbConnect from "../mongoose";
 import { createAddressParams } from "./shared.types";
@@ -8,7 +9,7 @@ import { revalidatePath } from "next/cache";
 
 export async function createAddress(addressData: createAddressParams) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const {
       clerkId,
@@ -17,11 +18,12 @@ export async function createAddress(addressData: createAddressParams) {
       city,
       province,
       postalCode,
+      country,
       contactNumber,
       path,
       name,
       isDefault,
-    } = addressData;
+    } = { ...addressData, ...AddressSchema.parse(addressData) };
     const user = await User.findOne({ clerkId });
 
     if (!user) {
@@ -34,6 +36,7 @@ export async function createAddress(addressData: createAddressParams) {
       city,
       province,
       postalCode,
+      country,
       contactNumber,
       userId: user._id,
       name,
@@ -60,7 +63,7 @@ export async function setDefaultAddress(
   path: string
 ) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const user = await User.findOne({ clerkId });
     if (!user) {
@@ -82,7 +85,7 @@ export async function setDefaultAddress(
 
 export async function isAddressOwnedByUser(addressId: string, clerkId: string) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const user = await User.findOne({ clerkId });
     if (!user) {
@@ -107,9 +110,16 @@ export async function updateAddress(
   addressData: Partial<createAddressParams>
 ) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const { clerkId, isDefault } = addressData;
+    const existingAddress = await Address.findById(addressId);
+    if (!existingAddress) throw new Error("Address not found");
+    const validatedAddress = AddressSchema.parse({
+      ...existingAddress.toObject(),
+      country: existingAddress.country || "PH",
+      ...addressData,
+    });
 
     // Find the user associated with the clerkId
     const user = await User.findOne({ clerkId });
@@ -134,8 +144,8 @@ export async function updateAddress(
     // Update the current address with the provided data
     const updatedAddress = await Address.findByIdAndUpdate(
       addressId,
-      addressData,
-      { new: true } // Return the updated document
+      validatedAddress,
+      { new: true, runValidators: true }
     );
 
     if (!updatedAddress) {
@@ -164,7 +174,7 @@ export async function updateAddress(
 
 export async function deleteAddress(addressId: string) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const deletedAddress = await Address.findByIdAndDelete(addressId);
 
@@ -189,7 +199,7 @@ export async function deleteAddress(addressId: string) {
 
 export async function getAddressById(addressId: string) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const address = await Address.findById(addressId);
 
@@ -212,7 +222,7 @@ export async function getAddressById(addressId: string) {
 
 export async function getAddressByUserId(userId: string) {
   try {
-    dbConnect();
+    await dbConnect();
 
     const addresses = await Address.find({ userId });
 

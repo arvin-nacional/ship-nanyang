@@ -1,3 +1,4 @@
+import { getCountryName } from "@/constants/countries";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import PackageItem from "@/components/ui/packageItem";
@@ -183,7 +184,7 @@ const page = async ({ params }: { params: tParams }) => {
               {result?.order.address.addressLine1}{" "}
               {result?.order.address.addressLine2} {result?.order.address.city}{" "}
               {result?.order.address.province}{" "}
-              {result?.order.address.postalCode}
+              {result?.order.address.postalCode} {getCountryName(result?.order.address.country)}
             </p>
           </div>
         </div>

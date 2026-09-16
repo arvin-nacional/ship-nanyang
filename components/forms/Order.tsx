@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import { getCountryName } from "@/constants/countries";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -234,7 +235,7 @@ const Order = ({
                       <SelectItem key={item._id} value={item._id}>
                         {item.name} - {item.contactNumber} - {item.addressLine1}
                         , {item.addressLine2}, {item.city}, {item.province},{" "}
-                        {item.postalCode}
+                        {item.postalCode} {getCountryName(item.country)}
                       </SelectItem>
                     ))} */}
 
@@ -409,7 +410,7 @@ const Order = ({
                           {parsedAddress?.addresses.map((item: any) => (
                             <SelectItem key={item._id} value={item._id} className="cursor-pointer focus:bg-light-700 dark:focus:bg-dark-300 truncate overflow-hidden">
                               {item.name} - {item.contactNumber} -{" "}
-                              {item.addressLine1}, {item.addressLine2},{" "}
+                              {item.addressLine1}, {item.addressLine2}, {getCountryName(item.country)}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -465,7 +466,7 @@ const Order = ({
                                   />
                                   <span>{item.name}</span>
                                   <div className="truncate text-xs ">
-                                    {item.contactNumber} {item.addressLine1}{" "}
+                                    {item.contactNumber} {item.addressLine1} {getCountryName(item.country)}
                                     {item.city}
                                   </div>
                                 </CommandItem>

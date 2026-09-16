@@ -1,3 +1,4 @@
+import { getCountryName } from "@/constants/countries";
 import { BookmarkCheck, Edit, MapPinHouse, Phone } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -10,6 +11,7 @@ interface Props {
   province: string;
   contactNumber: string;
   postalCode: string;
+  country?: string;
   addressId: string;
   isDefault?: boolean;
   admin?: boolean;
@@ -23,6 +25,7 @@ const AddressItem = ({
   province,
   contactNumber,
   postalCode,
+  country,
   addressId,
   isDefault,
   admin,
@@ -55,6 +58,7 @@ const AddressItem = ({
             <p className="paragraph-regular">{city}</p>
             <p className="paragraph-regular">{province}</p>
             <p className="paragraph-regular">{postalCode}</p>
+            <p className="paragraph-regular">{getCountryName(country)}</p>
           </div>
         </div>
       </div>
